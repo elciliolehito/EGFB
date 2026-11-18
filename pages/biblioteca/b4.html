@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestão de Destinos Turísticos: Sistemas, Processos e Inovação · Biblioteca</title>
+  <link rel="icon" href="../../images/favicon.ico">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+</head>
+<body class="bg-gray-50 antialiased">
+  <header class="sticky top-0 z-50 bg-white border-b">
+    <div class="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
+      <a href="../biblioteca.html" class="text-sm font-bold text-[#0b3d44]">← Acervo</a>
+      <a href="../../index.html" class="text-xs font-bold h-9 px-3 rounded-full bg-[#0b3d44] text-white inline-flex items-center">Curso</a>
+    </div>
+  </header>
+  <main class="max-w-5xl mx-auto px-4 py-10">
+    <div class="grid md:grid-cols-[200px_1fr] gap-8">
+      <div class="w-40 h-56 mx-auto md:mx-0 rounded-xl overflow-hidden shadow-xl bg-[#0b3d44] flex items-center justify-center"><canvas id="cover" class="max-w-full max-h-full"></canvas></div>
+      <div>
+        <div class="text-xs font-bold uppercase text-emerald-700">Ecoturismo e turismo</div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 mt-1">Gestão de Destinos Turísticos: Sistemas, Processos e Inovação</h1>
+        <p class="text-gray-600 mt-2">Lício Valério Lima Vieira; José Wellington Carvalho Vilar (Orgs.)</p>
+        <dl class="mt-4 text-sm space-y-1 text-gray-700">
+          <div><span class="font-semibold">Ano:</span> 2020</div>
+          <div><span class="font-semibold">Páginas:</span> 355</div>
+          <div><span class="font-semibold">Categoria:</span> Ecoturismo e turismo</div>
+        </dl>
+        <p class="mt-4 text-sm text-gray-700 leading-relaxed">Sistemas, processos e inovação na gestão de destinos turísticos.</p>
+        <div class="mt-6 flex flex-wrap gap-2">
+          <a href="ler-b4.html" class="h-11 px-5 rounded-full bg-[#0b3d44] text-white text-sm font-bold inline-flex items-center">Ler online</a>
+          <a href="pdfs/gestao-destinos-ifs.pdf" download class="h-11 px-5 rounded-full border text-sm font-semibold inline-flex items-center">Descarregar PDF</a>
+        </div>
+        <div class="mt-8 p-4 rounded-xl bg-white border text-xs text-gray-700 space-y-2">
+          <p><span class="font-bold text-[#0b3d44]">APA:</span> Lício Valério Lima Vieira; José Wellington Carvalho Vilar (Orgs.) (2020). <em>Gestão de Destinos Turísticos: Sistemas, Processos e Inovação</em>. Biblioteca EGFB, ISPM.</p>
+          <p><span class="font-bold text-[#0b3d44]">ABNT:</span> LÍCIO VALÉRIO LIMA VIEIRA; JOSÉ WELLINGTON CARVALHO VILAR (ORGS.). <strong>Gestão de Destinos Turísticos: Sistemas, Processos e Inovação</strong>. 2020.</p>
+          <p><span class="font-bold text-[#0b3d44]">Harvard:</span> Lício Valério Lima Vieira; José Wellington Carvalho Vilar (Orgs.) (2020) <em>Gestão de Destinos Turísticos: Sistemas, Processos e Inovação</em>.</p>
+          <button type="button" id="ris" class="mt-2 h-9 px-3 rounded-lg border text-xs font-semibold">Descarregar RIS (Mendeley)</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <section class="bg-white border-t py-14">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <h2 class="text-2xl font-bold text-[#0b3d44] mb-8">Nossos Parceiros</h2>
+      <div class="flex flex-wrap items-center justify-center gap-10">
+        <img src="../../images/logo-ispm.jpg" alt="ISPM" class="h-14 object-contain">
+        <img src="../../images/logo-casa-msika.png" alt="Casa Msika" class="h-12 object-contain">
+        <img src="../../images/logo-magodo.jpg" alt="Magodo" class="h-14 object-contain">
+        <img src="../../images/logo-main.png" alt="EGFB" class="h-12 object-contain">
+      </div>
+    </div>
+  </section>
+  <footer class="bg-[#061e22] text-white">
+    <div class="max-w-6xl mx-auto px-4 py-10 grid sm:grid-cols-3 gap-8 text-sm">
+      <div><div class="font-bold text-lg">EGFB · ISPM</div><p class="text-white/50 text-xs mt-2">Ecoturismo e Gestão de Fauna Bravia — ISPM.</p></div>
+      <div><div class="font-semibold text-teal-200 mb-2">Navegação</div>
+        <ul class="space-y-1 text-white/70">
+          <li><a class="hover:text-white" href="../../index.html">Curso</a></li>
+          <li><a class="hover:text-white" href="../repositorio.html">Monografias</a></li>
+          <li><a class="hover:text-white" href="../biblioteca.html">Biblioteca</a></li>
+        </ul>
+      </div>
+      <div><div class="font-semibold text-teal-200 mb-2">Parceiros</div><p class="text-white/60 text-xs">ISPM · Casa Msika · Magodo · EGFB</p></div>
+    </div>
+    <div class="border-t border-white/10 text-center text-xs text-white/40 py-4">© 2026 EGFB – ISPM</div>
+  </footer>
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+(async()=>{try{const pdf=await pdfjsLib.getDocument('pdfs/gestao-destinos-ifs.pdf').promise;const page=await pdf.getPage(1);const c=document.getElementById('cover');if(!c)return;const base=page.getViewport({scale:1});const scale=Math.min(160/base.width,226/base.height)*2;const vp=page.getViewport({scale});c.width=vp.width;c.height=vp.height;await page.render({canvasContext:c.getContext('2d'),viewport:vp}).promise;}catch(e){}})();
+document.getElementById('ris')?.addEventListener('click',()=>{
+  const ris=`TY  - BOOK\nTI  - Gestão de Destinos Turísticos: Sistemas, Processos e Inovação\nAU  - Lício Valério Lima Vieira; José Wellington Carvalho Vilar (O\nPY  - 2020\nPB  - EGFB / ISPM\nER  -\n`;
+  const blob=new Blob([ris],{type:'application/x-research-info-systems'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='b4.ris';a.click();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Publicação · Fórum GIS</title>
+  <link rel="icon" href="../../images/favicon.ico">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body{font-family:Inter,system-ui,sans-serif}
+    .vote-btn{transition:color .15s}
+    .vote-btn.active-up{color:#ff4500}
+    .vote-btn.active-down{color:#7193ff}
+    .score{font-weight:700;font-size:12px;min-width:1.5rem;text-align:center}
+    .comment-thread{border-left:2px solid #e5e7eb;margin-left:0.5rem;padding-left:0.75rem}
+    .chip-sort{border-bottom:2px solid transparent}
+    .chip-sort.active{border-bottom-color:#0b3d44;color:#0b3d44;font-weight:700}
+    #mobile-drawer{transform:translateX(-100%);transition:transform .25s}
+    #mobile-drawer.open{transform:translateX(0)}
+    #drawer-backdrop{opacity:0;pointer-events:none;transition:opacity .25s}
+    #drawer-backdrop.open{opacity:1;pointer-events:auto}
+</style>
+</head>
+<body class="bg-[#dae0e6] antialiased">
+  <header class="sticky top-0 z-[100] bg-[#0b3d44] text-white shadow">
+    <div class="max-w-[1280px] mx-auto px-3 h-12 flex items-center gap-2 sm:gap-3">
+      <button type="button" id="btn-menu" class="lg:hidden p-2 -ml-1 rounded-lg hover:bg-white/10"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+      <a href="forum.html" class="text-sm font-bold shrink-0">← Voltar</a>
+      <a href="forum.html" class="flex items-center gap-2 shrink-0 min-w-0">
+        <img src="../../images/logo-main.png" class="h-7 object-contain" alt="">
+        <span class="font-bold text-sm truncate" id="brand-label">GIS / fórum</span>
+      </a>
+      <div class="flex-1 max-w-xl mx-auto hidden sm:block">
+        <input id="search" type="search" placeholder="Pesquisar" class="w-full h-9 rounded-full bg-white/15 border border-white/20 px-4 text-sm text-white placeholder-white/50 focus:outline-none focus:bg-white focus:text-gray-900">
+      </div>
+      <a href="forum-create.html" class="shrink-0 h-9 px-3 rounded-full bg-white text-[#0b3d44] text-xs font-bold inline-flex items-center">Criar</a>
+      <a href="../gis.html" class="hidden sm:inline text-xs text-white/70 px-2">Catálogo GIS</a>
+      <a href="forum-account.html" class="text-xs font-semibold px-2">Conta</a>
+    </div>
+  </header>
+  <div id="drawer-backdrop" class="fixed inset-0 bg-black/40 z-[90] lg:hidden"></div>
+  <aside id="mobile-drawer" class="fixed top-0 left-0 bottom-0 w-72 bg-white z-[95] lg:hidden shadow-xl overflow-y-auto pt-14 px-3 pb-6"><div id="mobile-nav"></div></aside>
+
+  <div class="max-w-[1280px] mx-auto px-3 py-4 grid grid-cols-1 lg:grid-cols-[220px_1fr_280px] gap-4">
+    <aside class="hidden lg:block space-y-4" id="left-rail"></aside>
+    <main id="root"></main>
+    <aside class="hidden lg:block space-y-4" id="right-rail"></aside>
+  </div>
+
+<script>
+
+const KEY='egfb_gis_forum_v2';
+const USER_KEY='egfb_gis_user';
+const USERS_KEY='egfb_gis_users';
+const BAN_KEY='egfb_gis_forum_banned';
+function loadPosts(){ try{return JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e){return [];} }
+function savePosts(list){ localStorage.setItem(KEY, JSON.stringify(list)); }
+function loadUsers(){ try{return JSON.parse(localStorage.getItem(USERS_KEY)||'{}');}catch(e){return {};} }
+function saveUsers(u){ localStorage.setItem(USERS_KEY, JSON.stringify(u)); }
+function currentUser(){ try{return JSON.parse(localStorage.getItem(USER_KEY)||'null');}catch(e){return null;} }
+function setCurrentUser(u){ if(u) localStorage.setItem(USER_KEY, JSON.stringify(u)); else localStorage.removeItem(USER_KEY); }
+function banned(){ try{return JSON.parse(localStorage.getItem(BAN_KEY)||'[]');}catch(e){return [];} }
+function esc(s){ return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function timeAgo(ts){ const s=Math.floor((Date.now()-ts)/1000); if(s<60)return'agora'; if(s<3600)return Math.floor(s/60)+' min'; if(s<86400)return Math.floor(s/3600)+' h'; return Math.floor(s/86400)+' d'; }
+function score(p){ return (p.ups||0)-(p.downs||0); }
+function countComments(list){ let n=0; (function walk(arr){ (arr||[]).forEach(c=>{ n++; walk(c.replies); }); })(list); return n; }
+function userVote(id){ return localStorage.getItem('egfb_vote_'+id)||''; }
+function setUserVote(id,v){ if(v) localStorage.setItem('egfb_vote_'+id,v); else localStorage.removeItem('egfb_vote_'+id); }
+function displayName(){ const u=currentUser(); return u?u.name:''; }
+function accountLabel(){ const u=currentUser(); return u?('GIS / '+u.name):'GIS / fórum'; }
+
+const params=new URLSearchParams(location.search);
+const id=params.get('id');
+function findComment(list, cid){ for(const c of list||[]){ if(c.id===cid) return c; const f=findComment(c.replies,cid); if(f) return f; } return null; }
+function uid(){ return 'c'+Date.now()+Math.random().toString(36).slice(2,6); }
+
+function leftNavHTML(){
+  return `<nav class="bg-white rounded-xl border border-gray-200 overflow-hidden text-sm">
+    <a href="forum.html" class="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 font-medium border-l-4 border-[#0b3d44]">Página inicial</a>
+    <a href="forum-create.html" class="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 text-[#0b3d44] font-semibold border-l-4 border-transparent">+ Criar publicação</a>
+    <a href="forum-account.html" class="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 border-l-4 border-transparent border-t">Conta</a>
+  </nav>
+  <div class="bg-white rounded-xl border border-gray-200 p-4"><h3 class="font-bold text-sm mb-3">Top comentadores</h3><div id="top-users" class="space-y-2 text-sm"></div></div>
+  <div class="bg-white rounded-xl border border-gray-200 p-4 text-xs text-gray-600"><p class="font-bold text-gray-900 mb-2">Regras</p><ol class="list-decimal pl-4 space-y-1"><li>Respeito</li><li>Sem spam</li><li>Foco em GIS / EGFB</li><li>Sem dados sensíveis</li><li>Banimento se necessário</li></ol></div>
+  <div class="bg-white rounded-xl border border-gray-200 p-4 text-[11px] text-gray-500"><p class="font-semibold text-gray-700 mb-1">Privacidade</p><p>Dados locais neste dispositivo. Login por e-mail em breve.</p></div>`;
+}
+
+function relatedHTML(current){
+  const others=loadPosts().filter(p=>p.id!==current.id).sort((a,b)=>score(b)-score(a)).slice(0,6);
+  if(!others.length) return '<p class="text-xs text-gray-400">Sem outras publicações</p>';
+  return others.map(p=>`<a href="forum-post.html?id=${encodeURIComponent(p.id)}" class="block p-2 rounded-lg hover:bg-gray-50"><div class="text-xs font-bold text-gray-900 line-clamp-2">${esc(p.title)}</div><div class="text-[10px] text-gray-500 mt-0.5">⬆ ${score(p)} · 💬 ${countComments(p.comments)}</div></a>`).join('');
+}
+
+function votePost(dir){
+  const list=loadPosts(); const p=list.find(x=>x.id===id); if(!p) return;
+  const cur=userVote(id);
+  if(cur==='up') p.ups=Math.max(0,(p.ups||0)-1);
+  if(cur==='down') p.downs=Math.max(0,(p.downs||0)-1);
+  if(cur===dir) setUserVote(id,''); else { if(dir==='up') p.ups=(p.ups||0)+1; if(dir==='down') p.downs=(p.downs||0)+1; setUserVote(id,dir); }
+  savePosts(list); render();
+}
+function voteComment(cid, dir){
+  const list=loadPosts(); const p=list.find(x=>x.id===id); if(!p) return;
+  const c=findComment(p.comments,cid); if(!c) return;
+  const key='egfb_vote_'+cid; const cur=localStorage.getItem(key)||'';
+  if(cur==='up') c.ups=Math.max(0,(c.ups||0)-1);
+  if(cur==='down') c.downs=Math.max(0,(c.downs||0)-1);
+  if(cur===dir) localStorage.removeItem(key); else { if(dir==='up') c.ups=(c.ups||0)+1; if(dir==='down') c.downs=(c.downs||0)+1; localStorage.setItem(key,dir); }
+  savePosts(list); render();
+}
+function addComment(parentId, author, body){
+  const list=loadPosts(); const p=list.find(x=>x.id===id); if(!p) return;
+  const node={ id:uid(), author, body, ts:Date.now(), ups:1, downs:0, replies:[] };
+  if(!parentId){ p.comments=p.comments||[]; p.comments.push(node); }
+  else { const parent=findComment(p.comments,parentId); if(parent){ parent.replies=parent.replies||[]; parent.replies.push(node); } }
+  localStorage.setItem('egfb_vote_'+node.id,'up'); savePosts(list); render();
+}
+function renderComments(list, depth){
+  return (list||[]).map(c=>{
+    const sc=(c.ups||0)-(c.downs||0); const uv=localStorage.getItem('egfb_vote_'+c.id)||'';
+    return `<div class="${depth?'comment-thread mt-3':'mt-4'}">
+      <div class="flex gap-2">
+        <div class="flex flex-col items-center gap-0.5 pt-1">
+          <button type="button" class="vote-btn text-gray-400 ${uv==='up'?'active-up':''}" data-cvote="${c.id}" data-dir="up"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l8 10H4z"/></svg></button>
+          <span class="text-[11px] font-bold">${sc}</span>
+          <button type="button" class="vote-btn text-gray-400 ${uv==='down'?'active-down':''}" data-cvote="${c.id}" data-dir="down"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20l-8-10h16z"/></svg></button>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="text-xs text-gray-500"><a href="forum-profile.html?u=${encodeURIComponent(c.author)}" class="font-semibold text-gray-800 hover:underline">${esc(c.author)}</a> · ${timeAgo(c.ts)}</div>
+          <p class="text-sm text-gray-800 mt-1 whitespace-pre-wrap">${esc(c.body)}</p>
+          <button type="button" class="reply-btn text-xs font-bold text-gray-500 mt-1" data-reply="${c.id}">Responder</button>
+          <div class="reply-box hidden mt-2" data-box="${c.id}">
+            <form class="reply-form space-y-2" data-parent="${c.id}">
+              <input name="author" class="w-full border rounded-lg px-3 py-1.5 text-xs" placeholder="Nome" value="${esc(displayName())}" required>
+              <textarea name="body" rows="2" class="w-full border rounded-lg px-3 py-1.5 text-xs" required></textarea>
+              <button class="h-8 px-3 rounded-full bg-gray-900 text-white text-xs font-bold">Comentar</button>
+            </form>
+          </div>
+          ${renderComments(c.replies, (depth||0)+1)}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function fillTop(){
+  const map={};
+  loadPosts().forEach(p=>{ map[p.author]=(map[p.author]||0)+1; (function walk(cs){ (cs||[]).forEach(c=>{ map[c.author]=(map[c.author]||0)+1; walk(c.replies); }); })(p.comments); });
+  const top=Object.entries(map).sort((a,b)=>b[1]-a[1]).slice(0,10);
+  const html=top.map(([n,c],i)=>`<a href="forum-profile.html?u=${encodeURIComponent(n)}" class="flex justify-between gap-2 hover:bg-gray-50 rounded px-1"><span class="truncate">${i+1}. ${esc(n)}</span><span class="text-xs text-gray-500">${c}</span></a>`).join('')||'<p class="text-xs text-gray-400">—</p>';
+  document.querySelectorAll('#top-users').forEach(el=>el.innerHTML=html);
+}
+
+function render(){
+  document.getElementById('brand-label').textContent=accountLabel();
+  const list=loadPosts(); const p=list.find(x=>x.id===id);
+  const root=document.getElementById('root');
+  if(!p){ root.innerHTML='<div class="bg-white rounded-xl p-10 text-center text-gray-500">Não encontrada. <a href="forum.html" class="text-[#0b3d44] font-bold">Fórum</a></div>'; return; }
+  const sc=score(p); const uv=userVote(p.id);
+  const media=p.media?(p.mediaType==='video'?`<div class="mt-4 rounded-xl overflow-hidden bg-black"><video src="${p.media}" class="w-full max-h-[420px]" controls></video></div>`:`<div class="mt-4 rounded-xl overflow-hidden bg-gray-50"><img src="${p.media}" class="w-full max-h-[420px] object-contain" alt=""></div>`):'';
+  root.innerHTML=`
+  <article class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+    <div class="flex">
+      <div class="w-11 sm:w-12 bg-gray-50 flex flex-col items-center py-4 gap-1 shrink-0">
+        <button type="button" id="up" class="vote-btn p-1 rounded hover:bg-gray-200 ${uv==='up'?'active-up':''}"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l8 10H4z"/></svg></button>
+        <div class="score text-sm">${sc}</div>
+        <button type="button" id="down" class="vote-btn p-1 rounded hover:bg-gray-200 ${uv==='down'?'active-down':''}"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20l-8-10h16z"/></svg></button>
+      </div>
+      <div class="flex-1 p-4 sm:p-5 min-w-0">
+        <div class="text-xs text-gray-500"><a href="forum-profile.html?u=${encodeURIComponent(p.author)}" class="font-semibold text-gray-800 hover:underline">${esc(p.author)}</a> · ${timeAgo(p.ts)} · ${p.views||0} views</div>
+        <h1 class="text-xl sm:text-2xl font-extrabold text-gray-900 mt-2 leading-snug">${esc(p.title)}</h1>
+        ${media}
+        ${p.body?`<p class="text-gray-800 mt-4 whitespace-pre-wrap leading-relaxed">${esc(p.body)}</p>`:''}
+        <div class="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-gray-500">
+          <span class="inline-flex items-center gap-1.5 h-8 px-3 rounded-full bg-gray-50">💬 ${countComments(p.comments)} comentários</span>
+          <button type="button" id="share-post" class="inline-flex items-center gap-1.5 h-8 px-3 rounded-full hover:bg-gray-100">Partilhar</button>
+        </div>
+      </div>
+    </div>
+  </article>
+  <section class="bg-white rounded-xl border border-gray-200 mt-3 p-4 sm:p-5">
+    <h2 class="font-bold text-sm mb-3">Comentários</h2>
+    <form id="main-comment" class="space-y-2 mb-4">
+      <input id="c-author" class="w-full border rounded-lg px-3 py-2 text-sm" placeholder="Nome" value="${esc(displayName())}" required>
+      <textarea id="c-body" rows="3" class="w-full border rounded-lg px-3 py-2 text-sm" placeholder="Junta-te à conversa" required></textarea>
+      <button class="h-9 px-4 rounded-full bg-[#0b3d44] text-white text-sm font-bold">Comentar</button>
+    </form>
+    <div id="comments">${renderComments(p.comments)}</div>
+  </section>`;
+
+  document.getElementById('right-rail').innerHTML=`<div class="bg-white rounded-xl border border-gray-200 p-4"><h3 class="font-bold text-sm mb-3">Publicações relacionadas</h3>${relatedHTML(p)}</div>`;
+  document.getElementById('up').onclick=()=>votePost('up');
+  document.getElementById('share-post')&&(document.getElementById('share-post').onclick=()=>{
+    const url=location.href;
+    if(navigator.share) navigator.share({title:p.title,url}).catch(()=>{});
+    else navigator.clipboard.writeText(url).then(()=>alert('Link copiado')).catch(()=>prompt('Copiar:',url));
+  });
+  document.getElementById('down').onclick=()=>votePost('down');
+  document.getElementById('main-comment').onsubmit=e=>{ e.preventDefault(); addComment(null, document.getElementById('c-author').value.trim(), document.getElementById('c-body').value.trim()); };
+  document.querySelectorAll('[data-cvote]').forEach(btn=>btn.onclick=()=>voteComment(btn.dataset.cvote, btn.dataset.dir));
+  document.querySelectorAll('.reply-btn').forEach(btn=>btn.onclick=()=>document.querySelector('[data-box="'+btn.dataset.reply+'"]').classList.toggle('hidden'));
+  document.querySelectorAll('.reply-form').forEach(f=>f.onsubmit=e=>{ e.preventDefault(); addComment(f.dataset.parent, f.author.value.trim(), f.body.value.trim()); });
+  fillTop();
+}
+
+document.getElementById('left-rail').innerHTML=leftNavHTML();
+document.getElementById('mobile-nav').innerHTML=leftNavHTML();
+document.getElementById('btn-menu').onclick=()=>{ document.getElementById('mobile-drawer').classList.add('open'); document.getElementById('drawer-backdrop').classList.add('open'); };
+document.getElementById('drawer-backdrop').onclick=()=>{ document.getElementById('mobile-drawer').classList.remove('open'); document.getElementById('drawer-backdrop').classList.remove('open'); };
+document.getElementById('search')&&(document.getElementById('search').onkeydown=e=>{ if(e.key==='Enter') location.href='forum.html'; });
+
+(function(){
+  const list=loadPosts(); const p=list.find(x=>x.id===id);
+  if(p){ const k='egfb_viewed_'+id; if(!sessionStorage.getItem(k)){ p.views=(p.views||0)+1; savePosts(list); sessionStorage.setItem(k,'1'); } }
+  render();
+})();
+</script>
+</body>
+</html>

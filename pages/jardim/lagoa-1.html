@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
+  <title>Lagoa 1 | Jardim Botânico EGFB</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'jb-green': '#1a5c2e',
+            'jb-green-dark': '#0f3d1e',
+            'jb-green-light': '#2d7a45',
+            'jb-yellow': '#f5c518',
+            'jb-orange': '#e8943a',
+          },
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .dropdown { position: relative; }
+    .dropdown-menu {
+      display: none; position: absolute; left: 0; top: 100%;
+      margin-top: 0; padding-top: 8px; z-index: 50; min-width: 240px;
+    }
+    .dropdown:hover .dropdown-menu, .dropdown-menu:hover { display: block; }
+    .dropdown-menu > div {
+      background: #0f3d1e; border-radius: 0.5rem;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.25); padding: 0.5rem 0;
+    }
+    .dropdown-menu a {
+      display: block; padding: 0.65rem 1.25rem; color: #e8f0ea;
+      font-size: 0.875rem; transition: background 0.15s;
+    }
+    .dropdown-menu a:hover { background: #1a5c2e; color: #fff; }
+    .mini-map { height: 120px; border-radius: 0.75rem; overflow: hidden; background: #e8f0ea; }
+  
+    #mobile-menu {
+      max-height: calc(100vh - 4rem);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+</style>
+
+
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <header class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-16 lg:h-18">
+        <a href="../jardim-botanico.html" class="flex items-center gap-3 shrink-0">
+          <img src="../../images/logo-main.png" alt="EGFB" class="h-11">
+          <div>
+            <div class="font-bold text-jb-green text-sm leading-tight">Jardim Botânico</div>
+            <div class="text-xs text-gray-600 font-medium">Lagoa 1</div>
+          </div>
+        </a>
+        <nav class="hidden lg:flex items-center gap-1">
+          <div class="dropdown">
+            <button class="px-3 py-2 text-sm font-medium text-gray-800 hover:text-jb-green flex items-center gap-1">
+              Habitats
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="dropdown-menu"><div>
+              <a href="habitat-aberto.html">Habitat Aberto — Savanas / Pradarias</a>
+              <a href="habitat-fechado.html">Habitat Fechado — Savanas Arborizadas</a>
+              <a href="habitat-aquatico.html">Habitat Aquático — Lagoas</a>
+            </div></div>
+          </div>
+          <div class="dropdown">
+            <button class="px-3 py-2 text-sm font-medium text-gray-800 hover:text-jb-green flex items-center gap-1">
+              Espécies
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="dropdown-menu"><div>
+              <a href="especies-anfibios.html">Anfíbios</a>
+              <a href="especies-mamiferos.html">Mamíferos</a>
+              <a href="especies-aves.html">Aves</a>
+              <a href="especies-repteis.html">Répteis</a>
+              <a href="especies-plantas.html">Plantas / Flora</a>
+              <a href="especies-invertebrados.html">Invertebrados</a>
+              <a href="especies-peixes.html">Peixes</a>
+            </div></div>
+          </div>
+          <div class="dropdown">
+            <button class="px-3 py-2 text-sm font-medium text-gray-800 hover:text-jb-green flex items-center gap-1">
+              Sobre o Jardim
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="dropdown-menu"><div>
+              <a href="sobre.html">Descrição da Área e Localização</a>
+              <a href="georreferenciacao.html">Mapa e Georreferenciação</a>
+            </div></div>
+          </div>
+          <a href="doar.html" class="ml-2 px-5 py-2 bg-jb-orange text-white text-sm font-semibold rounded-full hover:bg-orange-500 transition">Doar</a>
+        </nav>
+        <div class="flex items-center gap-2">
+          <a href="../jardim-botanico.html" class="hidden sm:inline text-xs text-gray-500 hover:text-jb-green">← Jardim Botânico</a>
+          <a href="pesquisa.html" class="p-2 text-gray-700 hover:text-jb-green" aria-label="Pesquisar" title="Pesquisar">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          </a>
+          <button id="menu-btn" class="lg:hidden p-2 text-gray-700" aria-label="Menu">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-gray-100 px-4 py-4 space-y-1">
+      <div class="font-semibold text-jb-green text-sm py-2">Habitats</div>
+      <a href="habitat-aberto.html" class="block pl-4 py-2 text-sm text-gray-700">Habitat Aberto</a>
+      <a href="habitat-fechado.html" class="block pl-4 py-2 text-sm text-gray-700">Habitat Fechado</a>
+      <a href="habitat-aquatico.html" class="block pl-4 py-2 text-sm text-gray-700">Habitat Aquático</a>
+      <div class="font-semibold text-jb-green text-sm py-2 border-t mt-2">Espécies</div>
+      <a href="especies-anfibios.html" class="block pl-4 py-2 text-sm text-gray-700">Anfíbios</a>
+      <a href="especies-mamiferos.html" class="block pl-4 py-2 text-sm text-gray-700">Mamíferos</a>
+      <a href="especies-aves.html" class="block pl-4 py-2 text-sm text-gray-700">Aves</a>
+      <a href="especies-repteis.html" class="block pl-4 py-2 text-sm text-gray-700">Répteis</a>
+      <a href="especies-plantas.html" class="block pl-4 py-2 text-sm text-gray-700">Plantas</a>
+      <a href="especies-invertebrados.html" class="block pl-4 py-2 text-sm text-gray-700">Invertebrados</a>
+      <a href="sobre.html" class="block py-2 text-sm font-semibold text-gray-800 border-t mt-2">Descrição e Localização</a>
+      <a href="georreferenciacao.html" class="block py-2 text-sm font-semibold text-gray-800">Mapa e Georreferenciação</a>
+      <a href="doar.html" class="block py-2 text-sm font-semibold text-jb-orange">Doar</a>
+      <a href="../jardim-botanico.html" class="block py-2 text-sm text-gray-500 border-t mt-2">← Página inicial do Jardim</a>
+    </div>
+  </header>
+
+  <main class="pt-20 pb-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <p class="text-xs font-semibold tracking-wide uppercase text-jb-green mb-2">Habitat Aquático</p>
+      <h1 class="text-3xl sm:text-4xl font-bold text-black mb-8">Lagoa 1</h1>
+      <div class="bg-white rounded-2xl border p-6 sm:p-8 shadow-sm text-gray-700"><p>Corpo de água principal no Jardim Botânico.</p><a href="habitat-aquatico.html" class="inline-block mt-4 text-sm font-semibold text-jb-green">← Habitat Aquático</a></div>
+    </div>
+  </main>
+  <footer class="bg-jb-green-dark text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div>
+          <div class="flex items-center gap-2 mb-3">
+            <img src="../../images/logo-main.png" alt="EGFB" class="h-10">
+            <span class="font-bold">Jardim Botânico EGFB</span>
+          </div>
+          <p class="text-sm text-white/70">Área de estudo, inventário e conservação no ISPM — Curso de Ecoturismo e Gestão de Fauna Bravia.</p>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-3 text-jb-yellow">Habitats</h4>
+          <ul class="space-y-2 text-sm text-white/80">
+            <li><a href="habitat-aberto.html" class="hover:text-white">Habitat Aberto</a></li>
+            <li><a href="habitat-fechado.html" class="hover:text-white">Habitat Fechado</a></li>
+            <li><a href="habitat-aquatico.html" class="hover:text-white">Habitat Aquático</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-3 text-jb-yellow">Espécies</h4>
+          <ul class="space-y-2 text-sm text-white/80">
+            <li><a href="especies-aves.html" class="hover:text-white">Aves</a></li>
+            <li><a href="especies-mamiferos.html" class="hover:text-white">Mamíferos</a></li>
+            <li><a href="especies-invertebrados.html" class="hover:text-white">Invertebrados</a></li>
+            <li><a href="especies-plantas.html" class="hover:text-white">Flora</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-3 text-jb-yellow">Navegação</h4>
+          <a href="../jardim-botanico.html" class="block text-sm text-jb-yellow hover:underline mb-2">← Página inicial do Jardim Botânico</a>
+          <a href="../../index.html" class="block text-sm text-white/70 hover:underline">Curso EGFB</a>
+        </div>
+      </div>
+      <div class="border-t border-white/10 mt-10 pt-6 text-center text-xs text-white/50">
+        © 2026 Jardim Botânico EGFB · ISPM
+      </div>
+    </div>
+  </footer>
+  <script>
+    document.getElementById('menu-btn')?.addEventListener('click', () => {{
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+    }});
+  </script>
+
+
+</body>
+</html>

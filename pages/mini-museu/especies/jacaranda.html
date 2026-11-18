@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jacaranda | Mini-Museu de Biodiversidade</title>
+  <link rel="icon" href="../../../images/favicon.ico">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body{font-family:Inter,system-ui,sans-serif}
+    #range-map{height:380px;border-radius:1rem}
+    .legend span{display:inline-block;width:14px;height:14px;border-radius:3px;margin-right:6px;vertical-align:middle}
+  
+.iucn-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 3.25rem; height: 3.25rem; border-radius: 9999px;
+  font-weight: 800; font-size: 0.95rem; letter-spacing: 0.02em;
+  color: #fff; flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,.12);
+}
+.iucn-badge.sm { width: 2rem; height: 2rem; font-size: 0.65rem; }
+.iucn-badge.LC { background: #4caf50; }
+.iucn-badge.NT { background: #c6d92d; }
+.iucn-badge.VU { background: #f0c808; color: #fff; }
+.iucn-badge.EN { background: #f07c2a; }
+.iucn-badge.CR { background: #d32f2f; }
+.iucn-badge.EW { background: #5c2d5e; }
+.iucn-badge.DD { background: #b0b0a8; }
+.iucn-badge.NE { background: #fff; color: #111; border: 2px solid #333; }
+
+</style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <header class="sticky top-0 z-50 bg-white border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
+      <a href="../../museu.html" class="flex items-center gap-2.5">
+        <img src="../../../images/logo-main.png" alt="" class="h-10">
+        <div>
+          <div class="font-semibold text-sm">Mini-Museu</div>
+          <div class="text-xs text-gray-500">Herbário · Flora</div>
+        </div>
+      </a>
+      <a href="../herbario.html" class="inline-flex h-9 px-4 items-center rounded-full border border-gray-200 text-xs font-semibold text-gray-700 hover:border-[#1a5c2e] hover:text-[#1a5c2e]">← Herbário</a>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+    <div class="grid lg:grid-cols-2 gap-8 items-start">
+      <div class="rounded-2xl overflow-hidden shadow-lg border bg-gray-100 aspect-[4/3]">
+        <img src="../../../images/mini-museu/herbario-3.jpg" alt="Jacaranda" class="w-full h-full object-cover">
+      </div>
+      <div>
+        <p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">Herbário · Flora</p>
+        <h1 class="text-3xl sm:text-4xl font-bold text-black mt-1">Jacaranda</h1>
+        <p class="text-xl text-gray-500 italic mt-1">Jacaranda mimosifolia</p>
+        <div class="mt-5 flex items-center gap-3 flex-wrap">
+          <span class="iucn-badge NE" title="NE">NE</span>
+          <div>
+            <div class="font-bold text-gray-900">NE · Não Avaliado</div>
+            <div class="text-sm text-gray-500">IUCN Red List</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="mt-12">
+      <h2 class="text-xl font-bold text-black mb-4"><span class="text-red-700">Taxonomia</span></h2>
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 bg-white rounded-2xl border p-6 shadow-sm"><div><p class="text-xs text-gray-500 uppercase tracking-wide">Reino</p><p class="font-semibold text-red-800 text-lg border-b border-red-200 pb-1">Plantae</p></div><div><p class="text-xs text-gray-500 uppercase tracking-wide">Classe</p><p class="font-semibold text-red-800 text-lg border-b border-red-200 pb-1">—</p></div><div><p class="text-xs text-gray-500 uppercase tracking-wide">Ordem</p><p class="font-semibold text-red-800 text-lg border-b border-red-200 pb-1">—</p></div><div><p class="text-xs text-gray-500 uppercase tracking-wide">Família</p><p class="font-semibold text-red-800 text-lg border-b border-red-200 pb-1">Bignoniaceae</p></div><div><p class="text-xs text-gray-500 uppercase tracking-wide">Género</p><p class="font-semibold text-red-800 text-lg border-b border-red-200 pb-1">Jacaranda</p></div><div><p class="text-xs text-gray-500 uppercase tracking-wide">Espécie</p><p class="font-semibold text-red-800 text-lg border-b border-red-200 pb-1">Jacaranda mimosifolia</p></div></div>
+    </section>
+
+    <section class="mt-10">
+      <h2 class="text-xl font-bold text-black mb-3 border-b-2 border-red-700 pb-1 inline-block">Estado de conservação</h2>
+      <div class="bg-white rounded-2xl border p-6 shadow-sm mt-3 flex gap-4 items-start">
+        <span class="iucn-badge NE" title="NE">NE</span>
+        <div>
+          <p class="text-gray-700"><strong>Avaliação global (IUCN):</strong> NE — Não Avaliado.</p>
+          <p class="text-sm text-gray-500 mt-2">Referência para o inventário do Mini-Museu de Biodiversidade · EGFB-ISPM. A lista vermelha global pode diferir de avaliações nacionais.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="mt-10">
+      <h2 class="text-xl font-bold text-black mb-3 border-b-2 border-red-700 pb-1 inline-block">Distribuição geográfica</h2>
+      <div class="bg-white rounded-2xl border p-4 sm:p-6 shadow-sm mt-3">
+        <p class="text-gray-700 leading-relaxed mb-4">Espécime de herbário no Mini-Museu. Jacaranda (Jacaranda mimosifolia) — distribuição conforme a espécie (nativa ou cultivada em Moçambique/Manica).</p></div>
+    </section>
+
+    <section class="mt-10">
+      <h2 class="text-xl font-bold text-black mb-3 border-b-2 border-red-700 pb-1 inline-block">Ecologia</h2>
+      <div class="bg-white rounded-2xl border p-6 shadow-sm mt-3 text-gray-700 leading-relaxed">Registado em mostruário didáctico do EGFB.</div>
+    </section>
+
+    <section class="mt-10">
+      <h2 class="text-xl font-bold text-black mb-3 border-b-2 border-red-700 pb-1 inline-block">Biologia</h2>
+      <div class="bg-white rounded-2xl border p-6 shadow-sm mt-3 text-gray-700 leading-relaxed">Material herborizado para ensino de identificação botânica.</div>
+    </section>
+  </main>
+
+  <footer class="border-t mt-12">
+    <div class="max-w-7xl mx-auto px-4 py-8 flex flex-col sm:flex-row justify-between gap-3 text-sm text-gray-500">
+      <div><strong class="text-gray-800">Mini-Museu de Biodiversidade</strong> · EGFB · ISPM</div>
+      <a href="../../museu.html" class="hover:text-gray-800">← Mini-Museu</a>
+    </div>
+  </footer>
+  
+</body>
+</html>

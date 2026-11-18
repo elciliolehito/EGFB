@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Biblioteca EGFB</title>
+  <link rel="icon" href="../images/favicon.ico">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body{font-family:Inter,system-ui,sans-serif}
+    .chip{border-bottom:2px solid transparent;color:#4b5563}
+    .chip.active{border-bottom-color:#0b3d44;color:#0b3d44;font-weight:700}
+    .cover-slot{aspect-ratio:3/4;background:#e8f0ef}
+    .cover-slot canvas{width:100%;height:100%;object-fit:contain}
+  </style>
+</head>
+<body class="bg-[#f4f6f5] antialiased">
+  <header class="sticky top-0 z-50 bg-[#0b3d44]/95 backdrop-blur text-white border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between gap-3">
+      <a href="biblioteca.html" class="flex items-center gap-2 font-extrabold text-sm">
+        <img src="../images/logo-main.png" class="h-8 object-contain" alt=""> Biblioteca EGFB
+      </a>
+      <nav class="hidden md:flex items-center gap-1 text-sm">
+        <a href="biblioteca.html" class="px-3 py-1.5 rounded-lg bg-white/15">Acervo</a>
+        <a href="repositorio.html" class="px-3 py-1.5 rounded-lg hover:bg-white/10">Monografias</a>
+      </nav>
+      <div class="flex items-center gap-2">
+        <a href="../index.html" class="text-xs font-bold h-9 px-3 rounded-full bg-white text-[#0b3d44] inline-flex items-center">Curso EGFB</a>
+        <button type="button" id="mbtn" class="md:hidden p-2 rounded-lg hover:bg-white/10" aria-label="Menu">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+    <div id="mnav" class="hidden md:hidden border-t border-white/10 px-4 py-3 text-sm space-y-1">
+      <a class="block py-2" href="biblioteca.html">Acervo</a>
+      <a class="block py-2" href="repositorio.html">Monografias</a>
+      <div class="pt-2 border-t border-white/10 mt-2">
+        <p class="text-xs text-white/50 mb-2">Categorias</p>
+        <button type="button" data-cat="" class="mchip block w-full text-left py-2">Todas</button>
+        <button type="button" data-cat="conservacao" class="mchip block w-full text-left py-2">Conservação e ecologia</button><button type="button" data-cat="ecoturismo" class="mchip block w-full text-left py-2">Ecoturismo e turismo</button><button type="button" data-cat="fauna" class="mchip block w-full text-left py-2">Fauna e biodiversidade</button><button type="button" data-cat="gis" class="mchip block w-full text-left py-2">GIS e geoprocessamento</button><button type="button" data-cat="gestao" class="mchip block w-full text-left py-2">Gestão e fiscalização</button><button type="button" data-cat="instituicao" class="mchip block w-full text-left py-2">Instituição e regulamentos</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="relative bg-[#0b3d44] text-white overflow-hidden">
+    <div class="absolute inset-0 opacity-20"><img src="../images/wildlife/giraffe.jpg" class="w-full h-full object-cover" alt=""></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-[#0b3d44]/70 to-[#0b3d44]"></div>
+    <div class="relative max-w-4xl mx-auto px-4 py-14 sm:py-20 text-center">
+      <h1 class="text-3xl sm:text-5xl font-extrabold">Nosso Acervo</h1>
+      <p class="mt-3 text-white/85">Títulos de apoio ao curso de Ecoturismo e Gestão de Fauna Bravia</p>
+      <input id="search" type="search" placeholder="Digite o nome do livro ou do autor" class="mt-8 w-full max-w-xl mx-auto h-12 rounded-full px-5 text-gray-900 text-sm shadow-lg block">
+    </div>
+  </section>
+
+  <div class="bg-white border-b sticky top-14 z-40 hidden md:block">
+    <div class="max-w-7xl mx-auto px-2">
+      <div class="flex justify-center flex-wrap gap-0 text-sm" id="catbar"><button type="button" data-cat="" class="chip active shrink-0 px-3 py-2.5 inline-flex flex-col items-center gap-0.5 min-w-[4.5rem]">
+  <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg><span class="text-[11px] leading-tight text-center">Todas</span></button><button type="button" data-cat="conservacao" class="chip shrink-0 px-3 py-2.5 inline-flex flex-col items-center gap-0.5 min-w-[5.5rem]">
+  <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg><span class="text-[11px] leading-tight text-center">Conservação<br>e ecologia</span></button><button type="button" data-cat="ecoturismo" class="chip shrink-0 px-3 py-2.5 inline-flex flex-col items-center gap-0.5 min-w-[5.5rem]">
+  <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span class="text-[11px] leading-tight text-center">Ecoturismo<br>e turismo</span></button><button type="button" data-cat="fauna" class="chip shrink-0 px-3 py-2.5 inline-flex flex-col items-center gap-0.5 min-w-[5.5rem]">
+  <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span class="text-[11px] leading-tight text-center">Fauna e<br>biodiversidade</span></button><button type="button" data-cat="gis" class="chip shrink-0 px-3 py-2.5 inline-flex flex-col items-center gap-0.5 min-w-[5.5rem]">
+  <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg><span class="text-[11px] leading-tight text-center">GIS e<br>geoprocessamento</span></button><button type="button" data-cat="gestao" class="chip shrink-0 px-3 py-2.5 inline-flex flex-col items-center gap-0.5 min-w-[5.5rem]">
+  <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg><span class="text-[11px] leading-tight text-center">Gestão e<br>fiscalização</span></button><button type="button" data-cat="instituicao" class="chip shrink-0 px-3 py-2.5 inline-flex flex-col items-center gap-0.5 min-w-[5.5rem]">
+  <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg><span class="text-[11px] leading-tight text-center">Instituição e<br>regulamentos</span></button></div>
+    </div>
+  </div>
+
+  <div class="md:hidden bg-white border-b px-4 py-2 sticky top-14 z-40 flex items-center justify-between">
+    <button type="button" id="filtBtn" class="inline-flex items-center gap-2 h-10 px-3 rounded-xl border text-sm font-semibold text-[#0b3d44]">
+      <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg> Filtros
+    </button>
+    <select id="sortM" class="h-10 rounded-xl border px-2 text-sm">
+      <option value="new">Mais novos</option>
+      <option value="az">A–Z</option>
+      <option value="za">Z–A</option>
+    </select>
+  </div>
+  <div id="filtPanel" class="hidden md:hidden bg-white border-b px-4 py-3 space-y-1 text-sm">
+    <button type="button" data-cat="" class="mchip block w-full text-left py-2.5 px-2 rounded-lg font-semibold text-[#0b3d44]">Todas</button>
+    <button type="button" data-cat="conservacao" class="mchip block w-full text-left py-2.5 px-2 rounded-lg">Conservação e ecologia</button><button type="button" data-cat="ecoturismo" class="mchip block w-full text-left py-2.5 px-2 rounded-lg">Ecoturismo e turismo</button><button type="button" data-cat="fauna" class="mchip block w-full text-left py-2.5 px-2 rounded-lg">Fauna e biodiversidade</button><button type="button" data-cat="gis" class="mchip block w-full text-left py-2.5 px-2 rounded-lg">GIS e geoprocessamento</button><button type="button" data-cat="gestao" class="mchip block w-full text-left py-2.5 px-2 rounded-lg">Gestão e fiscalização</button><button type="button" data-cat="instituicao" class="mchip block w-full text-left py-2.5 px-2 rounded-lg">Instituição e regulamentos</button>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-4 py-4 hidden md:flex flex-wrap gap-2 items-center justify-between">
+    <span id="count" class="text-sm text-gray-500"></span>
+    <select id="sort" class="h-10 rounded-xl border px-3 text-sm">
+      <option value="new">Mais novos</option>
+      <option value="az">Título A–Z</option>
+      <option value="za">Título Z–A</option>
+    </select>
+  </div>
+  <p id="countM" class="md:hidden px-4 text-xs text-gray-500 mb-2"></p>
+
+  <main class="max-w-7xl mx-auto px-4 pb-12">
+    <div id="grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5"></div>
+  </main>
+
+  <section class="bg-white border-t">
+    <div class="max-w-7xl mx-auto px-4 py-14">
+      <h2 class="text-2xl font-extrabold text-[#0b3d44] text-center mb-8">Explorar por eixo do curso</h2>
+      <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto">
+        <a href="biblioteca/categoria-conservacao.html" class="rounded-2xl border border-gray-100 bg-white p-6 hover:shadow-lg hover:border-emerald-200 transition text-center">
+          <div class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-[#0b3d44]/10 text-[#0b3d44] mb-3"><svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg></div>
+          <h3 class="font-bold text-gray-900 text-sm">Conservação e ecologia</h3>
+        </a>
+        <a href="biblioteca/categoria-ecoturismo.html" class="rounded-2xl border border-gray-100 bg-white p-6 hover:shadow-lg hover:border-emerald-200 transition text-center">
+          <div class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-[#0b3d44]/10 text-[#0b3d44] mb-3"><svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+          <h3 class="font-bold text-gray-900 text-sm">Ecoturismo e turismo</h3>
+        </a>
+        <a href="biblioteca/categoria-fauna.html" class="rounded-2xl border border-gray-100 bg-white p-6 hover:shadow-lg hover:border-emerald-200 transition text-center">
+          <div class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-[#0b3d44]/10 text-[#0b3d44] mb-3"><svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+          <h3 class="font-bold text-gray-900 text-sm">Fauna e biodiversidade</h3>
+        </a>
+        <a href="biblioteca/categoria-gis.html" class="rounded-2xl border border-gray-100 bg-white p-6 hover:shadow-lg hover:border-emerald-200 transition text-center">
+          <div class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-[#0b3d44]/10 text-[#0b3d44] mb-3"><svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg></div>
+          <h3 class="font-bold text-gray-900 text-sm">GIS e geoprocessamento</h3>
+        </a>
+        <a href="biblioteca/categoria-gestao.html" class="rounded-2xl border border-gray-100 bg-white p-6 hover:shadow-lg hover:border-emerald-200 transition text-center">
+          <div class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-[#0b3d44]/10 text-[#0b3d44] mb-3"><svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg></div>
+          <h3 class="font-bold text-gray-900 text-sm">Gestão e fiscalização</h3>
+        </a>
+        <a href="biblioteca/categoria-instituicao.html" class="rounded-2xl border border-gray-100 bg-white p-6 hover:shadow-lg hover:border-emerald-200 transition text-center">
+          <div class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-[#0b3d44]/10 text-[#0b3d44] mb-3"><svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg></div>
+          <h3 class="font-bold text-gray-900 text-sm">Instituição e regulamentos</h3>
+        </a></div>
+    </div>
+  </section>
+
+  <section class="bg-white border-t py-14">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <h2 class="text-2xl font-bold text-[#0b3d44] mb-8">Nossos Parceiros</h2>
+      <div class="flex flex-wrap items-center justify-center gap-10">
+        <img src="../images/logo-ispm.jpg" alt="ISPM" class="h-14 object-contain">
+        <img src="../images/logo-casa-msika.png" alt="Casa Msika" class="h-12 object-contain">
+        <img src="../images/logo-magodo.jpg" alt="Magodo" class="h-14 object-contain">
+        <img src="../images/logo-main.png" alt="EGFB" class="h-12 object-contain">
+      </div>
+    </div>
+  </section>
+  <footer class="bg-[#061e22] text-white">
+    <div class="max-w-6xl mx-auto px-4 py-10 grid sm:grid-cols-3 gap-8 text-sm">
+      <div><div class="font-bold text-lg">EGFB · ISPM</div><p class="text-white/50 text-xs mt-2">Ecoturismo e Gestão de Fauna Bravia — ISPM.</p></div>
+      <div><div class="font-semibold text-teal-200 mb-2">Navegação</div>
+        <ul class="space-y-1 text-white/70">
+          <li><a class="hover:text-white" href="../index.html">Curso</a></li>
+          <li><a class="hover:text-white" href="repositorio.html">Monografias</a></li>
+          <li><a class="hover:text-white" href="biblioteca.html">Biblioteca</a></li>
+        </ul>
+      </div>
+      <div><div class="font-semibold text-teal-200 mb-2">Parceiros</div><p class="text-white/60 text-xs">ISPM · Casa Msika · Magodo · EGFB</p></div>
+    </div>
+    <div class="border-t border-white/10 text-center text-xs text-white/40 py-4">© 2026 EGFB – ISPM</div>
+  </footer>
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+const BOOKS=[{"id": "b1", "cat": "gis", "title": "Introdução ao QGIS", "authors": "OSGeo / materiais EGFB", "year": "2023", "pages": 10, "tag": "PDF", "file": "pdfs/introducao-qgis.pdf", "desc": "Sistema operacional, organização de pastas e primeiros passos com QGIS.", "cat_label": "GIS e geoprocessamento"}, {"id": "b2", "cat": "gis", "title": "ArcGIS Online: An Introduction", "authors": "Timothy Kinlaw; Allison Rost · Esri", "year": "2021", "pages": 30, "tag": "PDF", "file": "pdfs/arcgis-online-intro.pdf", "desc": "Mapas web e partilha na nuvem — ESRI User Conference.", "cat_label": "GIS e geoprocessamento"}, {"id": "b3", "cat": "gis", "title": "Python — Aula 1", "authors": "Materiais EGFB", "year": "2024", "pages": 20, "tag": "PDF", "file": "pdfs/python-aula-1.pdf", "desc": "Bases de Python para dados e SIG.", "cat_label": "GIS e geoprocessamento"}, {"id": "b4", "cat": "ecoturismo", "title": "Gestão de Destinos Turísticos: Sistemas, Processos e Inovação", "authors": "Lício Valério Lima Vieira; José Wellington Carvalho Vilar (Orgs.)", "year": "2020", "pages": 355, "tag": "PDF", "file": "pdfs/gestao-destinos-ifs.pdf", "desc": "Sistemas, processos e inovação na gestão de destinos turísticos.", "cat_label": "Ecoturismo e turismo"}, {"id": "b5", "cat": "ecoturismo", "title": "Gestão de Destinos Turísticos (Vol. 1)", "authors": "Mariana Pereira Chaves Pimentel; Thiago Duarte Pimentel · CECIERJ", "year": "2014", "pages": 288, "tag": "PDF", "file": "pdfs/gestao-destinos-cederj.pdf", "desc": "Manual CEDERJ de gestão de destinos turísticos.", "cat_label": "Ecoturismo e turismo"}, {"id": "b6", "cat": "ecoturismo", "title": "Organização de Eventos", "authors": "Helen Rita Menezes Coutinho · e-Tec Brasil", "year": "2011", "pages": 62, "tag": "PDF", "file": "pdfs/organizacao-eventos.pdf", "desc": "Curso técnico em hospedagem — organização de eventos.", "cat_label": "Ecoturismo e turismo"}, {"id": "b7", "cat": "fauna", "title": "Inventário de Mamíferos — Aula 3", "authors": "Curso EGFB · ISPM", "year": "2026", "pages": 31, "tag": "PDF", "file": "pdfs/aula-inventario-mamiferos.pdf", "desc": "Material do módulo Inventário de Mamíferos (EGFB132), 1.º ano, Bloco III.", "cat_label": "Fauna e biodiversidade"}, {"id": "b8", "cat": "gestao", "title": "Métodos científicos de modelação quantitativa", "authors": "Marcelo Chapepa et al.", "year": "2026", "pages": 25, "tag": "PDF", "file": "pdfs/metodos-quantitativos.pdf", "desc": "Métodos quantitativos aplicados à gestão.", "cat_label": "Gestão e fiscalização"}, {"id": "b9", "cat": "instituicao", "title": "Regulamento Académico do ISPM", "authors": "Instituto Superior Politécnico de Manica", "year": "2016", "pages": 58, "tag": "PDF", "file": "pdfs/regulamento-academico-ispm.pdf", "desc": "Regulamento académico oficial do ISPM.", "cat_label": "Instituição e regulamentos"}, {"id": "b10", "cat": "instituicao", "title": "Regulamento Geral Interno do ISPM", "authors": "Instituto Superior Politécnico de Manica", "year": "2014", "pages": 41, "tag": "PDF", "file": "pdfs/regulamento-interno-ispm.pdf", "desc": "Regulamento interno — princípios, sede e funcionamento.", "cat_label": "Instituição e regulamentos"}];
+let cat='';
+function card(b){
+  // paths relative to pages/biblioteca.html → biblioteca/pdfs/xxx
+  const src = b.file.startsWith('pdfs/') ? ('biblioteca/' + b.file) : b.file;
+  const cover = `<canvas data-pdf="${src}" class="w-full h-full"></canvas>`;
+  return `<a href="biblioteca/${b.id}.html" class="group bg-white rounded-2xl border overflow-hidden hover:shadow-xl transition">
+    <div class="cover-slot relative overflow-hidden">${cover}
+      <span class="absolute top-2 right-2 text-[9px] font-bold bg-emerald-600 text-white px-1.5 py-0.5 rounded">${b.tag}</span>
+    </div>
+    <div class="p-3">
+      <div class="text-[10px] font-bold text-emerald-700 uppercase">${b.cat_label}</div>
+      <h2 class="font-bold text-sm mt-1 line-clamp-2 group-hover:text-[#0b3d44]">${b.title}</h2>
+      <p class="text-xs text-gray-500 mt-1 line-clamp-1">${b.authors}</p>
+      <p class="text-xs text-gray-400">${b.year} · ${b.pages} p.</p>
+    </div>
+  </a>`;
+}
+function paint(){
+  document.querySelectorAll('canvas[data-pdf]').forEach(async c=>{
+    try{
+      const pdf=await pdfjsLib.getDocument(c.dataset.pdf).promise;
+      const page=await pdf.getPage(1);
+      const parent=c.parentElement;
+      const maxW=parent.clientWidth||140, maxH=parent.clientHeight||190;
+      const base=page.getViewport({scale:1});
+      const scale=Math.min(maxW/base.width, maxH/base.height)*2;
+      const vp=page.getViewport({scale});
+      c.width=vp.width; c.height=vp.height;
+      await page.render({canvasContext:c.getContext('2d'), viewport:vp}).promise;
+    }catch(e){ console.warn('cover fail', c.dataset.pdf, e); }
+  });
+}
+function render(){
+  const q=(document.getElementById('search').value||'').toLowerCase();
+  const sortEl=document.getElementById('sort');
+  const sortM=document.getElementById('sortM');
+  const sort=(sortEl&&sortEl.value)||(sortM&&sortM.value)||'new';
+  let list=BOOKS.filter(b=>(!cat||b.cat===cat)&&(!q||(b.title+b.authors+b.desc).toLowerCase().includes(q)));
+  if(sort==='az') list.sort((a,b)=>a.title.localeCompare(b.title));
+  else if(sort==='za') list.sort((a,b)=>b.title.localeCompare(a.title));
+  else list.sort((a,b)=>b.year.localeCompare(a.year));
+  const msg='Exibindo '+list.length+' de '+BOOKS.length+' título(s)';
+  const c1=document.getElementById('count'); if(c1) c1.textContent=msg;
+  const c2=document.getElementById('countM'); if(c2) c2.textContent=msg;
+  document.getElementById('grid').innerHTML=list.map(card).join('')||'<p class="col-span-full text-center text-gray-500 py-12">Nenhum resultado.</p>';
+  paint();
+}
+function setCat(c){
+  cat=c||'';
+  document.querySelectorAll('#catbar .chip').forEach(x=>x.classList.toggle('active', (x.dataset.cat||'')===cat));
+  render();
+}
+document.querySelectorAll('#catbar .chip, .mchip').forEach(b=>b.onclick=()=>setCat(b.dataset.cat||''));
+document.getElementById('search').oninput=render;
+document.getElementById('sort')?.addEventListener('change',render);
+document.getElementById('sortM')?.addEventListener('change',render);
+document.getElementById('mbtn')?.addEventListener('click',()=>document.getElementById('mnav').classList.toggle('hidden'));
+document.getElementById('filtBtn')?.addEventListener('click',()=>document.getElementById('filtPanel').classList.toggle('hidden'));
+render();
+</script>
+</body>
+</html>

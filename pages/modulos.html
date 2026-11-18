@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<!-- PÁGINA OBSOLETA: mantida nos ficheiros, sem ligação no menu principal. -->
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../images/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../images/apple-touch-icon.png">
+  <title>Módulos do Curso | EGFB – ISPM</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'egfb-green': '#1a5c2e',
+            'egfb-green-dark': '#0f3d1e',
+            'egfb-yellow': '#f5c518',
+            'egfb-blue': '#1e88c9',
+            'egfb-orange': '#c45c11',
+          },
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .year-btn.active { background: #1a5c2e; color: #fff; }
+    .module-desc {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.35s ease;
+    }
+    .module-desc.open {
+      max-height: 320px;
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem;
+    }
+    .module-item { cursor: pointer; }
+    .module-item:hover { background: #f9fafb; }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+  <header class="bg-white shadow-sm sticky top-0 z-40">
+    <div class="w-full max-w-none px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+      <a href="../index.html" class="flex items-center gap-3 shrink-0">
+        <img src="../images/logo-main.png" alt="EGFB" class="h-11">
+        <div class="hidden sm:block">
+          <div class="font-bold text-black text-lg leading-tight">EGFB</div>
+          <div class="text-xs text-gray-600">Módulos do Curso</div>
+        </div>
+      </a>
+      <nav class="flex-1 grid grid-cols-4 gap-1 sm:gap-2 max-w-2xl mx-auto">
+        <button type="button" data-year="1" class="year-btn active w-full py-2.5 rounded-full text-sm font-semibold transition text-center">Ano 1</button>
+        <button type="button" data-year="2" class="year-btn w-full py-2.5 rounded-full text-sm font-semibold text-gray-700 hover:bg-gray-100 transition text-center">Ano 2</button>
+        <button type="button" data-year="3" class="year-btn w-full py-2.5 rounded-full text-sm font-semibold text-gray-700 hover:bg-gray-100 transition text-center">Ano 3</button>
+        <button type="button" data-year="4" class="year-btn w-full py-2.5 rounded-full text-sm font-semibold text-gray-700 hover:bg-gray-100 transition text-center">Ano 4</button>
+      </nav>
+      <div class="w-10 sm:w-20 shrink-0"></div>
+    </div>
+  </header>
+
+  <main class="w-full px-3 sm:px-4 lg:px-6 py-6 sm:py-8">
+
+    <!-- ANO 1 · Blocos 1, 2, 3 -->
+    <div id="year-1" class="year-content">
+
+      <!-- Bloco 1 – placeholder até receber horário -->
+      <div class="mb-5 rounded-2xl overflow-hidden border border-gray-200 shadow-sm w-full">
+        <div class="bg-[#1a5c2e] text-white px-5 py-4">
+          <h2 class="text-lg sm:text-xl font-bold">Bloco 1</h2>
+          <p class="text-sm text-white/80 mt-1">1º Ano · Conteúdo a definir (horário ainda não enviado)</p>
+        </div>
+        <div class="bg-white px-5 py-6 text-sm text-gray-500">
+          Aguarda envio do horário deste bloco.
+        </div>
+      </div>
+
+      <!-- Bloco 2 – placeholder -->
+      <div class="mb-5 rounded-2xl overflow-hidden border border-gray-200 shadow-sm w-full">
+        <div class="bg-[#1a5c2e] text-white px-5 py-4">
+          <h2 class="text-lg sm:text-xl font-bold">Bloco 2</h2>
+          <p class="text-sm text-white/80 mt-1">1º Ano · Conteúdo a definir (horário ainda não enviado)</p>
+        </div>
+        <div class="bg-white px-5 py-6 text-sm text-gray-500">
+          Aguarda envio do horário deste bloco.
+        </div>
+      </div>
+
+      <!-- Bloco 3 · Inventários -->
+      <div class="mb-5 rounded-2xl overflow-hidden border border-gray-200 shadow-sm w-full">
+        <div class="bg-[#1a5c2e] text-white px-5 py-4">
+          <h2 class="text-lg sm:text-xl font-bold">Bloco 3 · Inventários de Recursos Florestais e Faunísticos</h2>
+          <p class="text-sm text-white/80 mt-1">1º Ano · Identificação e levantamento de espécies</p>
+        </div>
+        <div class="bg-white divide-y divide-gray-100">
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Estatística Básica</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Introdução aos conceitos fundamentais de estatística descritiva e inferencial aplicados a dados ecológicos e de inventários. Inclui medidas de tendência central, dispersão, amostragem e interpretação de resultados em estudos de fauna e flora.
+            </div>
+          </div>
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Inventário de Mamíferos</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Técnicas de inventário e monitorização de mamíferos terrestres: transecções, armadilhas fotográficas, identificação de pegadas e sinais. Aplicação prática em habitats de Miombo e áreas de conservação.
+            </div>
+          </div>
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Inventário de Plantas</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Métodos de inventário florístico e fitossociológico: parcelas, identificação de espécies lenhosas e herbáceas, coleta de amostras e registo de dados para caracterização de habitats e conservação da flora nativa.
+            </div>
+          </div>
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Aplicação de GIS na Conservação</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Uso de Sistemas de Informação Geográfica (GIS) para mapeamento de habitats, análise espacial de distribuição de espécies, planeamento de áreas protegidas e apoio à tomada de decisão em conservação.
+            </div>
+          </div>
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Inventário de Aves</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Técnicas de observação e inventário ornitológico: pontos de escuta, transecções, identificação visual e auditiva, uso de guias de campo e registo de dados para monitorização de avifauna.
+            </div>
+          </div>
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Inventário de Peixes, Anfíbios e Répteis</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Métodos de inventário de herpetofauna e peixes: busca activa, armadilhas, identificação de espécies, habitats aquáticos e terrestres, e importância destes grupos como bioindicadores.
+            </div>
+          </div>
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Inventário de Invertebrados</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Técnicas de amostragem de invertebrados (busca activa e passiva, pitfall, redes). Identificação ao nível de ordens e famílias, cálculo de índices de diversidade e uso como bioindicadores ambientais.
+            </div>
+          </div>
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Inglês Técnico I</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Inglês aplicado ao contexto de ecoturismo e conservação: vocabulário técnico, leitura de artigos científicos, comunicação oral e escrita em situações profissionais do sector.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ANO 2 · Blocos 4, 5, 6 -->
+    <div id="year-2" class="year-content hidden">
+
+      <!-- Bloco 4 -->
+      <div class="mb-5 rounded-2xl overflow-hidden border border-gray-200 shadow-sm w-full">
+        <div class="bg-[#1a5c2e] text-white px-5 py-4">
+          <h2 class="text-lg sm:text-xl font-bold">Bloco 4 · Gestão de Recursos Florestais e Faunísticos</h2>
+          <p class="text-sm text-white/80 mt-1">2º Ano · Maneio e gestão de fauna e habitats</p>
+        </div>
+        <div class="bg-white divide-y divide-gray-100">
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Gestão de Recursos Naturais</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Princípios de gestão sustentável de recursos naturais: planeamento, uso múltiplo, legislação ambiental e integração de conservação com desenvolvimento comunitário em contextos de Miombo e áreas protegidas.
+            </div>
+          </div>
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Maneio de Fauna Bravia e Habitats</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Técnicas de maneio de populações de fauna bravia e dos seus habitats: censo, controlo de densidades, gestão de pastagens, prevenção de conflitos homem-fauna e restauração de habitats degradados.
+            </div>
+          </div>
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Maneio de Animais Bravios em Cativeiro</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Gestão de animais em cativeiro: bem-estar animal, alimentação, reprodução, enriquecimento ambiental, biossegurança e legislação aplicável a centros de reabilitação e museus de história natural.
+            </div>
+          </div>
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Patologia Geral</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Fundamentos de patologia de fauna bravia: doenças comuns, diagnóstico de campo, zoonoses, medidas de prevenção e controlo sanitário em populações selvagens e em cativeiro.
+            </div>
+          </div>
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Ecologia de Comportamento Animal</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Estudo do comportamento animal em contexto ecológico: forrageamento, reprodução, territorialidade, comunicação e implicações para a conservação e o maneio de espécies.
+            </div>
+          </div>
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Inglês Técnico Aplicado ao EGFB II</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Aprofundamento do inglês técnico para o sector: relatórios científicos, apresentação de dados, comunicação com parceiros internacionais e leitura de literatura especializada em conservação.
+            </div>
+          </div>
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Trabalho Independente (TI)</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Desenvolvimento de um trabalho autónomo de investigação ou projecto aplicado, com orientação docente, culminando em relatório e defesa oral.
+            </div>
+          </div>
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Práticas Integradas I</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Actividades práticas integradas no campo e no Jardim Botânico: aplicação combinada de técnicas de inventário, maneio e gestão aprendidas nos módulos teóricos.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bloco 5 – placeholder -->
+      <div class="mb-5 rounded-2xl overflow-hidden border border-gray-200 shadow-sm w-full">
+        <div class="bg-[#1a5c2e] text-white px-5 py-4">
+          <h2 class="text-lg sm:text-xl font-bold">Bloco 5</h2>
+          <p class="text-sm text-white/80 mt-1">2º Ano · Conteúdo a definir (horário ainda não enviado)</p>
+        </div>
+        <div class="bg-white px-5 py-6 text-sm text-gray-500">
+          Aguarda envio do horário deste bloco.
+        </div>
+      </div>
+
+      <!-- Bloco 6 -->
+      <div class="mb-5 rounded-2xl overflow-hidden border border-gray-200 shadow-sm w-full">
+        <div class="bg-[#1a5c2e] text-white px-5 py-4">
+          <h2 class="text-lg sm:text-xl font-bold">Bloco 6 · Gestão de Ecoturismo</h2>
+          <p class="text-sm text-white/80 mt-1">2º Ano · Operações e produtos turísticos</p>
+        </div>
+        <div class="bg-white divide-y divide-gray-100">
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Gestão de Destinos Turísticos</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Planeamento e gestão de destinos de ecoturismo: atracções, acessibilidades, imagem do destino, envolvimento das comunidades e sustentabilidade do produto turístico.
+            </div>
+          </div>
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Gestão de Eventos Turísticos</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Organização e gestão de eventos ligados ao turismo de natureza: planeamento, logística, marketing do evento e avaliação de impactos.
+            </div>
+          </div>
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Marketing</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Princípios de marketing aplicados ao ecoturismo: segmentação, posicionamento, canais de distribuição, promoção e marketing digital de produtos de natureza.
+            </div>
+          </div>
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Gestão de Unidades de Alojamento</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Operação e gestão de lodges, campings e unidades de alojamento em áreas de conservação: standards de qualidade, serviços, sustentabilidade e experiência do hóspede.
+            </div>
+          </div>
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Guia Intérprete Turístico</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Formação de guias intérpretes: técnicas de interpretação ambiental, condução de grupos, segurança em campo, comunicação e valorização do património natural e cultural.
+            </div>
+          </div>
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Gestão de Itinerários e Agências de Viagens</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Desenho de itinerários de ecoturismo, packaging de produtos, operação de agências de viagens e operatoria turística focada em destinos de natureza.
+            </div>
+          </div>
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Logística de Transportes Turísticos</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Planeamento e gestão da logística de transportes em operações de ecoturismo: frota, rotas, segurança, custos e impacto ambiental.
+            </div>
+          </div>
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Trabalho Independente</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Trabalho autónomo orientado, com relatório e defesa, aplicado à gestão de ecoturismo.
+            </div>
+          </div>
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Inglês Técnico II</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Inglês técnico avançado para comunicação profissional no sector do ecoturismo e conservação.
+            </div>
+          </div>
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Práticas Integradas</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Práticas de campo e de operação turística que integram os módulos do bloco de Gestão de Ecoturismo.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ANO 3 · Blocos 7, 8, 9 -->
+    <div id="year-3" class="year-content hidden">
+
+      <!-- Bloco 7 – placeholder -->
+      <div class="mb-5 rounded-2xl overflow-hidden border border-gray-200 shadow-sm w-full">
+        <div class="bg-[#1a5c2e] text-white px-5 py-4">
+          <h2 class="text-lg sm:text-xl font-bold">Bloco 7</h2>
+          <p class="text-sm text-white/80 mt-1">3º Ano · Conteúdo a definir (horário ainda não enviado)</p>
+        </div>
+        <div class="bg-white px-5 py-6 text-sm text-gray-500">
+          Aguarda envio do horário deste bloco.
+        </div>
+      </div>
+
+      <!-- Bloco 8 -->
+      <div class="mb-5 rounded-2xl overflow-hidden border border-gray-200 shadow-sm w-full">
+        <div class="bg-[#1a5c2e] text-white px-5 py-4">
+          <h2 class="text-lg sm:text-xl font-bold">Bloco 8 · Técnicas e Procedimentos de Investigação Científica</h2>
+          <p class="text-sm text-white/80 mt-1">3º Ano · Metodologia e pesquisa científica</p>
+        </div>
+        <div class="bg-white divide-y divide-gray-100">
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Metodologia de Investigação (MIC)</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Fundamentos metodológicos aplicados a trabalhos científicos em geral: formulação do problema, objectivos, hipóteses, desenho do estudo, ética na pesquisa e estrutura de monografias e relatórios científicos.
+            </div>
+          </div>
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Estatística Experimental</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Desenho experimental, análise de variância, regressão e testes de hipóteses. Uso de ferramentas estatísticas para análise e interpretação de dados de investigação.
+            </div>
+          </div>
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Técnicas de Pesquisa em Recursos Florestais e Faunísticos</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Fundamentos metodológicos científicos aplicados à pesquisa em ecologia, recursos florestais e faunísticos. Orienta o desenho e a condução de projectos de investigação nesta área (as técnicas de inventário em si são tratadas no Bloco 3).
+            </div>
+          </div>
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Técnicas de Pesquisa em Ecoturismo</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Fundamentos metodológicos científicos aplicados à pesquisa em turismo e ecoturismo. Prepara o estudante para conceber e desenvolver projectos de investigação científica focados nesta área.
+            </div>
+          </div>
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Trabalho Independente</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Trabalho científico autónomo bem estruturado: problematização, hipóteses, desenho do estudo, metodologia e análise, a ser apresentado e defendido.
+            </div>
+          </div>
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Opcional I</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Cadeira de outro curso do ISPM que o estudante pode escolher como opcional, de acordo com o sistema da instituição.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bloco 9 · Estágio Profissional -->
+      <div class="mb-5 rounded-2xl overflow-hidden border border-gray-200 shadow-sm w-full">
+        <div class="bg-[#1a5c2e] text-white px-5 py-4">
+          <h2 class="text-lg sm:text-xl font-bold">Bloco 9 · Estágio Profissional</h2>
+          <p class="text-sm text-white/80 mt-1">3º Ano · Experiência prática em contexto real</p>
+        </div>
+        <div class="bg-white divide-y divide-gray-100">
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Estágio Profissional</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Estágio profissional em instituições, áreas de conservação, lodges ou organizações ligadas ao ecoturismo e à gestão de fauna bravia. O estudante aplica na prática os conhecimentos adquiridos, com supervisão e relatório final de estágio.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ANO 4 · Blocos 10, 11, 12 -->
+    <div id="year-4" class="year-content hidden">
+
+      <!-- Bloco 10 -->
+      <div class="mb-5 rounded-2xl overflow-hidden border border-gray-200 shadow-sm w-full">
+        <div class="bg-[#1a5c2e] text-white px-5 py-4">
+          <h2 class="text-lg sm:text-xl font-bold">Bloco 10 · Construções de Infra-Estruturas Ecológicas</h2>
+          <p class="text-sm text-white/80 mt-1">4º Ano · Infra-estrutura sustentável e trilhas</p>
+        </div>
+        <div class="bg-white divide-y divide-gray-100">
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Construções Ecológicas</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Princípios de construção ecológica em áreas de conservação: materiais locais, baixo impacto, desenho de lodges e infra-estruturas de apoio ao ecoturismo e à investigação.
+            </div>
+          </div>
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Energias Renováveis</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Sistemas de energia renovável aplicáveis a operações de ecoturismo e bases de campo: solar, eólica, eficiência energética e redução da pegada de carbono.
+            </div>
+          </div>
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Gestão Ambiental</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Sistemas de gestão ambiental, avaliação de impactos, planos de gestão e monitorização ambiental em empreendimentos turísticos e áreas de conservação.
+            </div>
+          </div>
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Reciclagem de Resíduos</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Gestão de resíduos sólidos em contextos de campo e lodges: redução, reutilização, reciclagem, compostagem e minimização de impactos em habitats sensíveis.
+            </div>
+          </div>
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Trilhas Ecológicas</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Desenho, construção e manutenção de trilhas ecológicas: planeamento do traçado, sinalização, interpretação ambiental, capacidade de carga e minimização da erosão e do pisoteio.
+            </div>
+          </div>
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Trabalho Independente</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Projecto autónomo de aplicação prática em infra-estruturas ecológicas ou trilhas, com relatório e defesa.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bloco 11 -->
+      <div class="mb-5 rounded-2xl overflow-hidden border border-gray-200 shadow-sm w-full">
+        <div class="bg-[#1a5c2e] text-white px-5 py-4">
+          <h2 class="text-lg sm:text-xl font-bold">Bloco 11 · Gestão de Negócios</h2>
+          <p class="text-sm text-white/80 mt-1">4º Ano · Empreendedorismo e gestão empresarial</p>
+        </div>
+        <div class="bg-white divide-y divide-gray-100">
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Economia Aplicada ao Ecoturismo</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Conceitos de economia aplicados ao sector do ecoturismo: custos, receitas, valoração de serviços ecossistémicos e viabilidade económica de projectos de natureza.
+            </div>
+          </div>
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Administração e Gestão de Negócio</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Fundamentos de administração de empresas de ecoturismo: planeamento estratégico, organização, liderança, controlo e planos de negócio.
+            </div>
+          </div>
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Pesquisa e Análise de Mercados</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Técnicas de pesquisa de mercado para produtos de ecoturismo: segmentação, análise da concorrência, tendências de procura e definição de estratégias comerciais.
+            </div>
+          </div>
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Gestão de Recursos Humanos</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Gestão de pessoas em operações de ecoturismo e conservação: recrutamento, formação, motivação, avaliação de desempenho e legislação laboral aplicável.
+            </div>
+          </div>
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Comércio de Recursos Florestais e Faunísticos</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Enquadramento legal e comercial do aproveitamento sustentável de recursos florestais e faunísticos: certificação, cadeias de valor, comércio justo e combate ao tráfico ilegal.
+            </div>
+          </div>
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Trabalho Independente (TI)</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Elaboração e defesa de um plano de negócio ou projecto de gestão aplicada ao sector do ecoturismo e da fauna bravia.
+            </div>
+          </div>
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Opcional II</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Cadeira de outro curso do ISPM que o estudante pode escolher como opcional.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bloco 12 · Análise de Dados -->
+      <div class="mb-5 rounded-2xl overflow-hidden border border-gray-200 shadow-sm w-full">
+        <div class="bg-[#1a5c2e] text-white px-5 py-4">
+          <h2 class="text-lg sm:text-xl font-bold">Bloco 12 · Análise de Dados</h2>
+          <p class="text-sm text-white/80 mt-1">4º Ano · Tratamento e interpretação de dados</p>
+        </div>
+        <div class="bg-white divide-y divide-gray-100">
+          <div class="module-item px-5 py-4" onclick="toggleModule(this)">
+            <div class="flex items-center justify-between gap-3">
+              <span class="font-medium text-black">Análise de Dados</span>
+              <svg class="w-5 h-5 text-gray-400 chevron shrink-0 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+            <div class="module-desc text-sm text-gray-600 leading-relaxed">
+              Análise e tratamento de dados de investigação e de inventários: organização de bases de dados, aplicação de métodos estatísticos, interpretação de resultados e preparação de saídas para relatórios e monografias.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-gray-100 border-t border-gray-200 mt-8 py-6">
+    <div class="px-4 text-center text-sm text-gray-600">
+      © 2026 EGFB – ISPM. Todos os direitos reservados.
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.year-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const year = btn.getAttribute('data-year');
+        document.querySelectorAll('.year-btn').forEach(b => {
+          b.classList.remove('active');
+          b.classList.add('text-gray-700');
+        });
+        btn.classList.add('active');
+        btn.classList.remove('text-gray-700');
+        document.querySelectorAll('.year-content').forEach(c => c.classList.add('hidden'));
+        document.getElementById('year-' + year).classList.remove('hidden');
+      });
+    });
+
+    function toggleModule(el) {
+      const desc = el.querySelector('.module-desc');
+      const chevron = el.querySelector('.chevron');
+      const isOpen = desc.classList.contains('open');
+      if (isOpen) {
+        desc.classList.remove('open');
+        chevron.style.transform = '';
+      } else {
+        desc.classList.add('open');
+        chevron.style.transform = 'rotate(180deg)';
+      }
+    }
+  </script>
+</body>
+</html>

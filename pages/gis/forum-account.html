@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conta · Fórum GIS</title>
+  <link rel="icon" href="../../images/favicon.ico">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body{font-family:Inter,system-ui,sans-serif}
+    .tab{border-bottom:2px solid transparent}
+    .tab.active{border-bottom-color:#0b3d44;color:#0b3d44;font-weight:700}
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-[#0b3d44] via-[#0f4f58] to-[#134e4a] antialiased">
+  <div class="min-h-screen flex flex-col">
+    <div class="px-4 py-4 flex items-center justify-between text-white">
+      <a href="forum.html" class="text-sm font-semibold hover:underline">← Fórum</a>
+      <a href="../gis.html" class="text-xs text-white/70 hover:text-white">Dados de geoprocessamento</a>
+    </div>
+    <div class="flex-1 flex items-center justify-center px-4 pb-12">
+      <div class="w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden" id="root"></div>
+    </div>
+  </div>
+<script>
+const USER_KEY='egfb_gis_user';
+const USERS_KEY='egfb_gis_users';
+function loadUsers(){ try{return JSON.parse(localStorage.getItem(USERS_KEY)||'{}');}catch(e){return {};} }
+function saveUsers(u){ localStorage.setItem(USERS_KEY, JSON.stringify(u)); }
+function currentUser(){ try{return JSON.parse(localStorage.getItem(USER_KEY)||'null');}catch(e){return null;} }
+function setCurrentUser(u){ if(u) localStorage.setItem(USER_KEY, JSON.stringify(u)); else localStorage.removeItem(USER_KEY); }
+function esc(s){ return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+let mode='login'; // login | register | recover
+
+function render(){
+  const root=document.getElementById('root');
+  const u=currentUser();
+  if(u){
+    root.innerHTML=`<div class="p-8">
+      <div class="text-center mb-6">
+        <div class="w-16 h-16 rounded-full bg-[#0b3d44] text-white text-2xl font-bold mx-auto flex items-center justify-center">${esc(u.name[0]||'?').toUpperCase()}</div>
+        <h1 class="text-xl font-extrabold text-gray-900 mt-3">GIS / ${esc(u.name)}</h1>
+        <p class="text-sm text-gray-500">${esc(u.email)}</p>
+        ${u.whatsapp?`<p class="text-sm text-gray-500">WhatsApp ${esc(u.whatsapp)}</p>`:''}
+      </div>
+      <a href="forum-profile.html?u=${encodeURIComponent(u.name)}" class="flex items-center justify-center h-11 rounded-full bg-[#0b3d44] text-white font-bold text-sm">Ver perfil</a>
+      <a href="forum-create.html" class="mt-2 flex items-center justify-center h-11 rounded-full border font-semibold text-sm">Criar publicação</a>
+      <button type="button" id="logout" class="mt-4 w-full text-sm text-red-600 font-semibold">Sair da conta</button>
+    </div>`;
+    document.getElementById('logout').onclick=()=>{ setCurrentUser(null); render(); };
+    return;
+  }
+  root.innerHTML=`
+  <div class="px-8 pt-6">
+    <div class="flex justify-center gap-6 text-sm text-gray-500 border-b border-gray-100">
+      <button type="button" class="tab active pb-3 px-1" data-mode="login">Entrar</button>
+      <button type="button" class="tab pb-3 px-1" data-mode="register">Criar conta</button>
+    </div>
+  </div>
+  <div class="p-8" id="panel"></div>`;
+  document.querySelectorAll('.tab').forEach(t=>{
+    t.onclick=()=>{ mode=t.dataset.mode; document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active')); t.classList.add('active'); paintPanel(); };
+  });
+  paintPanel();
+}
+function paintPanel(){
+  const panel=document.getElementById('panel');
+  if(mode==='recover'){
+    panel.innerHTML=`<h2 class="text-lg font-bold text-gray-900 mb-1">Recuperar palavra-passe</h2>
+      <p class="text-sm text-gray-500 mb-4">Indica o e-mail da conta. Nesta fase local, mostramos a palavra-passe guardada neste dispositivo.</p>
+      <form id="rec" class="space-y-3">
+        <input name="email" type="email" required placeholder="E-mail" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm">
+        <button class="w-full h-12 rounded-full bg-[#0b3d44] text-white font-bold">Continuar</button>
+      </form>
+      <button type="button" class="mt-4 text-sm text-[#0b3d44] font-semibold" id="back-login">← Voltar a entrar</button>`;
+    document.getElementById('back-login').onclick=()=>{ mode='login'; document.querySelectorAll('.tab').forEach(x=>{x.classList.toggle('active',x.dataset.mode==='login');}); paintPanel(); };
+    document.getElementById('rec').onsubmit=e=>{
+      e.preventDefault();
+      const email=e.target.email.value.trim().toLowerCase();
+      const users=loadUsers();
+      if(!users[email]){ alert('Conta não encontrada neste dispositivo.'); return; }
+      alert('Palavra-passe (local): '+users[email].pass+'\n\nNum sistema com servidor, isto seria um e-mail de recuperação.');
+    };
+    return;
+  }
+  if(mode==='register'){
+    panel.innerHTML=`<h2 class="text-lg font-bold text-gray-900 mb-4">Criar conta</h2>
+      <form id="reg" class="space-y-3">
+        <input name="name" required placeholder="Nome de utilizador" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm">
+        <input name="email" type="email" required placeholder="E-mail" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm">
+        <input name="whatsapp" required placeholder="WhatsApp (ex. +258 84…)" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm">
+        <input name="pass" type="password" required minlength="4" placeholder="Palavra-passe" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm">
+        <button class="w-full h-12 rounded-full bg-[#0b3d44] text-white font-bold">Criar conta</button>
+      </form>`;
+    document.getElementById('reg').onsubmit=e=>{
+      e.preventDefault();
+      const name=e.target.name.value.trim();
+      const email=e.target.email.value.trim().toLowerCase();
+      const whatsapp=e.target.whatsapp.value.trim();
+      const pass=e.target.pass.value;
+      const users=loadUsers();
+      if(users[email]){ alert('Já existe conta com este e-mail.'); return; }
+      if(Object.values(users).some(x=>x.name.toLowerCase()===name.toLowerCase())){ alert('Nome de utilizador já em uso.'); return; }
+      users[email]={ name, email, whatsapp, pass, created:Date.now() };
+      saveUsers(users);
+      setCurrentUser({ name, email, whatsapp });
+      location.href='forum.html';
+    };
+    return;
+  }
+  // login
+  panel.innerHTML=`<h2 class="text-lg font-bold text-gray-900 mb-4">Entrar no fórum</h2>
+    <form id="login" class="space-y-3">
+      <input name="login" required placeholder="E-mail ou nome de utilizador" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm">
+      <input name="pass" type="password" required placeholder="Palavra-passe" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm">
+      <button class="w-full h-12 rounded-full bg-[#0b3d44] text-white font-bold">Entrar</button>
+    </form>
+    <button type="button" id="go-recover" class="mt-3 text-sm text-[#0b3d44] font-semibold">Esqueceste a palavra-passe?</button>
+    <p class="mt-6 text-center text-sm text-gray-500">Ainda não tens conta? <button type="button" id="go-reg" class="text-[#0b3d44] font-bold">Criar conta</button></p>`;
+  document.getElementById('go-recover').onclick=()=>{ mode='recover'; paintPanel(); };
+  document.getElementById('go-reg').onclick=()=>{ mode='register'; document.querySelectorAll('.tab').forEach(x=>{x.classList.toggle('active',x.dataset.mode==='register');}); paintPanel(); };
+  document.getElementById('login').onsubmit=e=>{
+    e.preventDefault();
+    const login=e.target.login.value.trim();
+    const pass=e.target.pass.value;
+    const users=loadUsers();
+    let u=users[login.toLowerCase()];
+    if(!u) u=Object.values(users).find(x=>x.name.toLowerCase()===login.toLowerCase());
+    if(!u||u.pass!==pass){ alert('Credenciais incorrectas.'); return; }
+    setCurrentUser({ name:u.name, email:u.email, whatsapp:u.whatsapp||'' });
+    location.href='forum.html';
+  };
+}
+render();
+</script>
+</body>
+</html>

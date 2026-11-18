@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../../images/favicon.ico">
+  <title>Pesquisar | Jardim Botânico EGFB</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={theme:{extend:{colors:{'jb-green':'#1a5c2e'}}}}</script>
+  <script src="search-data.js"></script>
+<style>
+    .species-card { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+    .species-card:hover { transform: translateY(-6px); box-shadow: 0 14px 28px rgba(0,0,0,0.12); }
+    .species-card img { transition: transform 0.4s ease; }
+    .species-card:hover img { transform: scale(1.05); }
+</style></head>
+<body class="bg-gray-50">
+  <header class="fixed top-0 left-0 right-0 z-[1000] bg-white/95 backdrop-blur-md shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-16 gap-3">
+        <a href="../jardim-botanico.html" class="flex items-center gap-3 shrink-0 min-w-0">
+          <img src="../../images/logo-main.png" alt="EGFB" class="h-11 shrink-0">
+          <div class="min-w-0">
+            <div class="font-bold text-[#1a5c2e] text-sm leading-tight">Jardim Botânico</div>
+            <div class="text-xs text-gray-600 font-medium truncate">Pesquisa</div>
+          </div>
+        </a>
+        <nav class="hidden lg:flex items-center gap-1">
+          <div class="relative group">
+            <button type="button" class="px-3 py-2 text-sm font-medium text-gray-800 hover:text-[#1a5c2e] flex items-center gap-1">Habitats
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition absolute left-0 top-full pt-2 z-50 min-w-[240px]">
+              <div class="bg-[#0f3d1e] rounded-lg shadow-xl py-2">
+                <a href="habitat-aberto.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Habitat Aberto</a>
+                <a href="habitat-fechado.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Habitat Fechado</a>
+                <a href="habitat-aquatico.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Habitat Aquático</a>
+              </div>
+            </div>
+          </div>
+          <div class="relative group">
+            <button type="button" class="px-3 py-2 text-sm font-medium text-gray-800 hover:text-[#1a5c2e] flex items-center gap-1">Espécies
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition absolute left-0 top-full pt-2 z-50 min-w-[200px]">
+              <div class="bg-[#0f3d1e] rounded-lg shadow-xl py-2">
+                <a href="especies-anfibios.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Anfíbios</a>
+                <a href="especies-mamiferos.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Mamíferos</a>
+                <a href="especies-aves.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Aves</a>
+                <a href="especies-repteis.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Répteis</a>
+                <a href="especies-plantas.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Plantas / Flora</a>
+                <a href="especies-invertebrados.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Invertebrados</a>
+                <a href="especies-peixes.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Peixes</a>
+              </div>
+            </div>
+          </div>
+          <div class="relative group">
+            <button type="button" class="px-3 py-2 text-sm font-medium text-gray-800 hover:text-[#1a5c2e] flex items-center gap-1">Sobre o Jardim
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition absolute left-0 top-full pt-2 z-50 min-w-[220px]">
+              <div class="bg-[#0f3d1e] rounded-lg shadow-xl py-2">
+                <a href="sobre.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Descrição e Localização</a>
+                <a href="georreferenciacao.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Mapa e Georreferenciação</a>
+              </div>
+            </div>
+          </div>
+          <a href="doar.html" class="ml-2 px-5 py-2 bg-[#e8943a] text-white text-sm font-semibold rounded-full">Doar</a>
+        </nav>
+        <div class="flex items-center gap-2 shrink-0">
+          <a href="pesquisa.html" class="w-10 h-10 rounded-full flex items-center justify-center text-gray-700 hover:bg-gray-100" aria-label="Pesquisar" title="Pesquisar">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          </a>
+          <a href="../jardim-botanico.html" class="hidden sm:inline-flex items-center justify-center h-9 px-4 rounded-full border border-gray-200 text-xs font-semibold text-gray-700 hover:border-[#1a5c2e] hover:text-[#1a5c2e] bg-white transition">Jardim Botânico</a>
+          <button type="button" id="menu-btn" class="lg:hidden w-10 h-10 rounded-full flex items-center justify-center text-gray-700 hover:bg-gray-100" aria-label="Menu">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div id="mobile-menu" class="hidden lg:hidden bg-white border-t px-4 py-3 space-y-1" style="max-height:calc(100vh - 4rem);overflow-y:auto;-webkit-overflow-scrolling:touch">
+      <a href="pesquisa.html" class="block py-2 text-sm font-semibold text-[#1a5c2e]">Pesquisar</a>
+      <a href="habitat-aberto.html" class="block py-2 text-sm">Habitat Aberto</a>
+      <a href="habitat-fechado.html" class="block py-2 text-sm">Habitat Fechado</a>
+      <a href="habitat-aquatico.html" class="block py-2 text-sm">Habitat Aquático</a>
+      <a href="especies-anfibios.html" class="block py-2 text-sm">Anfíbios</a>
+      <a href="especies-mamiferos.html" class="block py-2 text-sm">Mamíferos</a>
+      <a href="especies-aves.html" class="block py-2 text-sm">Aves</a>
+      <a href="especies-repteis.html" class="block py-2 text-sm">Répteis</a>
+      <a href="especies-plantas.html" class="block py-2 text-sm">Plantas / Flora</a>
+      <a href="especies-invertebrados.html" class="block py-2 text-sm">Invertebrados</a>
+      <a href="especies-peixes.html" class="block py-2 text-sm">Peixes</a>
+      <a href="sobre.html" class="block py-2 text-sm">Descrição e Localização</a>
+      <a href="georreferenciacao.html" class="block py-2 text-sm">Mapa e Georreferenciação</a>
+      <a href="../jardim-botanico.html" class="block py-2 text-sm text-gray-500 border-t mt-2">← Jardim Botânico</a>
+    </div>
+  </header>
+  <main class="pt-20 pb-16 max-w-3xl mx-auto px-4">
+    <h1 class="text-2xl font-bold mb-2">Pesquisar no Jardim Botânico</h1>
+    <p class="text-sm text-gray-500 mb-6">Índice completo: espécies, habitats, mapas e páginas.</p>
+    <form id="sf" class="relative mb-6">
+      <input id="q" type="search" placeholder="Ex.: jacana, umbawa, lagoa, mapa…" class="w-full rounded-full border border-gray-200 bg-white px-5 py-3 text-base pr-12 shadow-sm focus:outline-none focus:ring-2 focus:ring-jb-green/40" autofocus>
+      <button type="submit" class="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-jb-green" aria-label="Pesquisar">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      </button>
+    </form>
+    <div id="results" class="space-y-3"></div>
+  </main>
+  <script>
+    const INDEX = window.JB_SEARCH_INDEX || [];
+    const input = document.getElementById('q');
+    const params = new URLSearchParams(location.search);
+    input.value = params.get('q') || '';
+
+    function score(item, q) {
+      const title = (item.title || '').toLowerCase();
+      const sci = (item.sci || '').toLowerCase();
+      const desc = (item.desc || '').toLowerCase();
+      const kw = (item.keywords || '').toLowerCase();
+      const ql = q.toLowerCase().trim();
+      if (!ql) return 0;
+      let s = 0;
+      if (title === ql || sci === ql) s += 100;
+      if (title.startsWith(ql) || sci.startsWith(ql)) s += 55;
+      if (title.includes(ql)) s += 45;
+      if (sci.includes(ql)) s += 50;
+      ql.split(/\s+/).forEach(function (tok) {
+        if (tok.length < 2) return;
+        if (title.includes(tok)) s += 16;
+        if (sci.includes(tok)) s += 20;
+        if (kw.includes(tok)) s += 8;
+        if (desc.includes(tok)) s += 4;
+      });
+      if (item.type === 'especie' && s > 0) s += 12;
+      if (item.type === 'grupo' && s > 0 && s < 45) s -= 25;
+      return s;
+    }
+
+    function search(q) {
+      const box = document.getElementById('results');
+      q = (q || '').trim();
+      if (!q) {
+        box.innerHTML = '<p class="text-gray-500 text-sm">Escreva o nome de uma espécie, habitat ou página.</p>';
+        return;
+      }
+      let list = INDEX.map(function (it) { return { it: it, s: score(it, q) }; }).filter(function (x) { return x.s > 0; });
+      list.sort(function (a, b) { return b.s - a.s; });
+      var hasSpecies = list.some(function (x) { return x.it.type === 'especie' && x.s >= 35; });
+      if (hasSpecies) list = list.filter(function (x) { return x.it.type !== 'grupo' || x.s >= 55; });
+      if (!list.length) {
+        box.innerHTML = '<p class="text-gray-500 text-sm">Nenhum resultado para «' + q.replace(/</g, '') + '».</p>';
+        return;
+      }
+      box.innerHTML = list.slice(0, 25).map(function (row) {
+        var it = row.it;
+        var badge = it.type === 'especie' ? 'Espécie' : (it.type || 'página');
+        return '<a href="' + it.url + '" class="block bg-white border rounded-xl p-4 hover:shadow-md transition">' +
+          '<div class="flex justify-between gap-2"><div class="font-semibold text-jb-green">' + it.title + '</div>' +
+          '<span class="text-[10px] font-semibold uppercase text-gray-500 bg-gray-100 px-2 py-0.5 rounded h-fit">' + badge + '</span></div>' +
+          '<div class="text-sm text-gray-600 mt-1">' + (it.desc || '') + '</div></a>';
+      }).join('');
+    }
+
+    document.getElementById('sf').onsubmit = function (e) {
+      e.preventDefault();
+      history.replaceState(null, '', '?q=' + encodeURIComponent(input.value));
+      search(input.value);
+    };
+    input.addEventListener('input', function () { search(input.value); });
+    search(input.value);
+  </script>
+<script>document.getElementById('menu-btn')?.addEventListener('click',()=>document.getElementById('mobile-menu')?.classList.toggle('hidden'));</script>
+</body>
+</html>

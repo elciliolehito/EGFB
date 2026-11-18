@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="pt" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../../images/favicon.ico">
+  <title>Plantas / Flora | Jardim Botânico EGFB</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body { height: 100%; }
+    body { font-family: system-ui, sans-serif; display: flex; flex-direction: column; min-height: 100%; }
+    main { flex: 1 0 auto; }
+  
+    .species-card { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+    .species-card:hover { transform: translateY(-6px); box-shadow: 0 14px 28px rgba(0,0,0,0.12); }
+    .species-card img { transition: transform 0.4s ease; }
+    .species-card:hover img { transform: scale(1.05); }
+
+
+.iucn-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 3.25rem; height: 3.25rem; border-radius: 9999px;
+  font-weight: 800; font-size: 0.95rem; letter-spacing: 0.02em;
+  color: #fff; flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,.12);
+}
+.iucn-badge.sm { width: 2rem; height: 2rem; font-size: 0.65rem; }
+.iucn-badge.LC { background: #4caf50; }
+.iucn-badge.NT { background: #c6d92d; }
+.iucn-badge.VU { background: #f0c808; color: #fff; }
+.iucn-badge.EN { background: #f07c2a; }
+.iucn-badge.CR { background: #d32f2f; }
+.iucn-badge.EW { background: #5c2d5e; }
+.iucn-badge.DD { background: #b0b0a8; }
+.iucn-badge.NE { background: #fff; color: #111; border: 2px solid #333; }
+
+</style>
+  
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <header class="fixed top-0 left-0 right-0 z-[1000] bg-white/95 backdrop-blur-md shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-16 gap-3">
+        <a href="../jardim-botanico.html" class="flex items-center gap-3 shrink-0 min-w-0">
+          <img src="../../images/logo-main.png" alt="EGFB" class="h-11 shrink-0">
+          <div class="min-w-0">
+            <div class="font-bold text-[#1a5c2e] text-sm leading-tight">Jardim Botânico</div>
+            <div class="text-xs text-gray-600 font-medium truncate">Plantas / Flora</div>
+          </div>
+        </a>
+        <nav class="hidden lg:flex items-center gap-1">
+          <div class="relative group">
+            <button type="button" class="px-3 py-2 text-sm font-medium text-gray-800 hover:text-[#1a5c2e] flex items-center gap-1">Habitats
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition absolute left-0 top-full pt-2 z-50 min-w-[240px]">
+              <div class="bg-[#0f3d1e] rounded-lg shadow-xl py-2">
+                <a href="habitat-aberto.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Habitat Aberto</a>
+                <a href="habitat-fechado.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Habitat Fechado</a>
+                <a href="habitat-aquatico.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Habitat Aquático</a>
+              </div>
+            </div>
+          </div>
+          <div class="relative group">
+            <button type="button" class="px-3 py-2 text-sm font-medium text-gray-800 hover:text-[#1a5c2e] flex items-center gap-1">Espécies
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition absolute left-0 top-full pt-2 z-50 min-w-[200px]">
+              <div class="bg-[#0f3d1e] rounded-lg shadow-xl py-2">
+                <a href="especies-anfibios.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Anfíbios</a>
+                <a href="especies-mamiferos.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Mamíferos</a>
+                <a href="especies-aves.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Aves</a>
+                <a href="especies-repteis.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Répteis</a>
+                <a href="especies-plantas.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Plantas / Flora</a>
+                <a href="especies-invertebrados.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Invertebrados</a>
+                <a href="especies-peixes.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Peixes</a>
+              </div>
+            </div>
+          </div>
+          <div class="relative group">
+            <button type="button" class="px-3 py-2 text-sm font-medium text-gray-800 hover:text-[#1a5c2e] flex items-center gap-1">Sobre o Jardim
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition absolute left-0 top-full pt-2 z-50 min-w-[220px]">
+              <div class="bg-[#0f3d1e] rounded-lg shadow-xl py-2">
+                <a href="sobre.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Descrição e Localização</a>
+                <a href="georreferenciacao.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Mapa e Georreferenciação</a>
+              </div>
+            </div>
+          </div>
+          <a href="doar.html" class="ml-2 px-5 py-2 bg-[#e8943a] text-white text-sm font-semibold rounded-full">Doar</a>
+        </nav>
+        <div class="flex items-center gap-2 shrink-0">
+          <a href="pesquisa.html" class="w-10 h-10 rounded-full flex items-center justify-center text-gray-700 hover:bg-gray-100" aria-label="Pesquisar" title="Pesquisar">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          </a>
+          <a href="../jardim-botanico.html" class="hidden sm:inline-flex items-center justify-center h-9 px-4 rounded-full border border-gray-200 text-xs font-semibold text-gray-700 hover:border-[#1a5c2e] hover:text-[#1a5c2e] bg-white transition">Jardim Botânico</a>
+          <button type="button" id="menu-btn" class="lg:hidden w-10 h-10 rounded-full flex items-center justify-center text-gray-700 hover:bg-gray-100" aria-label="Menu">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div id="mobile-menu" class="hidden lg:hidden bg-white border-t px-4 py-3 space-y-1" style="max-height:calc(100vh - 4rem);overflow-y:auto;-webkit-overflow-scrolling:touch">
+      <a href="pesquisa.html" class="block py-2 text-sm font-semibold text-[#1a5c2e]">Pesquisar</a>
+      <a href="habitat-aberto.html" class="block py-2 text-sm">Habitat Aberto</a>
+      <a href="habitat-fechado.html" class="block py-2 text-sm">Habitat Fechado</a>
+      <a href="habitat-aquatico.html" class="block py-2 text-sm">Habitat Aquático</a>
+      <a href="especies-anfibios.html" class="block py-2 text-sm">Anfíbios</a>
+      <a href="especies-mamiferos.html" class="block py-2 text-sm">Mamíferos</a>
+      <a href="especies-aves.html" class="block py-2 text-sm">Aves</a>
+      <a href="especies-repteis.html" class="block py-2 text-sm">Répteis</a>
+      <a href="especies-plantas.html" class="block py-2 text-sm">Plantas / Flora</a>
+      <a href="especies-invertebrados.html" class="block py-2 text-sm">Invertebrados</a>
+      <a href="especies-peixes.html" class="block py-2 text-sm">Peixes</a>
+      <a href="sobre.html" class="block py-2 text-sm">Descrição e Localização</a>
+      <a href="georreferenciacao.html" class="block py-2 text-sm">Mapa e Georreferenciação</a>
+      <a href="../jardim-botanico.html" class="block py-2 text-sm text-gray-500 border-t mt-2">← Jardim Botânico</a>
+    </div>
+  </header>
+
+  <main class="pt-20 pb-12 flex-1">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      
+      <h1 class="text-3xl font-bold text-black mb-8">Plantas / Flora</h1>
+      <div id="species-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        
+      
+      <a href="especies/plantas-umbawa.html" class="species-card bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg transition flex flex-col" data-index="0">
+        <div class="aspect-[4/3] overflow-hidden bg-gray-100">
+          <img src="../../images/habitats/habitat-fechado.jpg" alt="Umbawa" class="w-full h-full object-cover">
+        </div>
+        <div class="p-4 flex-1">
+          <div class="flex justify-between items-start gap-2 mb-1">
+            <span class="text-[10px] font-semibold tracking-wide text-gray-500 uppercase">Plantas / Flora</span>
+            <span class="iucn-badge sm LC" title="LC">LC</span>
+          </div>
+          <h3 class="font-bold text-black text-lg leading-tight">Umbawa</h3>
+          <p class="text-sm text-gray-500 italic mt-0.5">Brachystegia spiciformis</p>
+        </div>
+      </a>
+      <a href="especies/plantas-goiabeira.html" class="species-card bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg transition flex flex-col" data-index="1">
+        <div class="aspect-[4/3] overflow-hidden bg-gray-100">
+          <img src="../../images/habitats/habitat-aberto.jpg" alt="Goiabeira" class="w-full h-full object-cover">
+        </div>
+        <div class="p-4 flex-1">
+          <div class="flex justify-between items-start gap-2 mb-1">
+            <span class="text-[10px] font-semibold tracking-wide text-gray-500 uppercase">Plantas / Flora</span>
+            <span class="iucn-badge sm LC" title="LC">LC</span>
+          </div>
+          <h3 class="font-bold text-black text-lg leading-tight">Goiabeira</h3>
+          <p class="text-sm text-gray-500 italic mt-0.5">Psidium guajava</p>
+        </div>
+      </a>
+      <a href="especies/plantas-lantana.html" class="species-card bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg transition flex flex-col" data-index="2">
+        <div class="aspect-[4/3] overflow-hidden bg-gray-100">
+          <img src="../../images/ameacas/lantana.jpg" alt="Lantana-câmara" class="w-full h-full object-cover">
+        </div>
+        <div class="p-4 flex-1">
+          <div class="flex justify-between items-start gap-2 mb-1">
+            <span class="text-[10px] font-semibold tracking-wide text-gray-500 uppercase">Plantas / Flora</span>
+            <span class="iucn-badge sm NE" title="NE">NE</span>
+          </div>
+          <h3 class="font-bold text-black text-lg leading-tight">Lantana-câmara</h3>
+          <p class="text-sm text-gray-500 italic mt-0.5">Lantana camara</p>
+        </div>
+      </a>
+      <a href="especies/plantas-julbernardia.html" class="species-card bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg transition flex flex-col" data-index="3">
+        <div class="aspect-[4/3] overflow-hidden bg-gray-100">
+          <img src="../../images/habitats/habitat-fechado.jpg" alt="Muimbe" class="w-full h-full object-cover">
+        </div>
+        <div class="p-4 flex-1">
+          <div class="flex justify-between items-start gap-2 mb-1">
+            <span class="text-[10px] font-semibold tracking-wide text-gray-500 uppercase">Plantas / Flora</span>
+            <span class="iucn-badge sm LC" title="LC">LC</span>
+          </div>
+          <h3 class="font-bold text-black text-lg leading-tight">Muimbe</h3>
+          <p class="text-sm text-gray-500 italic mt-0.5">Julbernardia globiflora</p>
+        </div>
+      </a>
+      <a href="especies/plantas-hyparrhenia.html" class="species-card bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg transition flex flex-col" data-index="4">
+        <div class="aspect-[4/3] overflow-hidden bg-gray-100">
+          <img src="../../images/habitats/habitat-aberto.jpg" alt="Capim-de-thatch" class="w-full h-full object-cover">
+        </div>
+        <div class="p-4 flex-1">
+          <div class="flex justify-between items-start gap-2 mb-1">
+            <span class="text-[10px] font-semibold tracking-wide text-gray-500 uppercase">Plantas / Flora</span>
+            <span class="iucn-badge sm LC" title="LC">LC</span>
+          </div>
+          <h3 class="font-bold text-black text-lg leading-tight">Capim-de-thatch</h3>
+          <p class="text-sm text-gray-500 italic mt-0.5">Hyparrhenia filipendula</p>
+        </div>
+      </a>
+      <a href="especies/plantas-nenufar.html" class="species-card bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg transition flex flex-col" data-index="5">
+        <div class="aspect-[4/3] overflow-hidden bg-gray-100">
+          <img src="../../images/habitats/habitat-aquatico.jpg" alt="Nenúfar-africano" class="w-full h-full object-cover">
+        </div>
+        <div class="p-4 flex-1">
+          <div class="flex justify-between items-start gap-2 mb-1">
+            <span class="text-[10px] font-semibold tracking-wide text-gray-500 uppercase">Plantas / Flora</span>
+            <span class="iucn-badge sm LC" title="LC">LC</span>
+          </div>
+          <h3 class="font-bold text-black text-lg leading-tight">Nenúfar-africano</h3>
+          <p class="text-sm text-gray-500 italic mt-0.5">Nymphaea nouchali</p>
+        </div>
+      </a>
+      <a href="especies/plantas-isoberlinia.html" class="species-card bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg transition flex flex-col" data-index="6">
+        <div class="aspect-[4/3] overflow-hidden bg-gray-100">
+          <img src="../../images/habitats/habitat-fechado.jpg" alt="Sândalo-africano" class="w-full h-full object-cover">
+        </div>
+        <div class="p-4 flex-1">
+          <div class="flex justify-between items-start gap-2 mb-1">
+            <span class="text-[10px] font-semibold tracking-wide text-gray-500 uppercase">Plantas / Flora</span>
+            <span class="iucn-badge sm LC" title="LC">LC</span>
+          </div>
+          <h3 class="font-bold text-black text-lg leading-tight">Sândalo-africano</h3>
+          <p class="text-sm text-gray-500 italic mt-0.5">Isoberlinia angolensis</p>
+        </div>
+      </a>
+      <a href="especies/plantas-combretum.html" class="species-card bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg transition flex flex-col" data-index="7">
+        <div class="aspect-[4/3] overflow-hidden bg-gray-100">
+          <img src="../../images/habitats/habitat-aberto.jpg" alt="Combretum" class="w-full h-full object-cover">
+        </div>
+        <div class="p-4 flex-1">
+          <div class="flex justify-between items-start gap-2 mb-1">
+            <span class="text-[10px] font-semibold tracking-wide text-gray-500 uppercase">Plantas / Flora</span>
+            <span class="iucn-badge sm LC" title="LC">LC</span>
+          </div>
+          <h3 class="font-bold text-black text-lg leading-tight">Combretum</h3>
+          <p class="text-sm text-gray-500 italic mt-0.5">Combretum molle</p>
+        </div>
+      </a>
+      <a href="especies/plantas-terminalia.html" class="species-card bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg transition flex flex-col" data-index="8">
+        <div class="aspect-[4/3] overflow-hidden bg-gray-100">
+          <img src="../../images/habitats/habitat-aberto.jpg" alt="Terminalia" class="w-full h-full object-cover">
+        </div>
+        <div class="p-4 flex-1">
+          <div class="flex justify-between items-start gap-2 mb-1">
+            <span class="text-[10px] font-semibold tracking-wide text-gray-500 uppercase">Plantas / Flora</span>
+            <span class="iucn-badge sm LC" title="LC">LC</span>
+          </div>
+          <h3 class="font-bold text-black text-lg leading-tight">Terminalia</h3>
+          <p class="text-sm text-gray-500 italic mt-0.5">Terminalia sericea</p>
+        </div>
+      </a>
+      <a href="especies/plantas-diplorhynchus.html" class="species-card bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg transition flex flex-col" data-index="9">
+        <div class="aspect-[4/3] overflow-hidden bg-gray-100">
+          <img src="../../images/habitats/habitat-fechado.jpg" alt="Mutohwe" class="w-full h-full object-cover">
+        </div>
+        <div class="p-4 flex-1">
+          <div class="flex justify-between items-start gap-2 mb-1">
+            <span class="text-[10px] font-semibold tracking-wide text-gray-500 uppercase">Plantas / Flora</span>
+            <span class="iucn-badge sm LC" title="LC">LC</span>
+          </div>
+          <h3 class="font-bold text-black text-lg leading-tight">Mutohwe</h3>
+          <p class="text-sm text-gray-500 italic mt-0.5">Diplorhynchus condylocarpon</p>
+        </div>
+      </a>
+      <a href="especies/plantas-pseudolachnostylis.html" class="species-card bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg transition flex flex-col" data-index="10">
+        <div class="aspect-[4/3] overflow-hidden bg-gray-100">
+          <img src="../../images/habitats/habitat-fechado.jpg" alt="Musukameno" class="w-full h-full object-cover">
+        </div>
+        <div class="p-4 flex-1">
+          <div class="flex justify-between items-start gap-2 mb-1">
+            <span class="text-[10px] font-semibold tracking-wide text-gray-500 uppercase">Plantas / Flora</span>
+            <span class="iucn-badge sm LC" title="LC">LC</span>
+          </div>
+          <h3 class="font-bold text-black text-lg leading-tight">Musukameno</h3>
+          <p class="text-sm text-gray-500 italic mt-0.5">Pseudolachnostylis maprouneifolia</p>
+        </div>
+      </a>
+      <a href="especies/plantas-uapaca.html" class="species-card bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg transition flex flex-col" data-index="11">
+        <div class="aspect-[4/3] overflow-hidden bg-gray-100">
+          <img src="../../images/habitats/habitat-fechado.jpg" alt="Mahobohobo" class="w-full h-full object-cover">
+        </div>
+        <div class="p-4 flex-1">
+          <div class="flex justify-between items-start gap-2 mb-1">
+            <span class="text-[10px] font-semibold tracking-wide text-gray-500 uppercase">Plantas / Flora</span>
+            <span class="iucn-badge sm LC" title="LC">LC</span>
+          </div>
+          <h3 class="font-bold text-black text-lg leading-tight">Mahobohobo</h3>
+          <p class="text-sm text-gray-500 italic mt-0.5">Uapaca kirkiana</p>
+        </div>
+      </a>
+      <a href="especies/plantas-chromolaena-pl.html" class="species-card bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg transition flex flex-col" data-index="12">
+        <div class="aspect-[4/3] overflow-hidden bg-gray-100">
+          <img src="../../images/ameacas/chromolaena.jpg" alt="Chromolaena" class="w-full h-full object-cover">
+        </div>
+        <div class="p-4 flex-1">
+          <div class="flex justify-between items-start gap-2 mb-1">
+            <span class="text-[10px] font-semibold tracking-wide text-gray-500 uppercase">Plantas / Flora</span>
+            <span class="iucn-badge sm NE" title="NE">NE</span>
+          </div>
+          <h3 class="font-bold text-black text-lg leading-tight">Chromolaena</h3>
+          <p class="text-sm text-gray-500 italic mt-0.5">Chromolaena odorata</p>
+        </div>
+      </a>
+      <a href="especies/plantas-andropogon.html" class="species-card bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg transition flex flex-col" data-index="13">
+        <div class="aspect-[4/3] overflow-hidden bg-gray-100">
+          <img src="../../images/habitats/habitat-aberto.jpg" alt="Capim-andropogon" class="w-full h-full object-cover">
+        </div>
+        <div class="p-4 flex-1">
+          <div class="flex justify-between items-start gap-2 mb-1">
+            <span class="text-[10px] font-semibold tracking-wide text-gray-500 uppercase">Plantas / Flora</span>
+            <span class="iucn-badge sm LC" title="LC">LC</span>
+          </div>
+          <h3 class="font-bold text-black text-lg leading-tight">Capim-andropogon</h3>
+          <p class="text-sm text-gray-500 italic mt-0.5">Andropogon gayanus</p>
+        </div>
+      </a>
+    
+      </div>
+      <div id="pagination" class="flex justify-center flex-wrap gap-2 mt-10"></div>
+
+    </div>
+  </main>
+  <footer class="bg-[#0f3d1e] text-white mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+      <div class="flex flex-col sm:flex-row justify-between gap-6 items-start">
+        <div class="flex items-center gap-2">
+          <img src="../../images/logo-main.png" alt="" class="h-10">
+          <span class="font-bold">Jardim Botânico EGFB</span>
+        </div>
+        <div class="flex flex-wrap gap-4 text-sm">
+          <a href="../jardim-botanico.html" class="text-[#f5c518] hover:underline">← Jardim Botânico</a>
+          <a href="../jardim-botanico.html" class="hidden sm:inline-flex items-center justify-center h-10 px-4 rounded-full border border-gray-200 text-xs font-semibold text-gray-700 hover:border-[#1a5c2e] hover:text-[#1a5c2e] bg-white transition">Jardim Botânico</a>
+          
+        </div>
+      </div>
+      <div class="border-t border-white/10 mt-8 pt-4 text-center text-xs text-white/50">© 2026 Jardim Botânico EGFB · ISPM</div>
+    </div>
+  </footer>
+  <script>
+    document.getElementById('menu-btn')?.addEventListener('click', function () {
+      document.getElementById('mobile-menu')?.classList.toggle('hidden');
+    });
+  </script>
+
+
+<script>
+(function () {
+  var perPage = 6;
+  var grid = document.getElementById('species-grid');
+  var pag = document.getElementById('pagination');
+  if (!grid || !pag) return;
+  var cards = Array.prototype.slice.call(grid.querySelectorAll('.species-card'));
+  var pages = Math.max(1, Math.ceil(cards.length / perPage));
+  function render(page) {
+    var start = (page - 1) * perPage;
+    cards.forEach(function (card, i) {
+      card.style.display = (i >= start && i < start + perPage) ? '' : 'none';
+    });
+    pag.innerHTML = '';
+    if (pages <= 1) return;
+    for (var i = 1; i <= pages; i++) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = String(i);
+      btn.className = 'w-11 h-11 rounded-full text-sm font-semibold ' + (i === page ? 'bg-[#1a5c2e] text-white shadow' : 'bg-white border text-gray-700');
+      (function (n) { btn.onclick = function () { render(n); }; })(i);
+      pag.appendChild(btn);
+    }
+  }
+  render(1);
+})();
+</script>
+
+</body>
+</html>

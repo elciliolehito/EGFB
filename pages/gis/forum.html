@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fórum GIS · EGFB</title>
+  <link rel="icon" href="../../images/favicon.ico">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body{font-family:Inter,system-ui,sans-serif}
+    .vote-btn{transition:color .15s}
+    .vote-btn.active-up{color:#ff4500}
+    .vote-btn.active-down{color:#7193ff}
+    .score{font-weight:700;font-size:12px;min-width:1.5rem;text-align:center}
+    .comment-thread{border-left:2px solid #e5e7eb;margin-left:0.5rem;padding-left:0.75rem}
+    .chip-sort{border-bottom:2px solid transparent}
+    .chip-sort.active{border-bottom-color:#0b3d44;color:#0b3d44;font-weight:700}
+    #mobile-drawer{transform:translateX(-100%);transition:transform .25s}
+    #mobile-drawer.open{transform:translateX(0)}
+    #drawer-backdrop{opacity:0;pointer-events:none;transition:opacity .25s}
+    #drawer-backdrop.open{opacity:1;pointer-events:auto}
+</style>
+</head>
+<body class="bg-[#dae0e6] antialiased">
+  <header class="sticky top-0 z-[100] bg-[#0b3d44] text-white shadow">
+    <div class="max-w-[1280px] mx-auto px-3 h-12 flex items-center gap-2 sm:gap-3">
+      <button type="button" id="btn-menu" class="lg:hidden p-2 -ml-1 rounded-lg hover:bg-white/10" aria-label="Menu">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+      <a href="../gis.html" class="flex items-center gap-2 shrink-0">
+        <img src="../../images/logo-main.png" class="h-8 object-contain" alt="">
+        <span class="font-bold text-sm hidden sm:inline" id="brand-label">GIS / fórum</span>
+      </a>
+      <div class="flex-1 max-w-xl mx-auto">
+        <div class="relative">
+          <input id="search" type="search" placeholder="Pesquisar no fórum GIS" class="w-full h-9 rounded-full bg-white/15 border border-white/20 px-10 text-sm text-white placeholder-white/50 focus:outline-none focus:bg-white focus:text-gray-900">
+          <svg class="w-4 h-4 absolute left-3.5 top-2.5 text-white/60 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        </div>
+      </div>
+      <a href="forum-create.html" class="shrink-0 inline-flex items-center gap-1 h-9 px-3 rounded-full bg-white text-[#0b3d44] text-xs font-bold">Criar</a>
+      <a href="../gis.html" class="hidden md:inline text-xs text-white/70 hover:text-white px-2">Catálogo GIS</a>
+      <a href="forum-account.html" id="btn-account" class="shrink-0 text-xs font-semibold text-white/90 hover:text-white px-2">Conta</a>
+    </div>
+  </header>
+
+  <div id="drawer-backdrop" class="fixed inset-0 bg-black/40 z-[90] lg:hidden"></div>
+  <aside id="mobile-drawer" class="fixed top-0 left-0 bottom-0 w-72 bg-white z-[95] lg:hidden shadow-xl overflow-y-auto pt-14 px-3 pb-6">
+    <div id="mobile-nav"></div>
+  </aside>
+
+  <div class="max-w-[1280px] mx-auto px-3 py-4 grid grid-cols-1 lg:grid-cols-[220px_1fr_280px] gap-4">
+    <aside class="hidden lg:block space-y-4" id="left-rail"></aside>
+    <main>
+      <div class="bg-white rounded-xl border border-gray-200 mb-3 overflow-x-auto">
+        <div class="flex justify-center gap-1 sm:gap-2 text-sm text-gray-600 min-w-max px-2" id="sort-bar">
+          <button type="button" data-sort="best" class="chip-sort active shrink-0 px-4 py-3 flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+            Melhores
+          </button>
+          <button type="button" data-sort="popular" class="chip-sort shrink-0 px-4 py-3 flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+            Populares
+          </button>
+          <button type="button" data-sort="new" class="chip-sort shrink-0 px-4 py-3 flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            Novas
+          </button>
+        </div>
+      </div>
+      <div id="feed" class="space-y-3"></div>
+    </main>
+    <aside class="hidden lg:block space-y-4" id="right-rail"></aside>
+  </div>
+
+<script>
+
+const KEY='egfb_gis_forum_v2';
+const USER_KEY='egfb_gis_user';
+const USERS_KEY='egfb_gis_users';
+const BAN_KEY='egfb_gis_forum_banned';
+function loadPosts(){ try{return JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e){return [];} }
+function savePosts(list){ localStorage.setItem(KEY, JSON.stringify(list)); }
+function loadUsers(){ try{return JSON.parse(localStorage.getItem(USERS_KEY)||'{}');}catch(e){return {};} }
+function saveUsers(u){ localStorage.setItem(USERS_KEY, JSON.stringify(u)); }
+function currentUser(){ try{return JSON.parse(localStorage.getItem(USER_KEY)||'null');}catch(e){return null;} }
+function setCurrentUser(u){ if(u) localStorage.setItem(USER_KEY, JSON.stringify(u)); else localStorage.removeItem(USER_KEY); }
+function banned(){ try{return JSON.parse(localStorage.getItem(BAN_KEY)||'[]');}catch(e){return [];} }
+function esc(s){ return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function timeAgo(ts){ const s=Math.floor((Date.now()-ts)/1000); if(s<60)return'agora'; if(s<3600)return Math.floor(s/60)+' min'; if(s<86400)return Math.floor(s/3600)+' h'; return Math.floor(s/86400)+' d'; }
+function score(p){ return (p.ups||0)-(p.downs||0); }
+function countComments(list){ let n=0; (function walk(arr){ (arr||[]).forEach(c=>{ n++; walk(c.replies); }); })(list); return n; }
+function userVote(id){ return localStorage.getItem('egfb_vote_'+id)||''; }
+function setUserVote(id,v){ if(v) localStorage.setItem('egfb_vote_'+id,v); else localStorage.removeItem('egfb_vote_'+id); }
+function displayName(){ const u=currentUser(); return u?u.name:''; }
+function accountLabel(){ const u=currentUser(); return u?('GIS / '+u.name):'GIS / fórum'; }
+
+let sortMode='best';
+let searchQ='';
+
+function leftNavHTML(){
+  const u=currentUser();
+  return `
+  <nav class="bg-white rounded-xl border border-gray-200 overflow-hidden text-sm">
+    <a href="forum.html" class="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 font-medium border-l-4 border-[#0b3d44]">Página inicial</a>
+    <a href="forum.html#popular" class="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 text-gray-700 border-l-4 border-transparent">Popular</a>
+    <a href="forum.html#new" class="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 text-gray-700 border-l-4 border-transparent">Novas</a>
+    <a href="forum-create.html" class="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 text-[#0b3d44] font-semibold border-l-4 border-transparent">+ Criar publicação</a>
+    <a href="forum-account.html" class="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 text-gray-700 border-l-4 border-transparent border-t">${u?'Minha conta':'Criar conta / entrar'}</a>
+  </nav>
+  <div class="bg-white rounded-xl border border-gray-200 p-4">
+    <h3 class="font-bold text-gray-900 text-sm mb-3">Top comentadores</h3>
+    <div id="top-users" class="space-y-2 text-sm"></div>
+  </div>
+  <div class="bg-white rounded-xl border border-gray-200 p-4 text-xs text-gray-600 leading-relaxed">
+    <p class="font-bold text-gray-900 mb-2">Regras da comunidade</p>
+    <ol class="list-decimal pl-4 space-y-1">
+      <li>Respeito: sem insultos nem discriminação.</li>
+      <li>Sem spam nem publicidade fora de contexto.</li>
+      <li>Conteúdo focado em GIS, conservação e EGFB.</li>
+      <li>Não partilhe dados pessoais sensíveis.</li>
+      <li>Violações podem resultar em banimento.</li>
+    </ol>
+  </div>
+  <div class="bg-white rounded-xl border border-gray-200 p-4 text-[11px] text-gray-500 leading-relaxed">
+    <p class="font-semibold text-gray-700 mb-1">Privacidade</p>
+    <p>Contas e publicações ficam neste dispositivo por agora. Login por e-mail real virá depois. Conteúdo ofensivo pode ser removido.</p>
+  </div>`;
+}
+
+function rightRailHTML(){
+  return `
+  <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+    <div class="h-14 bg-gradient-to-r from-[#0b3d44] to-teal-700"></div>
+    <div class="p-4 -mt-3">
+      <div class="w-12 h-12 rounded-full bg-white border-4 border-white shadow flex items-center justify-center overflow-hidden">
+        <img src="../../images/logo-main.png" class="h-8 object-contain" alt="">
+      </div>
+      <h2 class="font-bold text-gray-900 mt-2" id="community-title">GIS / fórum</h2>
+      <p class="text-xs text-gray-600 mt-1">Comunidade de geoprocessamento, QGIS, mapas e conservação — EGFB.</p>
+      <div class="grid grid-cols-2 gap-2 mt-3 text-center">
+        <div><div class="font-bold" id="stat-posts">0</div><div class="text-[10px] text-gray-500">Publicações</div></div>
+        <div><div class="font-bold" id="stat-comments">0</div><div class="text-[10px] text-gray-500">Comentários</div></div>
+      </div>
+      <a href="forum-create.html" class="mt-3 flex items-center justify-center h-9 rounded-full bg-[#0b3d44] text-white text-sm font-bold">Criar publicação</a>
+      <a href="forum-account.html" class="mt-2 flex items-center justify-center h-9 rounded-full border border-gray-200 text-sm font-semibold text-gray-800">Conta</a>
+    </div>
+  </div>`;
+}
+
+function vote(id, dir){
+  const list=loadPosts(); const p=list.find(x=>x.id===id); if(!p) return;
+  const cur=userVote(id);
+  if(cur==='up') p.ups=Math.max(0,(p.ups||0)-1);
+  if(cur==='down') p.downs=Math.max(0,(p.downs||0)-1);
+  if(cur===dir) setUserVote(id,'');
+  else { if(dir==='up') p.ups=(p.ups||0)+1; if(dir==='down') p.downs=(p.downs||0)+1; setUserVote(id,dir); }
+  savePosts(list); render();
+}
+
+function filtered(){
+  let list=loadPosts().filter(p=>!banned().includes((p.author||'').toLowerCase()));
+  if(searchQ){ const q=searchQ.toLowerCase(); list=list.filter(p=>(p.title+p.body+p.author).toLowerCase().includes(q)); }
+  if(sortMode==='new') list.sort((a,b)=>b.ts-a.ts);
+  else if(sortMode==='popular') list.sort((a,b)=>score(b)-score(a)||b.ts-a.ts);
+  else list.sort((a,b)=>countComments(b.comments)-countComments(a.comments)||score(b)-score(a)); // best = most comments
+  return list;
+}
+
+function card(p){
+  const sc=score(p); const uv=userVote(p.id); const cc=countComments(p.comments);
+  const media = p.media ? (p.mediaType==='video'
+    ? `<div class="mt-3 rounded-xl overflow-hidden bg-black"><video src="${p.media}" class="w-full max-h-80 object-contain" controls onclick="event.preventDefault()"></video></div>`
+    : `<div class="mt-3 rounded-xl overflow-hidden bg-gray-100"><img src="${p.media}" class="w-full max-h-96 object-cover" alt=""></div>`) : '';
+  return `<article class="bg-white rounded-xl border border-gray-200 hover:border-gray-300 transition overflow-hidden">
+    <div class="flex">
+      <div class="w-10 sm:w-12 bg-gray-50 flex flex-col items-center py-3 gap-0.5 shrink-0">
+        <button type="button" class="vote-btn p-1 rounded hover:bg-gray-200 ${uv==='up'?'active-up':''}" data-vote="${p.id}" data-dir="up" aria-label="Up">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l8 10H4z"/></svg>
+        </button>
+        <div class="score text-xs">${sc}</div>
+        <button type="button" class="vote-btn p-1 rounded hover:bg-gray-200 ${uv==='down'?'active-down':''}" data-vote="${p.id}" data-dir="down" aria-label="Down">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20l-8-10h16z"/></svg>
+        </button>
+      </div>
+      <div class="flex-1 min-w-0 p-3 sm:p-4">
+        <div class="text-xs text-gray-500 flex flex-wrap items-center gap-x-1">
+          <a href="forum-profile.html?u=${encodeURIComponent(p.author)}" class="font-semibold text-gray-800 hover:underline" onclick="event.stopPropagation()">${esc(p.author)}</a>
+          <span>·</span><span>${timeAgo(p.ts)}</span>
+          <span>·</span><span>${p.views||0} views</span>
+        </div>
+        <a href="forum-post.html?id=${encodeURIComponent(p.id)}" class="block mt-1.5">
+          <h2 class="font-bold text-gray-900 text-base sm:text-lg leading-snug">${esc(p.title)}</h2>
+          ${media}
+          ${p.body?`<p class="text-sm text-gray-700 mt-3 whitespace-pre-wrap line-clamp-4">${esc(p.body)}</p>`:''}
+        </a>
+        <div class="mt-3 flex flex-wrap items-center gap-2 text-xs font-semibold text-gray-500">
+          <a href="forum-post.html?id=${encodeURIComponent(p.id)}" class="inline-flex items-center gap-1.5 h-8 px-3 rounded-full hover:bg-gray-100">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+            ${cc} comentários
+          </a>
+          <button type="button" class="inline-flex items-center gap-1.5 h-8 px-3 rounded-full hover:bg-gray-100 share-btn" data-share="${p.id}">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+            Partilhar
+          </button>
+        </div>
+      </div>
+    </div>
+  </article>`;
+}
+
+function fillTopUsers(){
+  const map={};
+  loadPosts().forEach(p=>{
+    map[p.author]=(map[p.author]||0)+1;
+    (function walk(cs){ (cs||[]).forEach(c=>{ map[c.author]=(map[c.author]||0)+1; walk(c.replies); }); })(p.comments);
+  });
+  const top=Object.entries(map).sort((a,b)=>b[1]-a[1]).slice(0,10);
+  const html = top.length ? top.map(([n,c],i)=>`<a href="forum-profile.html?u=${encodeURIComponent(n)}" class="flex justify-between gap-2 hover:bg-gray-50 rounded px-1 py-0.5"><span class="truncate"><span class="text-gray-400">${i+1}.</span> ${esc(n)}</span><span class="text-xs text-gray-500">${c}</span></a>`).join('') : '<p class="text-xs text-gray-400">Sem atividade</p>';
+  document.querySelectorAll('#top-users').forEach(el=>el.innerHTML=html);
+}
+
+function render(){
+  document.getElementById('brand-label').textContent = accountLabel();
+  const list=filtered();
+  const feed=document.getElementById('feed');
+  feed.innerHTML = list.length ? list.map(card).join('') : `<div class="bg-white rounded-xl border p-10 text-center text-sm text-gray-500">Nenhuma publicação. <a href="forum-create.html" class="text-[#0b3d44] font-bold">Criar</a></div>`;
+  document.querySelectorAll('[data-vote]').forEach(btn=>btn.onclick=e=>{e.preventDefault();e.stopPropagation();vote(btn.dataset.vote,btn.dataset.dir);});
+  document.querySelectorAll('.share-btn').forEach(btn=>btn.onclick=e=>{
+    e.preventDefault(); e.stopPropagation();
+    const url = location.href.replace(/forum\.html.*$/,'forum-post.html?id='+encodeURIComponent(btn.dataset.share));
+    if (navigator.share) navigator.share({url}).catch(()=>{});
+    else { navigator.clipboard.writeText(url).then(()=>alert('Link copiado')).catch(()=>prompt('Copiar link:', url)); }
+  });
+  const all=loadPosts();
+  const sp=document.getElementById('stat-posts'); if(sp) sp.textContent=all.length;
+  const sc=document.getElementById('stat-comments'); if(sc) sc.textContent=all.reduce((a,p)=>a+countComments(p.comments),0);
+  const ct=document.getElementById('community-title'); if(ct) ct.textContent=accountLabel();
+  fillTopUsers();
+}
+
+document.getElementById('left-rail').innerHTML = leftNavHTML();
+document.getElementById('right-rail').innerHTML = rightRailHTML();
+document.getElementById('mobile-nav').innerHTML = leftNavHTML();
+
+document.getElementById('btn-menu').onclick=()=>{ document.getElementById('mobile-drawer').classList.add('open'); document.getElementById('drawer-backdrop').classList.add('open'); };
+document.getElementById('drawer-backdrop').onclick=()=>{ document.getElementById('mobile-drawer').classList.remove('open'); document.getElementById('drawer-backdrop').classList.remove('open'); };
+
+document.querySelectorAll('#sort-bar [data-sort]').forEach(btn=>{
+  btn.onclick=()=>{
+    sortMode=btn.dataset.sort;
+    document.querySelectorAll('#sort-bar .chip-sort').forEach(c=>c.classList.remove('active'));
+    btn.classList.add('active');
+    render();
+  };
+});
+document.getElementById('search').oninput=e=>{ searchQ=e.target.value.trim(); render(); };
+if(location.hash==='#popular'){ sortMode='popular'; document.querySelector('[data-sort="popular"]').classList.add('active'); document.querySelector('[data-sort="best"]').classList.remove('active'); }
+if(location.hash==='#new'){ sortMode='new'; document.querySelector('[data-sort="new"]').classList.add('active'); document.querySelector('[data-sort="best"]').classList.remove('active'); }
+
+if(!loadPosts().length){
+  savePosts([{ id:'welcome', author:'EGFB', title:'Bem-vindos ao Fórum GIS', body:'Partilhem dúvidas de QGIS, ArcGIS, shapefiles e trabalhos de campo. Votem nas publicações úteis.', ts:Date.now(), ups:2, downs:0, views:1, comments:[], media:null }]);
+}
+render();
+</script>
+</body>
+</html>

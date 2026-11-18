@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projetos de pesquisa · Repositório EGFB</title>
+  <link rel="icon" href="../../images/favicon.ico">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <style>
+    .cover-slot{aspect-ratio:3/4;background:#e8f0ef}
+    .cover-slot canvas{width:100%;height:100%;object-fit:contain}
+    .side-cat.active{background:#ecfdf5;color:#0b3d44;font-weight:600}
+  </style>
+</head>
+<body class="bg-[#f4f6f5] antialiased">
+  <header class="sticky top-0 z-50 bg-[#0b3d44] text-white shadow">
+    <div class="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between gap-3">
+      <a href="../repositorio.html" class="font-bold text-sm">← Repositório</a>
+      <span class="font-extrabold text-sm sm:text-base">Projetos de pesquisa</span>
+      <div class="flex items-center gap-2">
+        <a href="../../index.html" class="text-xs font-bold h-9 px-3 rounded-full bg-white text-[#0b3d44] inline-flex items-center">Curso</a>
+        <button type="button" id="mbtn" class="lg:hidden p-2 rounded-lg hover:bg-white/10"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="max-w-7xl mx-auto px-4 py-6 grid lg:grid-cols-[260px_1fr] gap-6">
+    <!-- LEFT SIDEBAR -->
+    <aside class="bg-white rounded-2xl border border-gray-100 p-4 h-fit lg:sticky lg:top-20 order-2 lg:order-1" id="sidebar">
+      <h2 class="font-bold text-[#0b3d44] text-sm mb-3">Biblioteca virtual</h2>
+      <nav class="space-y-0.5 mb-4">
+        <a href="#" data-cat="" class="side-cat active flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm"><svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg><span>Todas</span></a>
+        <a href="#" data-cat="conservacao" class="side-cat flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm text-gray-700 hover:bg-emerald-50 hover:text-[#0b3d44]"><svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg><span>Conservação e ecologia</span></a><a href="#" data-cat="ecoturismo" class="side-cat flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm text-gray-700 hover:bg-emerald-50 hover:text-[#0b3d44]"><svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Ecoturismo e turismo</span></a><a href="#" data-cat="fauna" class="side-cat flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm text-gray-700 hover:bg-emerald-50 hover:text-[#0b3d44]"><svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span>Fauna e biodiversidade</span></a><a href="#" data-cat="gis" class="side-cat flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm text-gray-700 hover:bg-emerald-50 hover:text-[#0b3d44]"><svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg><span>GIS e geoprocessamento</span></a><a href="#" data-cat="gestao" class="side-cat flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm text-gray-700 hover:bg-emerald-50 hover:text-[#0b3d44]"><svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg><span>Gestão e fiscalização</span></a>
+      </nav>
+      <div class="border-t pt-4 space-y-3">
+        <label class="block text-xs font-bold text-gray-500 uppercase">Pesquisar</label>
+        <input id="q" type="search" placeholder="Título, autor…" class="w-full h-10 rounded-xl border px-3 text-sm">
+        <label class="block text-xs font-bold text-gray-500 uppercase">Ano</label>
+        <select id="year" class="w-full h-10 rounded-xl border px-3 text-sm">
+          <option value="">Todos os anos</option>
+          <option value="2026">2026</option>
+        </select>
+        <label class="block text-xs font-bold text-gray-500 uppercase">Ordenar</label>
+        <select id="sort" class="w-full h-10 rounded-xl border px-3 text-sm">
+          <option value="new">Mais recentes</option>
+          <option value="old">Mais antigos</option>
+          <option value="az">Título A–Z</option>
+          <option value="za">Título Z–A</option>
+          <option value="pages">Mais páginas</option>
+        </select>
+      </div>
+    </aside>
+
+    <main class="order-1 lg:order-2">
+      <div class="flex items-center justify-between gap-3 mb-4">
+        <h1 class="text-xl sm:text-2xl font-extrabold text-gray-900">Projetos de pesquisa</h1>
+        <span id="count" class="text-xs text-gray-500"></span>
+      </div>
+      <div id="grid" class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5"></div>
+    </main>
+  </div>
+
+  <section class="bg-white border-t py-14">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <h2 class="text-2xl font-bold text-[#0b3d44] mb-8">Nossos Parceiros</h2>
+      <div class="flex flex-wrap items-center justify-center gap-10">
+        <img src="../../images/logo-ispm.jpg" alt="ISPM" class="h-14 object-contain">
+        <img src="../../images/logo-casa-msika.png" alt="Casa Msika" class="h-12 object-contain">
+        <img src="../../images/logo-magodo.jpg" alt="Magodo" class="h-14 object-contain">
+        <img src="../../images/logo-main.png" alt="EGFB" class="h-12 object-contain">
+      </div>
+    </div>
+  </section>
+  <footer class="bg-[#061e22] text-white">
+    <div class="max-w-6xl mx-auto px-4 py-10 grid sm:grid-cols-3 gap-8 text-sm">
+      <div><div class="font-bold text-lg">EGFB · ISPM</div><p class="text-white/50 text-xs mt-2">Ecoturismo e Gestão de Fauna Bravia — ISPM.</p></div>
+      <div><div class="font-semibold text-teal-200 mb-2">Navegação</div>
+        <ul class="space-y-1 text-white/70">
+          <li><a class="hover:text-white" href="../../index.html">Curso</a></li>
+          <li><a class="hover:text-white" href="../repositorio.html">Monografias</a></li>
+          <li><a class="hover:text-white" href="../biblioteca.html">Biblioteca</a></li>
+        </ul>
+      </div>
+      <div><div class="font-semibold text-teal-200 mb-2">Parceiros</div><p class="text-white/60 text-xs">ISPM · Casa Msika · Magodo · EGFB</p></div>
+    </div>
+    <div class="border-t border-white/10 text-center text-xs text-white/40 py-4">© 2026 EGFB – ISPM</div>
+  </footer>
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+const ITEMS=[{"id": "m3", "tipo": "projeto", "cat": "gestao", "title": "Questionário: cadeia de processamento de carne suína em Chimoio", "authors": "Estudantes · Divisão de Agricultura ISPM", "year": "2026", "pages": 7, "abstract": "Instrumento de questionário para trabalho de grupo sobre comercialização e marketing da carne suína.", "pdf": "pdfs/questionario-carne-suina.pdf", "cat_label": "Gestão e fiscalização"}, {"id": "m4", "tipo": "projeto", "cat": "gestao", "title": "Exercício para o trabalho em grupo 2026", "authors": "ISPM", "year": "2026", "pages": 3, "abstract": "Guião de exercício para trabalho em grupo no âmbito do curso.", "pdf": "pdfs/exercicio-trabalho-grupo.pdf", "cat_label": "Gestão e fiscalização"}];
+let cat='';
+function card(m){
+  const cover=m.pdf?`<canvas data-pdf="${m.pdf}" class="w-full h-full"></canvas>`
+    :`<div class="w-full h-full flex flex-col items-center justify-center text-white bg-gradient-to-br from-[#0b3d44] to-emerald-600 p-3 text-center"><span class="text-[10px] font-bold uppercase opacity-80">${m.tipo}</span><span class="text-xs font-bold mt-2">${m.year}</span></div>`;
+  return `<a href="${m.id}.html" class="group bg-white rounded-2xl border overflow-hidden hover:shadow-xl transition">
+    <div class="cover-slot relative overflow-hidden">${cover}
+      <span class="absolute top-2 right-2 text-[9px] font-bold bg-emerald-600 text-white px-1.5 py-0.5 rounded">PDF</span>
+    </div>
+    <div class="p-3">
+      <div class="text-[10px] font-bold text-emerald-700 uppercase">${m.cat_label}</div>
+      <h2 class="font-bold text-sm mt-1 line-clamp-2 group-hover:text-[#0b3d44]">${m.title}</h2>
+      <p class="text-xs text-gray-500 mt-1 line-clamp-1">${m.authors}</p>
+      <p class="text-xs text-gray-400">${m.year} · ${m.pages} p.</p>
+    </div>
+  </a>`;
+}
+function paint(){document.querySelectorAll('canvas[data-pdf]').forEach(async c=>{try{const pdf=await pdfjsLib.getDocument(c.dataset.pdf).promise;const page=await pdf.getPage(1);const parent=c.parentElement;const maxW=parent.clientWidth||140,maxH=parent.clientHeight||190;const base=page.getViewport({scale:1});const scale=Math.min(maxW/base.width,maxH/base.height)*2;const vp=page.getViewport({scale});c.width=vp.width;c.height=vp.height;await page.render({canvasContext:c.getContext('2d'),viewport:vp}).promise;}catch(e){console.warn(e);}});}
+function render(){
+  const q=(document.getElementById('q').value||'').toLowerCase();
+  const year=document.getElementById('year').value;
+  const sort=document.getElementById('sort').value;
+  let list=ITEMS.filter(m=>(!cat||m.cat===cat)&&(!year||m.year===year)&&(!q||(m.title+m.authors+m.abstract).toLowerCase().includes(q)));
+  if(sort==='az') list.sort((a,b)=>a.title.localeCompare(b.title));
+  else if(sort==='za') list.sort((a,b)=>b.title.localeCompare(a.title));
+  else if(sort==='old') list.sort((a,b)=>a.year.localeCompare(b.year));
+  else if(sort==='pages') list.sort((a,b)=>b.pages-a.pages);
+  else list.sort((a,b)=>b.year.localeCompare(a.year));
+  document.getElementById('count').textContent=list.length+' documento(s)';
+  document.getElementById('grid').innerHTML=list.map(card).join('')||'<p class="col-span-full text-center text-gray-500 py-12">Nenhum resultado.</p>';
+  paint();
+}
+document.querySelectorAll('.side-cat').forEach(a=>a.onclick=e=>{e.preventDefault();cat=a.dataset.cat||'';document.querySelectorAll('.side-cat').forEach(x=>x.classList.remove('active'));a.classList.add('active');render();});
+document.getElementById('q').oninput=render;
+document.getElementById('year').onchange=render;
+document.getElementById('sort').onchange=render;
+document.getElementById('mbtn')?.addEventListener('click',()=>document.getElementById('sidebar').classList.toggle('hidden'));
+render();
+</script>
+</body>
+</html>

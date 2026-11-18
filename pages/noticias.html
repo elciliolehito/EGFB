@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notícias · EGFB</title>
+  <link rel="icon" href="../images/favicon.ico">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body{font-family:Inter,system-ui,sans-serif}
+    .headline{font-family:'Libre Baskerville',Georgia,serif}
+  </style>
+</head>
+<body class="bg-white antialiased">
+
+  <header class="bg-white/95 backdrop-blur sticky top-0 z-50 border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-3">
+      <a href="../index.html" class="flex items-center gap-2.5 shrink-0">
+        <img src="../images/logo-main.png" alt="EGFB" class="h-10 object-contain">
+        <span class="font-extrabold text-[#0b3d44] hidden sm:block text-sm">EGFB</span>
+      </a>
+      <nav class="hidden lg:flex items-center gap-1 text-sm font-medium text-gray-700">
+        <div class="relative group">
+          <button type="button" class="px-3 py-2 rounded-lg hover:bg-gray-50 flex items-center gap-1">Sobre Nós
+            <svg class="w-3.5 h-3.5 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="absolute left-0 top-full pt-1 hidden group-hover:block min-w-[200px]">
+            <div class="bg-white rounded-xl shadow-xl border border-gray-100 py-2 text-sm">
+              <a href="sobre.html" class="block px-4 py-2.5 hover:bg-gray-50">O que é o EGFB?</a>
+              <a href="geracoes.html" class="block px-4 py-2.5 hover:bg-gray-50">Gerações</a>
+              <a href="parceiros.html" class="block px-4 py-2.5 hover:bg-gray-50">Parceiros</a>
+              <a href="marcos.html" class="block px-4 py-2.5 hover:bg-gray-50">Marcos</a>
+            </div>
+          </div>
+        </div>
+        <a href="formacao.html" class="px-3 py-2 rounded-lg hover:bg-gray-50">Mini Cursos e Workshops</a>
+        <a href="synapse.html" class="px-3 py-2 rounded-lg hover:bg-gray-50 ">Synapse</a>
+        <a href="noticias.html" class="px-3 py-2 rounded-lg hover:bg-gray-50 bg-gray-50 text-[#0b3d44]">Notícias</a>
+      </nav>
+      <div class="flex items-center gap-2">
+        <a href="../index.html" class="text-xs font-bold h-9 px-3 rounded-full border border-gray-200 hover:border-[#0b3d44] text-[#0b3d44] inline-flex items-center">Início</a>
+        <button type="button" id="mbtn" class="lg:hidden p-2 rounded-lg hover:bg-gray-100" aria-label="Menu">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+    <div id="mnav" class="hidden lg:hidden border-t px-4 py-3 text-sm space-y-1 bg-white">
+      <p class="text-xs font-bold text-gray-400 uppercase px-2">Sobre Nós</p>
+      <a class="block px-2 py-2" href="sobre.html">O que é o EGFB?</a>
+      <a class="block px-2 py-2" href="geracoes.html">Gerações</a>
+      <a class="block px-2 py-2" href="parceiros.html">Parceiros</a>
+      <a class="block px-2 py-2" href="marcos.html">Marcos</a>
+      <a class="block px-2 py-2 font-medium" href="synapse.html">Synapse</a>
+      <a class="block px-2 py-2 font-medium" href="noticias.html">Notícias</a>
+    </div>
+  </header>
+  <script>document.getElementById('mbtn')?.addEventListener('click',()=>document.getElementById('mnav').classList.toggle('hidden'));</script>
+
+  <div class="border-b">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center gap-4 text-xs font-bold uppercase tracking-wide text-gray-500">
+      <span class="text-[#0b3d44]">Notícias EGFB</span>
+      <span class="hidden sm:inline text-gray-300">|</span>
+      <a href="#top" class="hover:text-[#0b3d44]">Topo</a>
+      <a href="#lista" class="hover:text-[#0b3d44]">Últimas</a>
+      <a href="synapse.html" class="hover:text-[#0b3d44]">Synapse</a>
+    </div>
+  </div>
+
+  <main class="max-w-6xl mx-auto px-4 py-8" id="top">
+    <!-- Featured -->
+    <a href="noticias/n1.html" class="group grid lg:grid-cols-5 gap-6 mb-10">
+      <div class="lg:col-span-3 aspect-[16/10] rounded-2xl overflow-hidden bg-gray-100">
+        <img src="../images/wildlife/giraffe.jpg" alt="" class="w-full h-full object-cover group-hover:scale-[1.02] transition duration-500">
+      </div>
+      <div class="lg:col-span-2 flex flex-col justify-center">
+        <span class="text-xs font-bold uppercase tracking-wider text-red-700">Campo</span>
+        <h1 class="headline text-3xl sm:text-4xl font-bold text-gray-900 mt-2 leading-tight group-hover:underline decoration-2 underline-offset-4">Estudantes concluem inventário de habitats no Jardim Botânico</h1>
+        <p class="mt-3 text-gray-600 leading-relaxed">Campanha de campo cobre habitats aberto, fechado e aquático com apoio de docentes EGFB.</p>
+        <time class="mt-4 text-xs text-gray-400">12 Nov 2026</time>
+      </div>
+    </a>
+
+    <div class="border-t border-b py-2 mb-8 flex gap-4 overflow-x-auto text-xs font-semibold uppercase tracking-wide text-gray-500">
+      <span class="text-[#0b3d44] shrink-0">Secções</span>
+      <span class="shrink-0">Campo</span><span class="shrink-0">Formação</span><span class="shrink-0">Synapse</span><span class="shrink-0">Institucional</span><span class="shrink-0">Parcerias</span>
+    </div>
+
+    <div id="lista" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      
+      <a href="noticias/n2.html" class="group flex flex-col">
+        <div class="aspect-[16/10] rounded-xl overflow-hidden bg-gray-100 mb-3">
+          <img src="../images/wildlife/elephant.jpg" alt="" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+        </div>
+        <span class="text-[11px] font-bold uppercase tracking-wider text-red-700">Formação</span>
+        <h2 class="headline text-lg font-bold text-gray-900 mt-1 leading-snug group-hover:underline">Workshops de GIS abrem inscrições para o próximo bloco</h2>
+        <p class="text-sm text-gray-600 mt-2 line-clamp-2 flex-1">Módulos práticos de QGIS e dados espaciais do campus.</p>
+        <time class="mt-3 text-xs text-gray-400">8 Nov 2026</time>
+      </a>
+      <a href="noticias/n3.html" class="group flex flex-col">
+        <div class="aspect-[16/10] rounded-xl overflow-hidden bg-gray-100 mb-3">
+          <img src="../images/wildlife/lion.jpg" alt="" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+        </div>
+        <span class="text-[11px] font-bold uppercase tracking-wider text-red-700">Synapse</span>
+        <h2 class="headline text-lg font-bold text-gray-900 mt-1 leading-snug group-hover:underline">Alumni EGFB destacam-se em áreas de conservação em Manica</h2>
+        <p class="text-sm text-gray-600 mt-2 line-clamp-2 flex-1">Rede Synapse mapeia percurso de formados em fiscalização e ecoturismo.</p>
+        <time class="mt-3 text-xs text-gray-400">2 Nov 2026</time>
+      </a>
+      <a href="noticias/n4.html" class="group flex flex-col">
+        <div class="aspect-[16/10] rounded-xl overflow-hidden bg-gray-100 mb-3">
+          <img src="../images/wildlife/lilac-roller.jpg" alt="" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+        </div>
+        <span class="text-[11px] font-bold uppercase tracking-wider text-red-700">Institucional</span>
+        <h2 class="headline text-lg font-bold text-gray-900 mt-1 leading-snug group-hover:underline">Mini-Museu recebe nova coleção entomológica</h2>
+        <p class="text-sm text-gray-600 mt-2 line-clamp-2 flex-1">Actualização das coleções de apoio ao ensino de invertebrados.</p>
+        <time class="mt-3 text-xs text-gray-400">28 Out 2026</time>
+      </a>
+      <a href="noticias/n5.html" class="group flex flex-col">
+        <div class="aspect-[16/10] rounded-xl overflow-hidden bg-gray-100 mb-3">
+          <img src="../images/wildlife/zebras.png" alt="" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+        </div>
+        <span class="text-[11px] font-bold uppercase tracking-wider text-red-700">Campo</span>
+        <h2 class="headline text-lg font-bold text-gray-900 mt-1 leading-snug group-hover:underline">Visita de estudo a áreas de Miombo na região de Vanduzi</h2>
+        <p class="text-sm text-gray-600 mt-2 line-clamp-2 flex-1">Turmas do 2.º e 3.º ano em saída orientada de inventário florístico.</p>
+        <time class="mt-3 text-xs text-gray-400">20 Out 2026</time>
+      </a>
+      <a href="noticias/n6.html" class="group flex flex-col">
+        <div class="aspect-[16/10] rounded-xl overflow-hidden bg-gray-100 mb-3">
+          <img src="../images/wildlife/monkey.jpg" alt="" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+        </div>
+        <span class="text-[11px] font-bold uppercase tracking-wider text-red-700">Parcerias</span>
+        <h2 class="headline text-lg font-bold text-gray-900 mt-1 leading-snug group-hover:underline">Curso reforça ligação a operadores de turismo de natureza</h2>
+        <p class="text-sm text-gray-600 mt-2 line-clamp-2 flex-1">Protocolos de estágio e visitas técnicas em discussão com parceiros.</p>
+        <time class="mt-3 text-xs text-gray-400">10 Out 2026</time>
+      </a>
+    </div>
+  </main>
+
+  <section class="bg-white border-t py-12">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <h2 class="text-xl font-bold text-[#0b3d44] mb-6">Nossos Parceiros</h2>
+      <div class="flex flex-wrap items-center justify-center gap-10">
+        <img src="../images/logo-ispm.jpg" alt="ISPM" class="h-12 object-contain">
+        <img src="../images/logo-casa-msika.png" alt="Casa Msika" class="h-10 object-contain">
+        <img src="../images/logo-magodo.jpg" alt="Magodo" class="h-12 object-contain">
+        <img src="../images/logo-main.png" alt="EGFB" class="h-10 object-contain">
+      </div>
+    </div>
+  </section>
+  <footer class="bg-[#061e22] text-white">
+    <div class="max-w-6xl mx-auto px-4 py-10 grid sm:grid-cols-3 gap-8 text-sm">
+      <div>
+        <div class="font-bold text-lg">EGFB · ISPM</div>
+        <p class="text-white/50 text-xs mt-2 leading-relaxed">Ecoturismo e Gestão de Fauna Bravia — Instituto Superior Politécnico de Manica.</p>
+      </div>
+      <div>
+        <div class="font-semibold text-teal-200 mb-2">Sobre Nós</div>
+        <ul class="space-y-1 text-white/70">
+          <li><a class="hover:text-white" href="../pages/sobre.html">O que é o EGFB?</a></li>
+          <li><a class="hover:text-white" href="../pages/geracoes.html">Gerações</a></li>
+          <li><a class="hover:text-white" href="../pages/parceiros.html">Parceiros</a></li>
+          <li><a class="hover:text-white" href="../pages/marcos.html">Marcos</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="font-semibold text-teal-200 mb-2">Mais</div>
+        <ul class="space-y-1 text-white/70">
+          <li><a class="hover:text-white" href="../pages/synapse.html">Synapse</a></li>
+          <li><a class="hover:text-white" href="../pages/noticias.html">Notícias</a></li>
+          <li><a class="hover:text-white" href="../index.html">Início</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-white/10 text-center text-xs text-white/40 py-4">© 2026 EGFB – ISPM</div>
+  </footer>
+</body>
+</html>

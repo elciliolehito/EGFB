@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mapa interativo · Dados de geoprocessamento</title>
+  <link rel="icon" href="../../images/favicon.ico">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body{font-family:Inter,system-ui,sans-serif;margin:0}
+    
+  *{scrollbar-width:thin;scrollbar-color:#94a3b8 transparent}
+  *::-webkit-scrollbar{width:4px;height:4px}
+  *::-webkit-scrollbar-thumb{background:#94a3b8;border-radius:999px}
+  *::-webkit-scrollbar-track{background:transparent}
+
+    #map{width:100%;height:100%;min-height:50vh;z-index:1}
+    #base{background:#fff!important;color:#111!important}
+    #base option{background:#fff;color:#111}
+  </style>
+</head>
+<body class="bg-[#0b3d44] antialiased">
+
+  <header class="sticky top-0 z-[1000] bg-[#0b3d44]/95 backdrop-blur-md text-white shadow-lg border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="h-16 flex items-center justify-between gap-3">
+        <a href="../gis.html" class="flex items-center gap-2.5 min-w-0">
+          <img src="../../images/logo-main.png" alt="EGFB" class="h-10 w-auto object-contain shrink-0">
+          <div class="min-w-0">
+            <div class="font-bold text-sm leading-tight">Dados de geoprocessamento</div>
+            <div class="text-[11px] text-teal-100/80 truncate">GIS · EGFB · ISPM</div>
+          </div>
+        </a>
+        <nav class="hidden lg:flex items-center gap-0.5 text-sm font-medium">
+          <a href="../gis.html" class="px-3 py-2 rounded-full hover:bg-white/10 ">Catálogo</a>
+          <a href="mapa.html" class="px-3 py-2 rounded-full hover:bg-white/10 bg-white/15">Mapa interativo</a>
+          <a href="livros.html" class="px-3 py-2 rounded-full hover:bg-white/10 ">Biblioteca</a>
+          <a href="software.html" class="px-3 py-2 rounded-full hover:bg-white/10 ">Software</a>
+          <a href="forum.html" class="px-3 py-2 rounded-full hover:bg-white/10 ">Fórum</a>
+        </nav>
+        <div class="flex items-center gap-2">
+          <a href="../../index.html" class="hidden sm:inline-flex h-9 px-3.5 items-center rounded-full bg-white text-[#0b3d44] text-xs font-bold">Curso EGFB</a>
+          <button type="button" id="gis-menu-btn" class="lg:hidden p-2 rounded-lg hover:bg-white/10" aria-label="Menu">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div id="gis-menu" class="hidden lg:hidden border-t border-white/10 bg-[#0b3d44] px-4 py-3 space-y-1 text-sm">
+      <a href="../gis.html" class="block px-4 py-3 rounded-xl bg-white/10 font-medium">Catálogo</a>
+      <a href="mapa.html" class="block px-4 py-3 rounded-xl bg-white text-[#0b3d44] font-medium">Mapa interativo</a>
+      <a href="livros.html" class="block px-4 py-3 rounded-xl bg-white/10 font-medium">Biblioteca</a>
+      <a href="software.html" class="block px-4 py-3 rounded-xl bg-white/10 font-medium">Software</a>
+      <a href="forum.html" class="block px-4 py-3 rounded-xl bg-white/10 font-medium">Fórum</a>
+      <a href="../../index.html" class="block px-4 py-3 rounded-xl bg-white text-[#0b3d44] font-bold text-center mt-2">Curso EGFB</a>
+    </div>
+  </header>
+  <script>document.getElementById('gis-menu-btn')?.addEventListener('click',()=>document.getElementById('gis-menu').classList.toggle('hidden'));</script>
+  <div class="max-w-[1600px] mx-auto px-2 sm:px-3 py-2">
+    <div class="flex flex-col lg:flex-row rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-[#0a3338]" style="min-height:calc(100dvh - 5.5rem)">
+      <aside class="lg:w-72 shrink-0 p-4 text-white border-b lg:border-b-0 lg:border-r border-white/10 max-h-[40vh] lg:max-h-none overflow-y-auto">
+        <h1 class="font-bold text-lg">Mapa interativo</h1>
+        <p class="text-xs text-white/60 mt-1 mb-4">Camadas e mapa base</p>
+        <p class="text-[10px] font-bold uppercase tracking-wide text-teal-300/80 mb-2">Mapa base</p>
+        <select id="base" class="w-full text-sm rounded-xl px-3 py-2.5 mb-5 border border-white/20">
+          <option value="osm">Mapa padrão</option>
+          <option value="topo">Topográfico</option>
+          <option value="dark">Escuro</option>
+          <option value="sat">Satélite</option>
+        </select>
+        <p class="text-[10px] font-bold uppercase tracking-wide text-teal-300/80 mb-2">Nacionais</p>
+        <div class="space-y-1.5 text-sm mb-4">
+          <label class="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-white/5 cursor-pointer"><input type="checkbox" class="layer" data-layer="parques" checked> Parques nacionais</label>
+          <label class="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-white/5 cursor-pointer"><input type="checkbox" class="layer" data-layer="reservas" checked> Reservas florestais</label>
+          <label class="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-white/5 cursor-pointer"><input type="checkbox" class="layer" data-layer="coutadas"> Coutadas</label>
+          <label class="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-white/5 cursor-pointer"><input type="checkbox" class="layer" data-layer="provincias"> Províncias</label>
+          <label class="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-white/5 cursor-pointer"><input type="checkbox" class="layer" data-layer="estradas"> Estradas nacionais</label>
+        </div>
+        <p class="text-[10px] font-bold uppercase tracking-wide text-teal-300/80 mb-2">Campus ISPM</p>
+        <div class="space-y-1.5 text-sm">
+          <label class="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-white/5 cursor-pointer"><input type="checkbox" class="layer" data-layer="jardim" checked> Jardim Botânico</label>
+          <label class="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-white/5 cursor-pointer"><input type="checkbox" class="layer" data-layer="limites"> Limites ISPM</label>
+          <label class="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-white/5 cursor-pointer"><input type="checkbox" class="layer" data-layer="lagoas" checked> Lagoas</label>
+          <label class="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-white/5 cursor-pointer"><input type="checkbox" class="layer" data-layer="estradas_ispm"> Estradas ISPM</label>
+        </div>
+        <button type="button" id="btn-campus" class="mt-5 w-full h-10 rounded-full bg-white text-[#0b3d44] text-xs font-bold">Centrar no campus ISPM</button>
+      </aside>
+      <div class="flex-1 relative" style="min-height:50vh"><div id="map"></div></div>
+    </div>
+  </div>
+<script>
+const map = L.map('map').setView([-18.5, 35.5], 5);
+setTimeout(()=>map.invalidateSize(), 300);
+window.addEventListener('resize', ()=>map.invalidateSize());
+const bases = {
+  osm: L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom:19, attribution:'© OSM'}),
+  topo: L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {maxZoom:17}),
+  dark: L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'),
+  sat: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'),
+};
+let current = bases.osm; current.addTo(map);
+document.getElementById('base').onchange = e => { map.removeLayer(current); current = bases[e.target.value]; current.addTo(map); };
+const styles = {
+  parques: {color:'#16a34a', weight:1.5, fillColor:'#16a34a', fillOpacity:0.4},
+  reservas: {color:'#15803d', weight:1.5, fillColor:'#15803d', fillOpacity:0.35},
+  coutadas: {color:'#a16207', weight:1.2, fillColor:'#a16207', fillOpacity:0.3},
+  provincias: {color:'#0e7490', weight:1, fillColor:'#0e7490', fillOpacity:0.08},
+  estradas: {color:'#b91c1c', weight:1.4},
+  jardim: {color:'#059669', weight:2.5, fillColor:'#10b981', fillOpacity:0.45},
+  limites: {color:'#0d9488', weight:2, fillColor:'#14b8a6', fillOpacity:0.15},
+  lagoas: {color:'#0284c7', weight:2, fillColor:'#38bdf8', fillOpacity:0.5},
+  estradas_ispm: {color:'#e11d48', weight:2},
+};
+const files = {
+  parques:'data/parques-nacionais.geojson', reservas:'data/reservas-florestais.geojson', coutadas:'data/coutadas-oficiais.geojson',
+  provincias:'data/provincias.geojson', estradas:'data/estradas-nacionais.geojson', jardim:'data/jardim-botanico.geojson',
+  limites:'data/limites-ispm.geojson', lagoas:'data/lagoas.geojson', estradas_ispm:'data/estradas-ispm.geojson',
+};
+const layers = {};
+function load(key) {
+  if (layers[key]) { map.addLayer(layers[key]); return; }
+  fetch(files[key]).then(r=>r.json()).then(gj => {
+    layers[key] = L.geoJSON(gj, { style: styles[key], onEachFeature:(f,l)=>{ const p=f.properties||{}; const n=p.Nome||p.NAME||p.Provincia||p.name; if(n)l.bindPopup(String(n)); } }).addTo(map);
+  });
+}
+document.querySelectorAll('.layer').forEach(cb => {
+  cb.onchange = () => { if (cb.checked) load(cb.dataset.layer); else if (layers[cb.dataset.layer]) map.removeLayer(layers[cb.dataset.layer]); };
+  if (cb.checked) load(cb.dataset.layer);
+});
+document.getElementById('btn-campus').onclick = () => {
+  map.setView([-19.045, 33.40], 14);
+  map.invalidateSize();
+  ['jardim','limites','lagoas'].forEach(k => { const cb=document.querySelector('.layer[data-layer="'+k+'"]'); if(cb && !cb.checked){ cb.checked=true; load(k); } });
+};
+</script>
+</body>
+</html>

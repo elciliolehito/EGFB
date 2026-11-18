@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
+  <title>Mapa e Georreferenciação | Jardim Botânico EGFB</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'jb-green': '#1a5c2e',
+            'jb-green-dark': '#0f3d1e',
+            'jb-green-light': '#2d7a45',
+            'jb-yellow': '#f5c518',
+            'jb-orange': '#e8943a',
+          },
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .dropdown { position: relative; }
+    .dropdown-menu {
+      display: none; position: absolute; left: 0; top: 100%;
+      margin-top: 0; padding-top: 8px; z-index: 50; min-width: 240px;
+    }
+    .dropdown:hover .dropdown-menu, .dropdown-menu:hover { display: block; }
+    .dropdown-menu > div {
+      background: #0f3d1e; border-radius: 0.5rem;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.25); padding: 0.5rem 0;
+    }
+    .dropdown-menu a {
+      display: block; padding: 0.65rem 1.25rem; color: #e8f0ea;
+      font-size: 0.875rem; transition: background 0.15s;
+    }
+    .dropdown-menu a:hover { background: #1a5c2e; color: #fff; }
+    .mini-map { height: 120px; border-radius: 0.75rem; overflow: hidden; background: #e8f0ea; }
+    .leaflet-container { z-index: 1 !important; }
+    header { z-index: 1000 !important; }
+  
+    #mobile-menu {
+      max-height: calc(100vh - 4rem);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .species-card { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+    .species-card:hover { transform: translateY(-6px); box-shadow: 0 14px 28px rgba(0,0,0,0.12); }
+    .species-card img { transition: transform 0.4s ease; }
+    .species-card:hover img { transform: scale(1.05); }
+
+</style>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <header class="fixed top-0 left-0 right-0 z-[1000] bg-white/95 backdrop-blur-md shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-16 gap-3">
+        <a href="../jardim-botanico.html" class="flex items-center gap-3 shrink-0 min-w-0">
+          <img src="../../images/logo-main.png" alt="EGFB" class="h-11 shrink-0">
+          <div class="min-w-0">
+            <div class="font-bold text-[#1a5c2e] text-sm leading-tight">Jardim Botânico</div>
+            <div class="text-xs text-gray-600 font-medium truncate">Mapa e Georreferenciação</div>
+          </div>
+        </a>
+        <nav class="hidden lg:flex items-center gap-1">
+          <div class="relative group">
+            <button type="button" class="px-3 py-2 text-sm font-medium text-gray-800 hover:text-[#1a5c2e] flex items-center gap-1">Habitats
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition absolute left-0 top-full pt-2 z-50 min-w-[240px]">
+              <div class="bg-[#0f3d1e] rounded-lg shadow-xl py-2">
+                <a href="habitat-aberto.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Habitat Aberto</a>
+                <a href="habitat-fechado.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Habitat Fechado</a>
+                <a href="habitat-aquatico.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Habitat Aquático</a>
+              </div>
+            </div>
+          </div>
+          <div class="relative group">
+            <button type="button" class="px-3 py-2 text-sm font-medium text-gray-800 hover:text-[#1a5c2e] flex items-center gap-1">Espécies
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition absolute left-0 top-full pt-2 z-50 min-w-[200px]">
+              <div class="bg-[#0f3d1e] rounded-lg shadow-xl py-2">
+                <a href="especies-anfibios.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Anfíbios</a>
+                <a href="especies-mamiferos.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Mamíferos</a>
+                <a href="especies-aves.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Aves</a>
+                <a href="especies-repteis.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Répteis</a>
+                <a href="especies-plantas.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Plantas / Flora</a>
+                <a href="especies-invertebrados.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Invertebrados</a>
+                <a href="especies-peixes.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Peixes</a>
+              </div>
+            </div>
+          </div>
+          <div class="relative group">
+            <button type="button" class="px-3 py-2 text-sm font-medium text-gray-800 hover:text-[#1a5c2e] flex items-center gap-1">Sobre o Jardim
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition absolute left-0 top-full pt-2 z-50 min-w-[220px]">
+              <div class="bg-[#0f3d1e] rounded-lg shadow-xl py-2">
+                <a href="sobre.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Descrição e Localização</a>
+                <a href="georreferenciacao.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Mapa e Georreferenciação</a>
+              </div>
+            </div>
+          </div>
+          <a href="doar.html" class="ml-2 px-5 py-2 bg-[#e8943a] text-white text-sm font-semibold rounded-full">Doar</a>
+        </nav>
+        <div class="flex items-center gap-2 shrink-0">
+          <a href="pesquisa.html" class="w-10 h-10 rounded-full flex items-center justify-center text-gray-700 hover:bg-gray-100" aria-label="Pesquisar" title="Pesquisar">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          </a>
+          <a href="../jardim-botanico.html" class="hidden sm:inline-flex items-center justify-center h-9 px-4 rounded-full border border-gray-200 text-xs font-semibold text-gray-700 hover:border-[#1a5c2e] hover:text-[#1a5c2e] bg-white transition">Jardim Botânico</a>
+          <button type="button" id="menu-btn" class="lg:hidden w-10 h-10 rounded-full flex items-center justify-center text-gray-700 hover:bg-gray-100" aria-label="Menu">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div id="mobile-menu" class="hidden lg:hidden bg-white border-t px-4 py-3 space-y-1" style="max-height:calc(100vh - 4rem);overflow-y:auto;-webkit-overflow-scrolling:touch">
+      <a href="pesquisa.html" class="block py-2 text-sm font-semibold text-[#1a5c2e]">Pesquisar</a>
+      <a href="habitat-aberto.html" class="block py-2 text-sm">Habitat Aberto</a>
+      <a href="habitat-fechado.html" class="block py-2 text-sm">Habitat Fechado</a>
+      <a href="habitat-aquatico.html" class="block py-2 text-sm">Habitat Aquático</a>
+      <a href="especies-anfibios.html" class="block py-2 text-sm">Anfíbios</a>
+      <a href="especies-mamiferos.html" class="block py-2 text-sm">Mamíferos</a>
+      <a href="especies-aves.html" class="block py-2 text-sm">Aves</a>
+      <a href="especies-repteis.html" class="block py-2 text-sm">Répteis</a>
+      <a href="especies-plantas.html" class="block py-2 text-sm">Plantas / Flora</a>
+      <a href="especies-invertebrados.html" class="block py-2 text-sm">Invertebrados</a>
+      <a href="especies-peixes.html" class="block py-2 text-sm">Peixes</a>
+      <a href="sobre.html" class="block py-2 text-sm">Descrição e Localização</a>
+      <a href="georreferenciacao.html" class="block py-2 text-sm">Mapa e Georreferenciação</a>
+      <a href="../jardim-botanico.html" class="block py-2 text-sm text-gray-500 border-t mt-2">← Jardim Botânico</a>
+    </div>
+  </header>
+
+  <main class="pt-20 pb-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="grid sm:grid-cols-2 gap-5 mb-14">
+  <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm flex flex-col">
+    <div id="mini-jardim" class="mini-map"></div>
+    <div class="p-5 flex flex-col flex-1">
+      <h3 class="font-bold text-lg text-black">Jardim Botânico</h3>
+      <a href="downloads/jardim-botanico-shp.zip" class="mt-4 inline-flex items-center justify-center gap-2 px-5 py-3 bg-jb-green text-white rounded-full text-sm font-semibold hover:bg-jb-green-dark transition">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4"/></svg>
+        Descarregar ZIP
+      </a>
+    </div>
+  </div>
+  <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm flex flex-col">
+    <div id="mini-lagoas" class="mini-map"></div>
+    <div class="p-5 flex flex-col flex-1">
+      <h3 class="font-bold text-lg text-black">Lagoas</h3>
+      <a href="downloads/lagoas-shp.zip" class="mt-4 inline-flex items-center justify-center gap-2 px-5 py-3 bg-jb-green text-white rounded-full text-sm font-semibold hover:bg-jb-green-dark transition">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4"/></svg>
+        Descarregar ZIP
+      </a>
+    </div>
+  </div>
+  <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm flex flex-col">
+    <div id="mini-limites" class="mini-map"></div>
+    <div class="p-5 flex flex-col flex-1">
+      <h3 class="font-bold text-lg text-black">Limites ISPM</h3>
+      <a href="downloads/limites-ispm-shp.zip" class="mt-4 inline-flex items-center justify-center gap-2 px-5 py-3 bg-jb-green text-white rounded-full text-sm font-semibold hover:bg-jb-green-dark transition">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4"/></svg>
+        Descarregar ZIP
+      </a>
+    </div>
+  </div>
+  <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm flex flex-col">
+    <div id="mini-estradas" class="mini-map"></div>
+    <div class="p-5 flex flex-col flex-1">
+      <h3 class="font-bold text-lg text-black">Estradas ISPM</h3>
+      <a href="downloads/estradas-ispm-shp.zip" class="mt-4 inline-flex items-center justify-center gap-2 px-5 py-3 bg-jb-green text-white rounded-full text-sm font-semibold hover:bg-jb-green-dark transition">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4"/></svg>
+        Descarregar ZIP
+      </a>
+    </div>
+  </div>
+</div>
+
+<h2 class="text-2xl font-bold text-black mb-4 mt-4">Mapa do Jardim Botânico</h2>
+<div class="rounded-2xl border-4 border-jb-green p-1 sm:p-2 shadow-lg bg-jb-green/5">
+  <div id="map" class="w-full h-[380px] sm:h-[480px] rounded-xl overflow-hidden z-0"></div>
+</div>
+<div class="mt-4 flex flex-wrap gap-4 text-sm text-gray-600">
+  <span class="inline-flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-jb-green"></span> Jardim</span>
+  <span class="inline-flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-blue-500"></span> Lagoas</span>
+  <span class="inline-flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-[#8b4513]"></span> Estradas</span>
+  <span class="inline-flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-gray-400"></span> Limites</span>
+</div>
+
+    </div>
+  </main>
+  <footer class="bg-jb-green-dark text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div>
+          <div class="flex items-center gap-2 mb-3">
+            <img src="../../images/logo-main.png" alt="EGFB" class="h-10">
+            <span class="font-bold">Jardim Botânico EGFB</span>
+          </div>
+          <p class="text-sm text-white/70">Área de estudo, inventário e conservação no ISPM — Curso de Ecoturismo e Gestão de Fauna Bravia.</p>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-3 text-jb-yellow">Habitats</h4>
+          <ul class="space-y-2 text-sm text-white/80">
+            <li><a href="habitat-aberto.html" class="hover:text-white">Habitat Aberto</a></li>
+            <li><a href="habitat-fechado.html" class="hover:text-white">Habitat Fechado</a></li>
+            <li><a href="habitat-aquatico.html" class="hover:text-white">Habitat Aquático</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-3 text-jb-yellow">Espécies</h4>
+          <ul class="space-y-2 text-sm text-white/80">
+            <li><a href="especies-aves.html" class="hover:text-white">Aves</a></li>
+            <li><a href="especies-mamiferos.html" class="hover:text-white">Mamíferos</a></li>
+            <li><a href="especies-invertebrados.html" class="hover:text-white">Invertebrados</a></li>
+            <li><a href="especies-plantas.html" class="hover:text-white">Flora</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-3 text-jb-yellow">Navegação</h4>
+          <a href="../jardim-botanico.html" class="block text-sm text-jb-yellow hover:underline mb-2">← Página inicial do Jardim Botânico</a>
+          <a href="../jardim-botanico.html" class="hidden sm:inline-flex items-center justify-center h-10 px-4 rounded-full border border-gray-200 text-xs font-semibold text-gray-700 hover:border-[#1a5c2e] hover:text-[#1a5c2e] bg-white transition">Jardim Botânico</a>
+        </div>
+      </div>
+      <div class="border-t border-white/10 mt-10 pt-6 text-center text-xs text-white/50">
+        © 2026 Jardim Botânico EGFB · ISPM
+      </div>
+    </div>
+  </footer>
+  <script>
+    document.getElementById('menu-btn')?.addEventListener('click', () => {{
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+    }});
+  </script>
+
+
+<script>
+function miniMap(id, url, style, isLine) {
+  const m = L.map(id, { zoomControl: false, attributionControl: false, dragging: false, scrollWheelZoom: false, doubleClickZoom: false, boxZoom: false, keyboard: false });
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(m);
+  fetch(url).then(r => r.json()).then(geo => {
+    const layer = L.geoJSON(geo, { style: style }).addTo(m);
+    try { m.fitBounds(layer.getBounds().pad(0.25)); } catch(e) {}
+  });
+}
+miniMap('mini-jardim', 'geo/jardim-botanico.geojson', { color: '#1a5c2e', weight: 2, fillColor: '#2d7a45', fillOpacity: 0.5 });
+miniMap('mini-lagoas', 'geo/lagoas.geojson', { color: '#1565c0', weight: 2, fillColor: '#42a5f5', fillOpacity: 0.6 });
+miniMap('mini-limites', 'geo/limites-ispm.geojson', { color: '#666', weight: 2, fillOpacity: 0.1, dashArray: '4 3' });
+miniMap('mini-estradas', 'geo/estradas-ispm.geojson', { color: '#8b4513', weight: 3 });
+
+const map = L.map('map').setView([-19.046, 33.400], 16);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap', maxZoom: 19 }).addTo(map);
+Promise.all([
+  fetch('geo/limites-ispm.geojson').then(r => r.json()),
+  fetch('geo/jardim-botanico.geojson').then(r => r.json()),
+  fetch('geo/lagoas.geojson').then(r => r.json()),
+  fetch('geo/estradas-ispm.geojson').then(r => r.json())
+]).then(([limites, jardim, lagoas, estradas]) => {
+  L.geoJSON(limites, { style: { color: '#666', weight: 2, fillOpacity: 0.08, dashArray: '6 4' } }).addTo(map);
+  L.geoJSON(estradas, { style: { color: '#8b4513', weight: 2.5 } }).addTo(map);
+  const lj = L.geoJSON(jardim, { style: { color: '#1a5c2e', weight: 3, fillColor: '#2d7a45', fillOpacity: 0.4 } }).addTo(map);
+  L.geoJSON(lagoas, { style: { color: '#1565c0', weight: 2, fillColor: '#42a5f5', fillOpacity: 0.55 } }).addTo(map);
+  map.fitBounds(lj.getBounds().pad(0.4));
+});
+</script>
+
+</body>
+</html>

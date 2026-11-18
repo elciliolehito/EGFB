@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../images/favicon.ico">
+  <title>Mini-Museu de Biodiversidade | EGFB – ISPM</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: Inter, system-ui, sans-serif; }
+    .row-scroll { scroll-snap-type: x mandatory; scrollbar-width: none; }
+    .row-scroll::-webkit-scrollbar { display: none; }
+    .row-item { scroll-snap-align: start; }
+    .specimen-card { transition: transform .2s ease, box-shadow .2s ease; }
+    .specimen-card:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(0,0,0,.1); }
+    .search-pill { transition: box-shadow .2s, background .2s; }
+    .search-pill:hover, .search-pill.active { background: #ffffff; box-shadow: 0 4px 14px rgba(0,0,0,.10); }
+    .panel {
+      display: none;
+      background: #ffffff;
+      border-radius: 24px;
+      box-shadow: 0 16px 48px rgba(0,0,0,.14), 0 2px 8px rgba(0,0,0,.06);
+      border: 1px solid rgba(0,0,0,.06);
+    }
+    .panel.open { display: block; }
+    .like-btn.liked .heart-outline { display: none; }
+    .like-btn.liked .heart-fill { display: block; }
+  
+.iucn-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 1.75rem; height: 1.75rem; border-radius: 9999px;
+  font-weight: 800; font-size: 0.6rem; letter-spacing: 0.02em;
+  color: #fff; flex-shrink: 0; box-shadow: 0 1px 3px rgba(0,0,0,.15);
+}
+.iucn-badge.LC { background: #4caf50; }
+.iucn-badge.NT { background: #c6d92d; }
+.iucn-badge.VU { background: #f0c808; }
+.iucn-badge.EN { background: #f07c2a; }
+.iucn-badge.CR { background: #d32f2f; }
+.iucn-badge.EW { background: #5c2d5e; }
+.iucn-badge.DD { background: #b0b0a8; }
+.iucn-badge.NE { background: #fff; color: #111; border: 1.5px solid #333; }
+
+</style>
+</head>
+<body class="bg-white text-gray-900 antialiased">
+  <header class="sticky top-0 z-50 bg-white border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
+      <a href="museu.html" class="flex items-center gap-2.5 shrink-0">
+        <img src="../images/logo-main.png" alt="" class="h-10">
+        <div>
+          <div class="font-semibold text-sm leading-tight">Mini-Museu</div>
+          <div class="text-xs text-gray-500">Biodiversidade · EGFB</div>
+        </div>
+      </a>
+      <nav class="hidden lg:flex items-center gap-1 text-sm font-medium text-gray-700">
+        <a href="mini-museu/vivos.html" class="px-3 py-2 rounded-full hover:bg-gray-100">Vivas</a>
+        <a href="mini-museu/conservados.html" class="px-3 py-2 rounded-full hover:bg-gray-100">Conservados</a>
+        <a href="mini-museu/herbario.html" class="px-3 py-2 rounded-full hover:bg-gray-100">Herbário</a>
+        <a href="mini-museu/entomologia.html" class="px-3 py-2 rounded-full hover:bg-gray-100">Entomologia</a>
+      </nav>
+      <a href="../index.html" class="hidden sm:inline-flex h-9 px-4 items-center rounded-full border border-gray-200 text-xs font-semibold text-gray-700 hover:border-gray-400">Curso EGFB</a>
+    </div>
+  </header>
+
+  <main class="pb-8">
+    <!-- Search bar: desktop row | mobile: 3 cols + full buscar -->
+    <section class="max-w-4xl mx-auto px-4 pt-6 pb-2 relative z-40">
+      <div id="search-bar" class="rounded-[28px] sm:rounded-full border border-gray-200 shadow-lg bg-gray-50/90 p-2 sm:p-0 sm:overflow-visible">
+        <div class="grid grid-cols-3 sm:flex sm:flex-row sm:items-center gap-1 sm:gap-0">
+          <button type="button" data-panel="onde" class="search-pill text-left px-2.5 sm:px-5 py-2.5 sm:py-3.5 rounded-2xl sm:rounded-full sm:flex-1 sm:border-r border-gray-200/80 min-w-0">
+            <div class="text-[10px] sm:text-xs font-bold text-gray-900">Onde</div>
+            <div class="text-[11px] sm:text-sm text-gray-500 truncate">Localização</div>
+          </button>
+          <button type="button" data-panel="quando" class="search-pill text-left px-2.5 sm:px-5 py-2.5 sm:py-3.5 rounded-2xl sm:rounded-full sm:flex-1 sm:border-r border-gray-200/80 min-w-0">
+            <div class="text-[10px] sm:text-xs font-bold text-gray-900">Quando</div>
+            <div class="text-[11px] sm:text-sm text-gray-500 truncate">Horário</div>
+          </button>
+          <button type="button" data-panel="quem" class="search-pill text-left px-2.5 sm:px-5 py-2.5 sm:py-3.5 rounded-2xl sm:rounded-full sm:flex-1 min-w-0">
+            <div class="text-[10px] sm:text-xs font-bold text-gray-900">Quem</div>
+            <div class="text-[11px] sm:text-sm text-gray-500 truncate">Público</div>
+          </button>
+          <div class="hidden sm:flex p-2 pr-2">
+            <button type="button" id="btn-buscar-desk" class="inline-flex items-center gap-2 bg-[#1a5c2e] hover:bg-[#0f3d1e] text-white font-semibold text-sm rounded-full px-5 py-3 shadow">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+              Buscar
+            </button>
+          </div>
+        </div>
+        <div class="sm:hidden mt-2">
+          <button type="button" id="btn-buscar-mob" class="w-full inline-flex items-center justify-center gap-2 bg-[#1a5c2e] hover:bg-[#0f3d1e] text-white font-semibold text-sm rounded-full px-5 py-3 shadow">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            Buscar
+          </button>
+        </div>
+      </div>
+
+      <div id="panel-onde" class="panel absolute z-50 mt-3 left-4 right-4 sm:left-0 sm:right-auto sm:w-[400px] p-6">
+        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Localização</p>
+        <p class="text-gray-800 leading-relaxed text-sm">
+          O <strong>Mini-Museu de Biodiversidade</strong> fica no <strong>Instituto Superior Politécnico de Manica (ISPM)</strong>,
+          no âmbito do curso EGFB. Espécies vivas e espécimes conservados (crânios, formalina, herbários e entomologia).
+        </p>
+        <a href="mini-museu/localizacao.html" class="inline-block mt-4 text-sm font-semibold text-[#1a5c2e] hover:underline">Ver localização →</a>
+      </div>
+
+      <div id="panel-quando" class="panel absolute z-50 mt-3 left-4 right-4 sm:left-[18%] sm:right-auto sm:w-[440px] p-6">
+        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">Horário de funcionamento</p>
+        <p class="text-sm text-gray-600 mb-4">Segunda a sexta · <strong class="text-gray-900">8h00 – 15h30</strong></p>
+        <div class="grid grid-cols-5 gap-2">
+          <div class="rounded-2xl border border-gray-100 bg-gray-50 p-3 text-center">
+            <div class="text-xs text-gray-500">Seg</div>
+            <div class="text-xs font-semibold mt-1 text-gray-900">8–15h30</div>
+          </div>
+          <div class="rounded-2xl border border-gray-100 bg-gray-50 p-3 text-center">
+            <div class="text-xs text-gray-500">Ter</div>
+            <div class="text-xs font-semibold mt-1 text-gray-900">8–15h30</div>
+          </div>
+          <div class="rounded-2xl border border-gray-100 bg-gray-50 p-3 text-center">
+            <div class="text-xs text-gray-500">Qua</div>
+            <div class="text-xs font-semibold mt-1 text-gray-900">8–15h30</div>
+          </div>
+          <div class="rounded-2xl border border-gray-100 bg-gray-50 p-3 text-center">
+            <div class="text-xs text-gray-500">Qui</div>
+            <div class="text-xs font-semibold mt-1 text-gray-900">8–15h30</div>
+          </div>
+          <div class="rounded-2xl border border-gray-100 bg-gray-50 p-3 text-center">
+            <div class="text-xs text-gray-500">Sex</div>
+            <div class="text-xs font-semibold mt-1 text-gray-900">8–15h30</div>
+          </div>
+        </div>
+        <p class="text-xs text-gray-500 mt-3">Encerrado ao fim de semana e feriados (salvo actividades do curso).</p>
+      </div>
+
+      <div id="panel-quem" class="panel absolute z-50 mt-3 left-4 right-4 sm:right-0 sm:left-auto sm:w-[380px] p-6">
+        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">Para quem</p>
+        <ul class="space-y-3 text-sm">
+          <li class="flex gap-3 items-start">
+            <span class="w-10 h-10 rounded-2xl bg-emerald-50 flex items-center justify-center text-lg shrink-0">🎓</span>
+            <div>
+              <div class="font-semibold text-gray-900">Instituições de ensino</div>
+              <div class="text-gray-500 text-xs mt-0.5">Visitas de escolas e turmas do ISPM / EGFB</div>
+            </div>
+          </li>
+          <li class="flex gap-3 items-start">
+            <span class="w-10 h-10 rounded-2xl bg-sky-50 flex items-center justify-center text-lg shrink-0">🧒</span>
+            <div>
+              <div class="font-semibold text-gray-900">Crianças</div>
+              <div class="text-gray-500 text-xs mt-0.5">Actividades educativas e descoberta da biodiversidade</div>
+            </div>
+          </li>
+          <li class="flex gap-3 items-start">
+            <span class="w-10 h-10 rounded-2xl bg-amber-50 flex items-center justify-center text-lg shrink-0">👤</span>
+            <div>
+              <div class="font-semibold text-gray-900">Adultos e investigadores</div>
+              <div class="text-gray-500 text-xs mt-0.5">Consulta de colecções e material de inventário</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div id="panel-buscar" class="panel absolute z-50 mt-3 left-4 right-4 p-5">
+        <input id="q" type="search" placeholder="Pesquisar no Mini-Museu (espécie, colecção, crânio…)" class="w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-200 focus:bg-white">
+        <div id="search-results" class="mt-3 max-h-64 overflow-y-auto space-y-1 text-sm"></div>
+      </div>
+      </div>
+    </section>
+
+    <!-- Independent collection cards with white gaps -->
+    <section class="space-y-6 mt-6">
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6">
+        <div class="bg-stone-100 rounded-3xl border border-stone-200/60 p-4 sm:p-5 shadow-sm">
+          <div class="flex items-center justify-between gap-3 mb-4">
+            <h2 class="text-lg sm:text-xl font-bold text-gray-900">Espécies vivas</h2>
+            <div class="flex items-center gap-2 shrink-0">
+              <button type="button" class="row-prev w-8 h-8 rounded-full border border-stone-300 bg-white flex items-center justify-center hover:bg-stone-50 text-gray-700" data-target="row-vivas" aria-label="Anterior">‹</button>
+              <button type="button" class="row-next w-8 h-8 rounded-full border border-stone-300 bg-white flex items-center justify-center hover:bg-stone-50 text-gray-700" data-target="row-vivas" aria-label="Seguinte">›</button>
+              <a href="mini-museu/vivos.html" class="hidden sm:inline-flex items-center gap-1.5 h-9 px-4 rounded-full bg-gray-900 text-white text-xs font-semibold hover:bg-black transition shadow-sm">
+                Ver tudo
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </div>
+          <div id="row-vivas" class="row-scroll flex gap-3 overflow-x-auto pb-1">
+            
+            <div class="row-item shrink-0 w-[48%] sm:w-[31%] lg:w-[15.2%]">
+              <div class="specimen-card bg-white rounded-2xl border border-stone-200/80 shadow-sm overflow-hidden h-full flex flex-col">
+                <div class="relative aspect-square bg-stone-100 overflow-hidden">
+                  <a href="mini-museu/especies/camaleao-pescoco-achatado.html" class="block w-full h-full"><img src="../images/mini-museu/camaleao.jpg" alt="" class="w-full h-full object-cover"></a>
+                  <button type="button" class="like-btn absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center text-gray-700 hover:scale-105 transition" data-id="Camaleão-de-pescoço-achatado" aria-label="Gostar">
+                    <svg class="w-4 h-4 heart-outline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                    <svg class="w-4 h-4 heart-fill hidden text-[#E31C5F]" fill="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                  </button>
+                  <span class="like-count absolute bottom-2 right-2 text-[11px] font-semibold bg-black/55 text-white px-2 py-0.5 rounded-full">12</span>
+                </div>
+                <a href="mini-museu/especies/camaleao-pescoco-achatado.html" class="p-2.5 flex-1">
+                  <div class="font-semibold text-xs sm:text-sm text-gray-900 leading-snug line-clamp-2">Camaleão-de-pescoço-achatado</div>
+                  <div class="text-[11px] text-gray-500 mt-0.5 line-clamp-1">Chamaeleo dilepis</div>
+                  <div class="mt-1.5"><span class="iucn-badge LC" title="LC">LC</span></div>
+                </a>
+              </div>
+            </div>
+            <div class="row-item shrink-0 w-[48%] sm:w-[31%] lg:w-[15.2%]">
+              <div class="specimen-card bg-white rounded-2xl border border-stone-200/80 shadow-sm overflow-hidden h-full flex flex-col">
+                <div class="relative aspect-square bg-stone-100 overflow-hidden">
+                  <a href="mini-museu/especies/tartaruga-terrario.html" class="block w-full h-full"><img src="../images/mini-museu/tartaruga.jpg" alt="" class="w-full h-full object-cover"></a>
+                  <button type="button" class="like-btn absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center text-gray-700 hover:scale-105 transition" data-id="Tartaruga (terrário)" aria-label="Gostar">
+                    <svg class="w-4 h-4 heart-outline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                    <svg class="w-4 h-4 heart-fill hidden text-[#E31C5F]" fill="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                  </button>
+                  <span class="like-count absolute bottom-2 right-2 text-[11px] font-semibold bg-black/55 text-white px-2 py-0.5 rounded-full">8</span>
+                </div>
+                <a href="mini-museu/especies/tartaruga-terrario.html" class="p-2.5 flex-1">
+                  <div class="font-semibold text-xs sm:text-sm text-gray-900 leading-snug line-clamp-2">Tartaruga (terrário)</div>
+                  <div class="text-[11px] text-gray-500 mt-0.5 line-clamp-1">Testudinidae</div>
+                  <div class="mt-1.5"><span class="iucn-badge NE" title="NE">NE</span></div>
+                </a>
+              </div>
+            </div>
+            <div class="row-item shrink-0 w-[48%] sm:w-[31%] lg:w-[15.2%]">
+              <div class="specimen-card bg-white rounded-2xl border border-stone-200/80 shadow-sm overflow-hidden h-full flex flex-col">
+                <div class="relative aspect-square bg-stone-100 overflow-hidden">
+                  <a href="mini-museu/especies/cobra-verde-terrario.html" class="block w-full h-full"><img src="../images/mini-museu/cobra-verde.jpg" alt="" class="w-full h-full object-cover"></a>
+                  <button type="button" class="like-btn absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center text-gray-700 hover:scale-105 transition" data-id="Cobra verde (terrário)" aria-label="Gostar">
+                    <svg class="w-4 h-4 heart-outline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                    <svg class="w-4 h-4 heart-fill hidden text-[#E31C5F]" fill="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                  </button>
+                  <span class="like-count absolute bottom-2 right-2 text-[11px] font-semibold bg-black/55 text-white px-2 py-0.5 rounded-full">15</span>
+                </div>
+                <a href="mini-museu/especies/cobra-verde-terrario.html" class="p-2.5 flex-1">
+                  <div class="font-semibold text-xs sm:text-sm text-gray-900 leading-snug line-clamp-2">Cobra verde (terrário)</div>
+                  <div class="text-[11px] text-gray-500 mt-0.5 line-clamp-1">Réptil</div>
+                  <div class="mt-1.5"><span class="iucn-badge NE" title="NE">NE</span></div>
+                </a>
+              </div>
+            </div>
+            <div class="row-item shrink-0 w-[48%] sm:w-[31%] lg:w-[15.2%]">
+              <div class="specimen-card bg-white rounded-2xl border border-stone-200/80 shadow-sm overflow-hidden h-full flex flex-col">
+                <div class="relative aspect-square bg-stone-100 overflow-hidden">
+                  <a href="mini-museu/especies/tilapia-mocambique.html" class="block w-full h-full"><img src="../images/mini-museu/camaleao.jpg" alt="" class="w-full h-full object-cover"></a>
+                  <button type="button" class="like-btn absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center text-gray-700 hover:scale-105 transition" data-id="Tilápia-de-Moçambique" aria-label="Gostar">
+                    <svg class="w-4 h-4 heart-outline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                    <svg class="w-4 h-4 heart-fill hidden text-[#E31C5F]" fill="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                  </button>
+                  <span class="like-count absolute bottom-2 right-2 text-[11px] font-semibold bg-black/55 text-white px-2 py-0.5 rounded-full">6</span>
+                </div>
+                <a href="mini-museu/especies/tilapia-mocambique.html" class="p-2.5 flex-1">
+                  <div class="font-semibold text-xs sm:text-sm text-gray-900 leading-snug line-clamp-2">Tilápia-de-Moçambique</div>
+                  <div class="text-[11px] text-gray-500 mt-0.5 line-clamp-1">Oreochromis mossambicus</div>
+                  <div class="mt-1.5"><span class="iucn-badge VU" title="VU">VU</span></div>
+                </a>
+              </div>
+            </div>
+            <div class="row-item shrink-0 w-[48%] sm:w-[31%] lg:w-[15.2%]">
+              <div class="specimen-card bg-white rounded-2xl border border-stone-200/80 shadow-sm overflow-hidden h-full flex flex-col">
+                <div class="relative aspect-square bg-stone-100 overflow-hidden">
+                  <a href="mini-museu/especies/caracol.html" class="block w-full h-full"><img src="../images/mini-museu/tartaruga.jpg" alt="" class="w-full h-full object-cover"></a>
+                  <button type="button" class="like-btn absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center text-gray-700 hover:scale-105 transition" data-id="Caracol" aria-label="Gostar">
+                    <svg class="w-4 h-4 heart-outline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                    <svg class="w-4 h-4 heart-fill hidden text-[#E31C5F]" fill="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                  </button>
+                  <span class="like-count absolute bottom-2 right-2 text-[11px] font-semibold bg-black/55 text-white px-2 py-0.5 rounded-full">4</span>
+                </div>
+                <a href="mini-museu/especies/caracol.html" class="p-2.5 flex-1">
+                  <div class="font-semibold text-xs sm:text-sm text-gray-900 leading-snug line-clamp-2">Caracol</div>
+                  <div class="text-[11px] text-gray-500 mt-0.5 line-clamp-1">Gastropoda</div>
+                  <div class="mt-1.5"><span class="iucn-badge NE" title="NE">NE</span></div>
+                </a>
+              </div>
+            </div>
+            <div class="row-item shrink-0 w-[48%] sm:w-[31%] lg:w-[15.2%]">
+              <div class="specimen-card bg-white rounded-2xl border border-stone-200/80 shadow-sm overflow-hidden h-full flex flex-col">
+                <div class="relative aspect-square bg-stone-100 overflow-hidden">
+                  <a href="mini-museu/especies/camaleao-pescoco-achatado.html" class="block w-full h-full"><img src="../images/mini-museu/camaleao.jpg" alt="" class="w-full h-full object-cover"></a>
+                  <button type="button" class="like-btn absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center text-gray-700 hover:scale-105 transition" data-id="Camaleão (terrário 2)" aria-label="Gostar">
+                    <svg class="w-4 h-4 heart-outline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                    <svg class="w-4 h-4 heart-fill hidden text-[#E31C5F]" fill="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                  </button>
+                  <span class="like-count absolute bottom-2 right-2 text-[11px] font-semibold bg-black/55 text-white px-2 py-0.5 rounded-full">9</span>
+                </div>
+                <a href="mini-museu/especies/camaleao-pescoco-achatado.html" class="p-2.5 flex-1">
+                  <div class="font-semibold text-xs sm:text-sm text-gray-900 leading-snug line-clamp-2">Camaleão (terrário 2)</div>
+                  <div class="text-[11px] text-gray-500 mt-0.5 line-clamp-1">Chamaeleo dilepis</div>
+                  <div class="mt-1.5"><span class="iucn-badge LC" title="LC">LC</span></div>
+                </a>
+              </div>
+            </div>
+            <div class="row-item shrink-0 w-[48%] sm:w-[31%] lg:w-[15.2%]">
+              <div class="specimen-card bg-white rounded-2xl border border-stone-200/80 shadow-sm overflow-hidden h-full flex flex-col">
+                <div class="relative aspect-square bg-stone-100 overflow-hidden">
+                  <a href="mini-museu/especies/tartaruga-terrario.html" class="block w-full h-full"><img src="../images/mini-museu/tartaruga.jpg" alt="" class="w-full h-full object-cover"></a>
+                  <button type="button" class="like-btn absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center text-gray-700 hover:scale-105 transition" data-id="Tartaruga (doc.)" aria-label="Gostar">
+                    <svg class="w-4 h-4 heart-outline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                    <svg class="w-4 h-4 heart-fill hidden text-[#E31C5F]" fill="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                  </button>
+                  <span class="like-count absolute bottom-2 right-2 text-[11px] font-semibold bg-black/55 text-white px-2 py-0.5 rounded-full">3</span>
+                </div>
+                <a href="mini-museu/especies/tartaruga-terrario.html" class="p-2.5 flex-1">
+                  <div class="font-semibold text-xs sm:text-sm text-gray-900 leading-snug line-clamp-2">Tartaruga (doc.)</div>
+                  <div class="text-[11px] text-gray-500 mt-0.5 line-clamp-1">Testudinidae</div>
+                  <div class="mt-1.5"><span class="iucn-badge NE" title="NE">NE</span></div>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="mt-3 sm:hidden">
+            <a href="mini-museu/vivos.html" class="flex items-center justify-center gap-1.5 w-full h-10 rounded-full bg-gray-900 text-white text-sm font-semibold">Ver tudo · Espécies vivas</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6">
+        <div class="bg-stone-100 rounded-3xl border border-stone-200/60 p-4 sm:p-5 shadow-sm">
+          <div class="flex items-center justify-between gap-3 mb-4">
+            <h2 class="text-lg sm:text-xl font-bold text-gray-900">Espécimes conservados</h2>
+            <div class="flex items-center gap-2 shrink-0">
+              <button type="button" class="row-prev w-8 h-8 rounded-full border border-stone-300 bg-white flex items-center justify-center hover:bg-stone-50 text-gray-700" data-target="row-cons" aria-label="Anterior">‹</button>
+              <button type="button" class="row-next w-8 h-8 rounded-full border border-stone-300 bg-white flex items-center justify-center hover:bg-stone-50 text-gray-700" data-target="row-cons" aria-label="Seguinte">›</button>
+              <a href="mini-museu/conservados.html" class="hidden sm:inline-flex items-center gap-1.5 h-9 px-4 rounded-full bg-gray-900 text-white text-xs font-semibold hover:bg-black transition shadow-sm">
+                Ver tudo
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </div>
+          <div id="row-cons" class="row-scroll flex gap-3 overflow-x-auto pb-1">
+            
+            <div class="row-item shrink-0 w-[48%] sm:w-[31%] lg:w-[15.2%]">
+              <div class="specimen-card bg-white rounded-2xl border border-stone-200/80 shadow-sm overflow-hidden h-full flex flex-col">
+                <div class="relative aspect-square bg-stone-100 overflow-hidden">
+                  <a href="mini-museu/especies/inhacoso-piva.html" class="block w-full h-full"><img src="../images/mini-museu/cranio.jpg" alt="" class="w-full h-full object-cover"></a>
+                  <button type="button" class="like-btn absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center text-gray-700 hover:scale-105 transition" data-id="Inhacoso / Piva" aria-label="Gostar">
+                    <svg class="w-4 h-4 heart-outline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                    <svg class="w-4 h-4 heart-fill hidden text-[#E31C5F]" fill="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                  </button>
+                  <span class="like-count absolute bottom-2 right-2 text-[11px] font-semibold bg-black/55 text-white px-2 py-0.5 rounded-full">11</span>
+                </div>
+                <a href="mini-museu/especies/inhacoso-piva.html" class="p-2.5 flex-1">
+                  <div class="font-semibold text-xs sm:text-sm text-gray-900 leading-snug line-clamp-2">Inhacoso / Piva</div>
+                  <div class="text-[11px] text-gray-500 mt-0.5 line-clamp-1">Kobus ellipsiprymnus</div>
+                  <div class="mt-1.5"><span class="iucn-badge LC" title="LC">LC</span></div>
+                </a>
+              </div>
+            </div>
+            <div class="row-item shrink-0 w-[48%] sm:w-[31%] lg:w-[15.2%]">
+              <div class="specimen-card bg-white rounded-2xl border border-stone-200/80 shadow-sm overflow-hidden h-full flex flex-col">
+                <div class="relative aspect-square bg-stone-100 overflow-hidden">
+                  <a href="mini-museu/especies/coruja-das-torres.html" class="block w-full h-full"><img src="../images/mini-museu/coruja.jpg" alt="" class="w-full h-full object-cover"></a>
+                  <button type="button" class="like-btn absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center text-gray-700 hover:scale-105 transition" data-id="Coruja-das-torres" aria-label="Gostar">
+                    <svg class="w-4 h-4 heart-outline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                    <svg class="w-4 h-4 heart-fill hidden text-[#E31C5F]" fill="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                  </button>
+                  <span class="like-count absolute bottom-2 right-2 text-[11px] font-semibold bg-black/55 text-white px-2 py-0.5 rounded-full">14</span>
+                </div>
+                <a href="mini-museu/especies/coruja-das-torres.html" class="p-2.5 flex-1">
+                  <div class="font-semibold text-xs sm:text-sm text-gray-900 leading-snug line-clamp-2">Coruja-das-torres</div>
+                  <div class="text-[11px] text-gray-500 mt-0.5 line-clamp-1">Tyto alba</div>
+                  <div class="mt-1.5"><span class="iucn-badge LC" title="LC">LC</span></div>
+                </a>
+              </div>
+            </div>
+            <div class="row-item shrink-0 w-[48%] sm:w-[31%] lg:w-[15.2%]">
+              <div class="specimen-card bg-white rounded-2xl border border-stone-200/80 shadow-sm overflow-hidden h-full flex flex-col">
+                <div class="relative aspect-square bg-stone-100 overflow-hidden">
+                  <a href="mini-museu/especies/naja-mossambica.html" class="block w-full h-full"><img src="../images/mini-museu/conservados-mesa.jpg" alt="" class="w-full h-full object-cover"></a>
+                  <button type="button" class="like-btn absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center text-gray-700 hover:scale-105 transition" data-id="Herpetofauna em formalina" aria-label="Gostar">
+                    <svg class="w-4 h-4 heart-outline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                    <svg class="w-4 h-4 heart-fill hidden text-[#E31C5F]" fill="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                  </button>
+                  <span class="like-count absolute bottom-2 right-2 text-[11px] font-semibold bg-black/55 text-white px-2 py-0.5 rounded-full">7</span>
+                </div>
+                <a href="mini-museu/especies/naja-mossambica.html" class="p-2.5 flex-1">
+                  <div class="font-semibold text-xs sm:text-sm text-gray-900 leading-snug line-clamp-2">Herpetofauna em formalina</div>
+                  <div class="text-[11px] text-gray-500 mt-0.5 line-clamp-1">Serpentes / lagartos</div>
+                  <div class="mt-1.5"><span class="iucn-badge LC" title="LC">LC</span></div>
+                </a>
+              </div>
+            </div>
+            <div class="row-item shrink-0 w-[48%] sm:w-[31%] lg:w-[15.2%]">
+              <div class="specimen-card bg-white rounded-2xl border border-stone-200/80 shadow-sm overflow-hidden h-full flex flex-col">
+                <div class="relative aspect-square bg-stone-100 overflow-hidden">
+                  <a href="mini-museu/especies/boomslang.html" class="block w-full h-full"><img src="../images/mini-museu/conservados-prateleira.jpg" alt="" class="w-full h-full object-cover"></a>
+                  <button type="button" class="like-btn absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center text-gray-700 hover:scale-105 transition" data-id="Prateleira de espécimes" aria-label="Gostar">
+                    <svg class="w-4 h-4 heart-outline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                    <svg class="w-4 h-4 heart-fill hidden text-[#E31C5F]" fill="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                  </button>
+                  <span class="like-count absolute bottom-2 right-2 text-[11px] font-semibold bg-black/55 text-white px-2 py-0.5 rounded-full">5</span>
+                </div>
+                <a href="mini-museu/especies/boomslang.html" class="p-2.5 flex-1">
+                  <div class="font-semibold text-xs sm:text-sm text-gray-900 leading-snug line-clamp-2">Prateleira de espécimes</div>
+                  <div class="text-[11px] text-gray-500 mt-0.5 line-clamp-1">Colecção em frascos</div>
+                  <div class="mt-1.5"><span class="iucn-badge NE" title="NE">NE</span></div>
+                </a>
+              </div>
+            </div>
+            <div class="row-item shrink-0 w-[48%] sm:w-[31%] lg:w-[15.2%]">
+              <div class="specimen-card bg-white rounded-2xl border border-stone-200/80 shadow-sm overflow-hidden h-full flex flex-col">
+                <div class="relative aspect-square bg-stone-100 overflow-hidden">
+                  <a href="mini-museu/especies/babuiño.html" class="block w-full h-full"><img src="../images/mini-museu/cranio.jpg" alt="" class="w-full h-full object-cover"></a>
+                  <button type="button" class="like-btn absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center text-gray-700 hover:scale-105 transition" data-id="Macaco-cão / Babuíno" aria-label="Gostar">
+                    <svg class="w-4 h-4 heart-outline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                    <svg class="w-4 h-4 heart-fill hidden text-[#E31C5F]" fill="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                  </button>
+                  <span class="like-count absolute bottom-2 right-2 text-[11px] font-semibold bg-black/55 text-white px-2 py-0.5 rounded-full">10</span>
+                </div>
+                <a href="mini-museu/especies/babuiño.html" class="p-2.5 flex-1">
+                  <div class="font-semibold text-xs sm:text-sm text-gray-900 leading-snug line-clamp-2">Macaco-cão / Babuíno</div>
+                  <div class="text-[11px] text-gray-500 mt-0.5 line-clamp-1">Papio ursinus</div>
+                  <div class="mt-1.5"><span class="iucn-badge LC" title="LC">LC</span></div>
+                </a>
+              </div>
+            </div>
+            <div class="row-item shrink-0 w-[48%] sm:w-[31%] lg:w-[15.2%]">
+              <div class="specimen-card bg-white rounded-2xl border border-stone-200/80 shadow-sm overflow-hidden h-full flex flex-col">
+                <div class="relative aspect-square bg-stone-100 overflow-hidden">
+                  <a href="mini-museu/especies/vibora-puff.html" class="block w-full h-full"><img src="../images/mini-museu/conservados-mesa.jpg" alt="" class="w-full h-full object-cover"></a>
+                  <button type="button" class="like-btn absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center text-gray-700 hover:scale-105 transition" data-id="Boomslang / Víbora Puff" aria-label="Gostar">
+                    <svg class="w-4 h-4 heart-outline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                    <svg class="w-4 h-4 heart-fill hidden text-[#E31C5F]" fill="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                  </button>
+                  <span class="like-count absolute bottom-2 right-2 text-[11px] font-semibold bg-black/55 text-white px-2 py-0.5 rounded-full">8</span>
+                </div>
+                <a href="mini-museu/especies/vibora-puff.html" class="p-2.5 flex-1">
+                  <div class="font-semibold text-xs sm:text-sm text-gray-900 leading-snug line-clamp-2">Boomslang / Víbora Puff</div>
+                  <div class="text-[11px] text-gray-500 mt-0.5 line-clamp-1">Dispholidus · Bitis</div>
+                  <div class="mt-1.5"><span class="iucn-badge LC" title="LC">LC</span></div>
+                </a>
+              </div>
+            </div>
+            <div class="row-item shrink-0 w-[48%] sm:w-[31%] lg:w-[15.2%]">
+              <div class="specimen-card bg-white rounded-2xl border border-stone-200/80 shadow-sm overflow-hidden h-full flex flex-col">
+                <div class="relative aspect-square bg-stone-100 overflow-hidden">
+                  <a href="mini-museu/especies/imbabala.html" class="block w-full h-full"><img src="../images/mini-museu/cranio.jpg" alt="" class="w-full h-full object-cover"></a>
+                  <button type="button" class="like-btn absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center text-gray-700 hover:scale-105 transition" data-id="Imbabala" aria-label="Gostar">
+                    <svg class="w-4 h-4 heart-outline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                    <svg class="w-4 h-4 heart-fill hidden text-[#E31C5F]" fill="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                  </button>
+                  <span class="like-count absolute bottom-2 right-2 text-[11px] font-semibold bg-black/55 text-white px-2 py-0.5 rounded-full">6</span>
+                </div>
+                <a href="mini-museu/especies/imbabala.html" class="p-2.5 flex-1">
+                  <div class="font-semibold text-xs sm:text-sm text-gray-900 leading-snug line-clamp-2">Imbabala</div>
+                  <div class="text-[11px] text-gray-500 mt-0.5 line-clamp-1">Tragelaphus scriptus</div>
+                  <div class="mt-1.5"><span class="iucn-badge LC" title="LC">LC</span></div>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="mt-3 sm:hidden">
+            <a href="mini-museu/conservados.html" class="flex items-center justify-center gap-1.5 w-full h-10 rounded-full bg-gray-900 text-white text-sm font-semibold">Ver tudo · Espécimes conservados</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6">
+        <div class="bg-stone-100 rounded-3xl border border-stone-200/60 p-4 sm:p-5 shadow-sm">
+          <div class="flex items-center justify-between gap-3 mb-4">
+            <h2 class="text-lg sm:text-xl font-bold text-gray-900">Herbário</h2>
+            <div class="flex items-center gap-2 shrink-0">
+              <button type="button" class="row-prev w-8 h-8 rounded-full border border-stone-300 bg-white flex items-center justify-center hover:bg-stone-50 text-gray-700" data-target="row-herb" aria-label="Anterior">‹</button>
+              <button type="button" class="row-next w-8 h-8 rounded-full border border-stone-300 bg-white flex items-center justify-center hover:bg-stone-50 text-gray-700" data-target="row-herb" aria-label="Seguinte">›</button>
+              <a href="mini-museu/herbario.html" class="hidden sm:inline-flex items-center gap-1.5 h-9 px-4 rounded-full bg-gray-900 text-white text-xs font-semibold hover:bg-black transition shadow-sm">
+                Ver tudo
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </div>
+          <div id="row-herb" class="row-scroll flex gap-3 overflow-x-auto pb-1">
+            
+            <div class="row-item shrink-0 w-[48%] sm:w-[31%] lg:w-[15.2%]">
+              <div class="specimen-card bg-white rounded-2xl border border-stone-200/80 shadow-sm overflow-hidden h-full flex flex-col">
+                <div class="relative aspect-square bg-stone-100 overflow-hidden">
+                  <a href="mini-museu/especies/mangueira.html" class="block w-full h-full"><img src="../images/mini-museu/herbario-3.jpg" alt="" class="w-full h-full object-cover"></a>
+                  <button type="button" class="like-btn absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center text-gray-700 hover:scale-105 transition" data-id="Mangueira" aria-label="Gostar">
+                    <svg class="w-4 h-4 heart-outline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                    <svg class="w-4 h-4 heart-fill hidden text-[#E31C5F]" fill="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                  </button>
+                  <span class="like-count absolute bottom-2 right-2 text-[11px] font-semibold bg-black/55 text-white px-2 py-0.5 rounded-full">9</span>
+                </div>
+                <a href="mini-museu/especies/mangueira.html" class="p-2.5 flex-1">
+                  <div class="font-semibold text-xs sm:text-sm text-gray-900 leading-snug line-clamp-2">Mangueira</div>
+                  <div class="text-[11px] text-gray-500 mt-0.5 line-clamp-1">Mangifera indica</div>
+                  <div class="mt-1.5"><span class="iucn-badge NE" title="NE">NE</span></div>
+                </a>
+              </div>
+            </div>
+            <div class="row-item shrink-0 w-[48%] sm:w-[31%] lg:w-[15.2%]">
+              <div class="specimen-card bg-white rounded-2xl border border-stone-200/80 shadow-sm overflow-hidden h-full flex flex-col">
+                <div class="relative aspect-square bg-stone-100 overflow-hidden">
+                  <a href="mini-museu/especies/samambaia.html" class="block w-full h-full"><img src="../images/mini-museu/herbario-1.jpg" alt="" class="w-full h-full object-cover"></a>
+                  <button type="button" class="like-btn absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center text-gray-700 hover:scale-105 transition" data-id="Samambaias e polipódios" aria-label="Gostar">
+                    <svg class="w-4 h-4 heart-outline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                    <svg class="w-4 h-4 heart-fill hidden text-[#E31C5F]" fill="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                  </button>
+                  <span class="like-count absolute bottom-2 right-2 text-[11px] font-semibold bg-black/55 text-white px-2 py-0.5 rounded-full">5</span>
+                </div>
+                <a href="mini-museu/especies/samambaia.html" class="p-2.5 flex-1">
+                  <div class="font-semibold text-xs sm:text-sm text-gray-900 leading-snug line-clamp-2">Samambaias e polipódios</div>
+                  <div class="text-[11px] text-gray-500 mt-0.5 line-clamp-1">Nephrolepis</div>
+                  <div class="mt-1.5"><span class="iucn-badge NE" title="NE">NE</span></div>
+                </a>
+              </div>
+            </div>
+            <div class="row-item shrink-0 w-[48%] sm:w-[31%] lg:w-[15.2%]">
+              <div class="specimen-card bg-white rounded-2xl border border-stone-200/80 shadow-sm overflow-hidden h-full flex flex-col">
+                <div class="relative aspect-square bg-stone-100 overflow-hidden">
+                  <a href="mini-museu/especies/limoeiro.html" class="block w-full h-full"><img src="../images/mini-museu/herbario-2.jpg" alt="" class="w-full h-full object-cover"></a>
+                  <button type="button" class="like-btn absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center text-gray-700 hover:scale-105 transition" data-id="Limoeiro · Eucalipto" aria-label="Gostar">
+                    <svg class="w-4 h-4 heart-outline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                    <svg class="w-4 h-4 heart-fill hidden text-[#E31C5F]" fill="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                  </button>
+                  <span class="like-count absolute bottom-2 right-2 text-[11px] font-semibold bg-black/55 text-white px-2 py-0.5 rounded-full">4</span>
+                </div>
+                <a href="mini-museu/especies/limoeiro.html" class="p-2.5 flex-1">
+                  <div class="font-semibold text-xs sm:text-sm text-gray-900 leading-snug line-clamp-2">Limoeiro · Eucalipto</div>
+                  <div class="text-[11px] text-gray-500 mt-0.5 line-clamp-1">Citrus · Eucalyptus</div>
+                  <div class="mt-1.5"><span class="iucn-badge NE" title="NE">NE</span></div>
+                </a>
+              </div>
+            </div>
+            <div class="row-item shrink-0 w-[48%] sm:w-[31%] lg:w-[15.2%]">
+              <div class="specimen-card bg-white rounded-2xl border border-stone-200/80 shadow-sm overflow-hidden h-full flex flex-col">
+                <div class="relative aspect-square bg-stone-100 overflow-hidden">
+                  <a href="mini-museu/especies/jacaranda.html" class="block w-full h-full"><img src="../images/mini-museu/herbario-3.jpg" alt="" class="w-full h-full object-cover"></a>
+                  <button type="button" class="like-btn absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center text-gray-700 hover:scale-105 transition" data-id="Jacaranda · Kigelia" aria-label="Gostar">
+                    <svg class="w-4 h-4 heart-outline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                    <svg class="w-4 h-4 heart-fill hidden text-[#E31C5F]" fill="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                  </button>
+                  <span class="like-count absolute bottom-2 right-2 text-[11px] font-semibold bg-black/55 text-white px-2 py-0.5 rounded-full">7</span>
+                </div>
+                <a href="mini-museu/especies/jacaranda.html" class="p-2.5 flex-1">
+                  <div class="font-semibold text-xs sm:text-sm text-gray-900 leading-snug line-clamp-2">Jacaranda · Kigelia</div>
+                  <div class="text-[11px] text-gray-500 mt-0.5 line-clamp-1">Bignoniaceae</div>
+                  <div class="mt-1.5"><span class="iucn-badge NE" title="NE">NE</span></div>
+                </a>
+              </div>
+            </div>
+            <div class="row-item shrink-0 w-[48%] sm:w-[31%] lg:w-[15.2%]">
+              <div class="specimen-card bg-white rounded-2xl border border-stone-200/80 shadow-sm overflow-hidden h-full flex flex-col">
+                <div class="relative aspect-square bg-stone-100 overflow-hidden">
+                  <a href="mini-museu/especies/moringa.html" class="block w-full h-full"><img src="../images/mini-museu/herbario-3.jpg" alt="" class="w-full h-full object-cover"></a>
+                  <button type="button" class="like-btn absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center text-gray-700 hover:scale-105 transition" data-id="Moringa / Muringa" aria-label="Gostar">
+                    <svg class="w-4 h-4 heart-outline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                    <svg class="w-4 h-4 heart-fill hidden text-[#E31C5F]" fill="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                  </button>
+                  <span class="like-count absolute bottom-2 right-2 text-[11px] font-semibold bg-black/55 text-white px-2 py-0.5 rounded-full">6</span>
+                </div>
+                <a href="mini-museu/especies/moringa.html" class="p-2.5 flex-1">
+                  <div class="font-semibold text-xs sm:text-sm text-gray-900 leading-snug line-clamp-2">Moringa / Muringa</div>
+                  <div class="text-[11px] text-gray-500 mt-0.5 line-clamp-1">Moringa oleifera</div>
+                  <div class="mt-1.5"><span class="iucn-badge NE" title="NE">NE</span></div>
+                </a>
+              </div>
+            </div>
+            <div class="row-item shrink-0 w-[48%] sm:w-[31%] lg:w-[15.2%]">
+              <div class="specimen-card bg-white rounded-2xl border border-stone-200/80 shadow-sm overflow-hidden h-full flex flex-col">
+                <div class="relative aspect-square bg-stone-100 overflow-hidden">
+                  <a href="mini-museu/especies/kigelia.html" class="block w-full h-full"><img src="../images/mini-museu/herbario-3.jpg" alt="" class="w-full h-full object-cover"></a>
+                  <button type="button" class="like-btn absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center text-gray-700 hover:scale-105 transition" data-id="Kigelia" aria-label="Gostar">
+                    <svg class="w-4 h-4 heart-outline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                    <svg class="w-4 h-4 heart-fill hidden text-[#E31C5F]" fill="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                  </button>
+                  <span class="like-count absolute bottom-2 right-2 text-[11px] font-semibold bg-black/55 text-white px-2 py-0.5 rounded-full">3</span>
+                </div>
+                <a href="mini-museu/especies/kigelia.html" class="p-2.5 flex-1">
+                  <div class="font-semibold text-xs sm:text-sm text-gray-900 leading-snug line-clamp-2">Kigelia</div>
+                  <div class="text-[11px] text-gray-500 mt-0.5 line-clamp-1">Kigelia africana</div>
+                  <div class="mt-1.5"><span class="iucn-badge NE" title="NE">NE</span></div>
+                </a>
+              </div>
+            </div>
+            <div class="row-item shrink-0 w-[48%] sm:w-[31%] lg:w-[15.2%]">
+              <div class="specimen-card bg-white rounded-2xl border border-stone-200/80 shadow-sm overflow-hidden h-full flex flex-col">
+                <div class="relative aspect-square bg-stone-100 overflow-hidden">
+                  <a href="mini-museu/especies/samambaia.html" class="block w-full h-full"><img src="../images/mini-museu/herbario-1.jpg" alt="" class="w-full h-full object-cover"></a>
+                  <button type="button" class="like-btn absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center text-gray-700 hover:scale-105 transition" data-id="Polipódio" aria-label="Gostar">
+                    <svg class="w-4 h-4 heart-outline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                    <svg class="w-4 h-4 heart-fill hidden text-[#E31C5F]" fill="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                  </button>
+                  <span class="like-count absolute bottom-2 right-2 text-[11px] font-semibold bg-black/55 text-white px-2 py-0.5 rounded-full">2</span>
+                </div>
+                <a href="mini-museu/especies/samambaia.html" class="p-2.5 flex-1">
+                  <div class="font-semibold text-xs sm:text-sm text-gray-900 leading-snug line-clamp-2">Polipódio</div>
+                  <div class="text-[11px] text-gray-500 mt-0.5 line-clamp-1">Polypodiaceae</div>
+                  <div class="mt-1.5"><span class="iucn-badge NE" title="NE">NE</span></div>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="mt-3 sm:hidden">
+            <a href="mini-museu/herbario.html" class="flex items-center justify-center gap-1.5 w-full h-10 rounded-full bg-gray-900 text-white text-sm font-semibold">Ver tudo · Herbário</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6">
+        <div class="bg-stone-100 rounded-3xl border border-stone-200/60 p-4 sm:p-5 shadow-sm">
+          <div class="flex items-center justify-between gap-3 mb-4">
+            <h2 class="text-lg sm:text-xl font-bold text-gray-900">Colecção entomológica</h2>
+            <div class="flex items-center gap-2 shrink-0">
+              <button type="button" class="row-prev w-8 h-8 rounded-full border border-stone-300 bg-white flex items-center justify-center hover:bg-stone-50 text-gray-700" data-target="row-ent" aria-label="Anterior">‹</button>
+              <button type="button" class="row-next w-8 h-8 rounded-full border border-stone-300 bg-white flex items-center justify-center hover:bg-stone-50 text-gray-700" data-target="row-ent" aria-label="Seguinte">›</button>
+              <a href="mini-museu/entomologia.html" class="hidden sm:inline-flex items-center gap-1.5 h-9 px-4 rounded-full bg-gray-900 text-white text-xs font-semibold hover:bg-black transition shadow-sm">
+                Ver tudo
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </div>
+          <div id="row-ent" class="row-scroll flex gap-3 overflow-x-auto pb-1">
+            
+            <div class="row-item shrink-0 w-[48%] sm:w-[31%] lg:w-[15.2%]">
+              <div class="specimen-card bg-white rounded-2xl border border-stone-200/80 shadow-sm overflow-hidden h-full flex flex-col">
+                <div class="relative aspect-square bg-stone-100 overflow-hidden">
+                  <a href="mini-museu/especies/memphis.html" class="block w-full h-full"><img src="../images/mini-museu/entomo-3.jpg" alt="" class="w-full h-full object-cover"></a>
+                  <button type="button" class="like-btn absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center text-gray-700 hover:scale-105 transition" data-id="Lepidoptera · Mantodea" aria-label="Gostar">
+                    <svg class="w-4 h-4 heart-outline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                    <svg class="w-4 h-4 heart-fill hidden text-[#E31C5F]" fill="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                  </button>
+                  <span class="like-count absolute bottom-2 right-2 text-[11px] font-semibold bg-black/55 text-white px-2 py-0.5 rounded-full">13</span>
+                </div>
+                <a href="mini-museu/especies/memphis.html" class="p-2.5 flex-1">
+                  <div class="font-semibold text-xs sm:text-sm text-gray-900 leading-snug line-clamp-2">Lepidoptera · Mantodea</div>
+                  <div class="text-[11px] text-gray-500 mt-0.5 line-clamp-1">Memphis, Graphium</div>
+                  <div class="mt-1.5"><span class="iucn-badge NE" title="NE">NE</span></div>
+                </a>
+              </div>
+            </div>
+            <div class="row-item shrink-0 w-[48%] sm:w-[31%] lg:w-[15.2%]">
+              <div class="specimen-card bg-white rounded-2xl border border-stone-200/80 shadow-sm overflow-hidden h-full flex flex-col">
+                <div class="relative aspect-square bg-stone-100 overflow-hidden">
+                  <a href="mini-museu/especies/apis-xylocopa.html" class="block w-full h-full"><img src="../images/mini-museu/entomo-2.jpg" alt="" class="w-full h-full object-cover"></a>
+                  <button type="button" class="like-btn absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center text-gray-700 hover:scale-105 transition" data-id="Hymenoptera · Coleoptera" aria-label="Gostar">
+                    <svg class="w-4 h-4 heart-outline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                    <svg class="w-4 h-4 heart-fill hidden text-[#E31C5F]" fill="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                  </button>
+                  <span class="like-count absolute bottom-2 right-2 text-[11px] font-semibold bg-black/55 text-white px-2 py-0.5 rounded-full">10</span>
+                </div>
+                <a href="mini-museu/especies/apis-xylocopa.html" class="p-2.5 flex-1">
+                  <div class="font-semibold text-xs sm:text-sm text-gray-900 leading-snug line-clamp-2">Hymenoptera · Coleoptera</div>
+                  <div class="text-[11px] text-gray-500 mt-0.5 line-clamp-1">Apis, Xylocopa, Pachnoda</div>
+                  <div class="mt-1.5"><span class="iucn-badge NE" title="NE">NE</span></div>
+                </a>
+              </div>
+            </div>
+            <div class="row-item shrink-0 w-[48%] sm:w-[31%] lg:w-[15.2%]">
+              <div class="specimen-card bg-white rounded-2xl border border-stone-200/80 shadow-sm overflow-hidden h-full flex flex-col">
+                <div class="relative aspect-square bg-stone-100 overflow-hidden">
+                  <a href="mini-museu/especies/pachnoda.html" class="block w-full h-full"><img src="../images/mini-museu/entomo-1.jpg" alt="" class="w-full h-full object-cover"></a>
+                  <button type="button" class="like-btn absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center text-gray-700 hover:scale-105 transition" data-id="Caixa entomológica" aria-label="Gostar">
+                    <svg class="w-4 h-4 heart-outline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                    <svg class="w-4 h-4 heart-fill hidden text-[#E31C5F]" fill="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                  </button>
+                  <span class="like-count absolute bottom-2 right-2 text-[11px] font-semibold bg-black/55 text-white px-2 py-0.5 rounded-full">8</span>
+                </div>
+                <a href="mini-museu/especies/pachnoda.html" class="p-2.5 flex-1">
+                  <div class="font-semibold text-xs sm:text-sm text-gray-900 leading-snug line-clamp-2">Caixa entomológica</div>
+                  <div class="text-[11px] text-gray-500 mt-0.5 line-clamp-1">Inventário por ordem</div>
+                  <div class="mt-1.5"><span class="iucn-badge NE" title="NE">NE</span></div>
+                </a>
+              </div>
+            </div>
+            <div class="row-item shrink-0 w-[48%] sm:w-[31%] lg:w-[15.2%]">
+              <div class="specimen-card bg-white rounded-2xl border border-stone-200/80 shadow-sm overflow-hidden h-full flex flex-col">
+                <div class="relative aspect-square bg-stone-100 overflow-hidden">
+                  <a href="mini-museu/especies/anax.html" class="block w-full h-full"><img src="../images/mini-museu/entomo-3.jpg" alt="" class="w-full h-full object-cover"></a>
+                  <button type="button" class="like-btn absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center text-gray-700 hover:scale-105 transition" data-id="Orthoptera · Odonata" aria-label="Gostar">
+                    <svg class="w-4 h-4 heart-outline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                    <svg class="w-4 h-4 heart-fill hidden text-[#E31C5F]" fill="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                  </button>
+                  <span class="like-count absolute bottom-2 right-2 text-[11px] font-semibold bg-black/55 text-white px-2 py-0.5 rounded-full">6</span>
+                </div>
+                <a href="mini-museu/especies/anax.html" class="p-2.5 flex-1">
+                  <div class="font-semibold text-xs sm:text-sm text-gray-900 leading-snug line-clamp-2">Orthoptera · Odonata</div>
+                  <div class="text-[11px] text-gray-500 mt-0.5 line-clamp-1">Anax, gafanhotos</div>
+                  <div class="mt-1.5"><span class="iucn-badge NE" title="NE">NE</span></div>
+                </a>
+              </div>
+            </div>
+            <div class="row-item shrink-0 w-[48%] sm:w-[31%] lg:w-[15.2%]">
+              <div class="specimen-card bg-white rounded-2xl border border-stone-200/80 shadow-sm overflow-hidden h-full flex flex-col">
+                <div class="relative aspect-square bg-stone-100 overflow-hidden">
+                  <a href="mini-museu/especies/graphium.html" class="block w-full h-full"><img src="../images/mini-museu/entomo-2.jpg" alt="" class="w-full h-full object-cover"></a>
+                  <button type="button" class="like-btn absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center text-gray-700 hover:scale-105 transition" data-id="Graphium" aria-label="Gostar">
+                    <svg class="w-4 h-4 heart-outline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                    <svg class="w-4 h-4 heart-fill hidden text-[#E31C5F]" fill="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                  </button>
+                  <span class="like-count absolute bottom-2 right-2 text-[11px] font-semibold bg-black/55 text-white px-2 py-0.5 rounded-full">4</span>
+                </div>
+                <a href="mini-museu/especies/graphium.html" class="p-2.5 flex-1">
+                  <div class="font-semibold text-xs sm:text-sm text-gray-900 leading-snug line-clamp-2">Graphium</div>
+                  <div class="text-[11px] text-gray-500 mt-0.5 line-clamp-1">Papilionidae</div>
+                  <div class="mt-1.5"><span class="iucn-badge NE" title="NE">NE</span></div>
+                </a>
+              </div>
+            </div>
+            <div class="row-item shrink-0 w-[48%] sm:w-[31%] lg:w-[15.2%]">
+              <div class="specimen-card bg-white rounded-2xl border border-stone-200/80 shadow-sm overflow-hidden h-full flex flex-col">
+                <div class="relative aspect-square bg-stone-100 overflow-hidden">
+                  <a href="mini-museu/especies/pachnoda.html" class="block w-full h-full"><img src="../images/mini-museu/entomo-1.jpg" alt="" class="w-full h-full object-cover"></a>
+                  <button type="button" class="like-btn absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center text-gray-700 hover:scale-105 transition" data-id="Scarabaeidae" aria-label="Gostar">
+                    <svg class="w-4 h-4 heart-outline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                    <svg class="w-4 h-4 heart-fill hidden text-[#E31C5F]" fill="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                  </button>
+                  <span class="like-count absolute bottom-2 right-2 text-[11px] font-semibold bg-black/55 text-white px-2 py-0.5 rounded-full">7</span>
+                </div>
+                <a href="mini-museu/especies/pachnoda.html" class="p-2.5 flex-1">
+                  <div class="font-semibold text-xs sm:text-sm text-gray-900 leading-snug line-clamp-2">Scarabaeidae</div>
+                  <div class="text-[11px] text-gray-500 mt-0.5 line-clamp-1">Pachnoda</div>
+                  <div class="mt-1.5"><span class="iucn-badge NE" title="NE">NE</span></div>
+                </a>
+              </div>
+            </div>
+            <div class="row-item shrink-0 w-[48%] sm:w-[31%] lg:w-[15.2%]">
+              <div class="specimen-card bg-white rounded-2xl border border-stone-200/80 shadow-sm overflow-hidden h-full flex flex-col">
+                <div class="relative aspect-square bg-stone-100 overflow-hidden">
+                  <a href="mini-museu/especies/apis-xylocopa.html" class="block w-full h-full"><img src="../images/mini-museu/entomo-3.jpg" alt="" class="w-full h-full object-cover"></a>
+                  <button type="button" class="like-btn absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center text-gray-700 hover:scale-105 transition" data-id="Apidae" aria-label="Gostar">
+                    <svg class="w-4 h-4 heart-outline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                    <svg class="w-4 h-4 heart-fill hidden text-[#E31C5F]" fill="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                  </button>
+                  <span class="like-count absolute bottom-2 right-2 text-[11px] font-semibold bg-black/55 text-white px-2 py-0.5 rounded-full">5</span>
+                </div>
+                <a href="mini-museu/especies/apis-xylocopa.html" class="p-2.5 flex-1">
+                  <div class="font-semibold text-xs sm:text-sm text-gray-900 leading-snug line-clamp-2">Apidae</div>
+                  <div class="text-[11px] text-gray-500 mt-0.5 line-clamp-1">Apis, Xylocopa</div>
+                  <div class="mt-1.5"><span class="iucn-badge NE" title="NE">NE</span></div>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="mt-3 sm:hidden">
+            <a href="mini-museu/entomologia.html" class="flex items-center justify-center gap-1.5 w-full h-10 rounded-full bg-gray-900 text-white text-sm font-semibold">Ver tudo · Colecção entomológica</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- PARCEIROS (igual ao site principal) -->
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <h2 class="text-3xl font-bold text-[#0f3d1e] mb-3">Nossos Parceiros</h2>
+      <p class="text-gray-600 mb-10">Instituições e organizações que apoiam a formação EGFB</p>
+      <div class="flex flex-wrap items-center justify-center gap-10 md:gap-16">
+        <div class="flex flex-col items-center gap-2">
+          <img src="../images/logo-ispm.jpg" alt="ISPM" class="h-16 object-contain">
+          <span class="text-xs text-gray-500">ISPM</span>
+        </div>
+        <div class="flex flex-col items-center gap-2">
+          <img src="../images/logo-casa-msika.png" alt="Casa Msika Lodge" class="h-14 object-contain">
+          <span class="text-xs text-gray-500">Casa Msika Lodge</span>
+        </div>
+        <div class="flex flex-col items-center gap-2">
+          <img src="../images/logo-magodo.jpg" alt="Magodo Treinamento" class="h-16 object-contain">
+          <span class="text-xs text-gray-500">Magodo Treinamento</span>
+        </div>
+        <div class="flex flex-col items-center gap-2">
+          <img src="../images/logo-main.png" alt="EGFB" class="h-16 object-contain">
+          <span class="text-xs text-gray-500">EGFB</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-gray-100 text-black border-t border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 py-14">
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
+        <div>
+          <h4 class="font-semibold text-black mb-4">EGFB</h4>
+          <ul class="space-y-2 text-sm text-gray-700">
+            <li><a href="../index.html#curso" class="hover:text-black">O Curso</a></li>
+            <li><a href="geracoes.html" class="hover:text-black">Gerações</a></li>
+            <li><a href="modulos.html" class="hover:text-black">Módulos</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold text-black mb-4">Sobre Nós</h4>
+          <ul class="space-y-2 text-sm text-gray-700">
+            <li><a href="sobre.html" class="hover:text-black">O que é o EGFB?</a></li>
+            <li><a href="ispm.html" class="hover:text-black">Inserção no ISPM</a></li>
+            <li><a href="parceiros.html" class="hover:text-black">Parceiros</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold text-black mb-4">Base de Dados</h4>
+          <ul class="space-y-2 text-sm text-gray-700">
+            <li><a href="jardim-botanico.html" class="hover:text-black">Jardim Botânico</a></li>
+            <li><a href="museu.html" class="hover:text-black">Mini-museu de Biodiversidade</a></li>
+            <li><a href="repositorio.html" class="hover:text-black">Repositório de Monografias</a></li>
+            <li><a href="gis.html" class="hover:text-black">Mapas e Dados GIS</a></li>
+            <li><a href="biblioteca.html" class="hover:text-black">Biblioteca EGFB</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold text-black mb-4">Contacto</h4>
+          <ul class="space-y-2 text-sm text-gray-700">
+            <li>Instituto Superior Politécnico de Manica</li>
+            <li>Manica, Moçambique</li>
+            <li class="pt-3 flex gap-2">
+              <a href="#" class="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center hover:bg-black hover:text-white transition text-gray-700" aria-label="Facebook">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+              </a>
+              <a href="#" class="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center hover:bg-black hover:text-white transition text-gray-700" aria-label="X">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              </a>
+              <a href="#" class="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center hover:bg-black hover:text-white transition text-gray-700" aria-label="Instagram">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="mt-12 pt-8 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="flex items-center gap-3">
+          <img src="../images/logo-main.png" alt="EGFB" class="h-10">
+          <span class="text-sm text-gray-600">Ecoturismo e Gestão de Fauna Bravia</span>
+        </div>
+        <p class="text-xs text-gray-500">© 2026 EGFB – ISPM. Todos os direitos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const INDEX = [{"t": "Espécies vivas", "u": "mini-museu/vivos.html", "k": "vivas terrário"}, {"t": "Espécimes conservados", "u": "mini-museu/conservados.html", "k": "conservados formalina crânio"}, {"t": "Herbário", "u": "mini-museu/herbario.html", "k": "herbário plantas"}, {"t": "Colecção entomológica", "u": "mini-museu/entomologia.html", "k": "insectos entomologia"}, {"t": "Localização e horários", "u": "mini-museu/localizacao.html", "k": "horário localização"}, {"t": "Camaleão-de-pescoço-achatado", "u": "mini-museu/vivos.html", "k": "chamaeleo dilepis"}, {"t": "Tartaruga", "u": "mini-museu/vivos.html", "k": "tartaruga"}, {"t": "Cobra verde", "u": "mini-museu/vivos.html", "k": "cobra verde"}, {"t": "Tilápia-de-Moçambique", "u": "mini-museu/vivos.html", "k": "oreochromis"}, {"t": "Macaco-cão / Babuíno", "u": "mini-museu/conservados.html", "k": "papio"}, {"t": "Imbabala", "u": "mini-museu/conservados.html", "k": "tragelaphus"}, {"t": "Coruja-das-torres", "u": "mini-museu/conservados.html", "k": "tyto alba"}, {"t": "Mangueira", "u": "mini-museu/herbario.html", "k": "mangifera"}, {"t": "Moringa", "u": "mini-museu/herbario.html", "k": "moringa"}, {"t": "Pachnoda", "u": "mini-museu/entomologia.html", "k": "scarabaeidae"}];
+    const panels = ['onde','quando','quem','buscar'];
+    function closeAll() {
+      panels.forEach(id => {
+        document.getElementById('panel-' + id)?.classList.remove('open');
+        document.querySelector('[data-panel="'+id+'"]')?.classList.remove('active');
+      });
+    }
+    document.querySelectorAll('[data-panel]').forEach(btn => {
+      const open = () => { closeAll(); document.getElementById('panel-' + btn.dataset.panel)?.classList.add('open'); btn.classList.add('active'); };
+      btn.addEventListener('mouseenter', () => { if (window.innerWidth >= 640) open(); });
+      btn.addEventListener('click', (e) => { e.stopPropagation(); const p = document.getElementById('panel-' + btn.dataset.panel); const was = p?.classList.contains('open'); closeAll(); if (!was) { p?.classList.add('open'); btn.classList.add('active'); } });
+    });
+    function openSearch() { closeAll(); document.getElementById('panel-buscar')?.classList.add('open'); document.getElementById('q')?.focus(); }
+    document.getElementById('btn-buscar-desk')?.addEventListener('click', openSearch);
+    document.getElementById('btn-buscar-mob')?.addEventListener('click', openSearch);
+    document.addEventListener('click', (e) => { if (!e.target.closest('#search-bar') && !e.target.closest('.panel')) closeAll(); });
+
+    const q = document.getElementById('q');
+    const box = document.getElementById('search-results');
+    q?.addEventListener('input', () => {
+      const v = (q.value || '').trim().toLowerCase();
+      if (!v) { box.innerHTML = ''; return; }
+      const hits = INDEX.filter(x => (x.t + ' ' + x.k).toLowerCase().includes(v));
+      box.innerHTML = hits.length ? hits.map(h => '<a class="block px-3 py-2 rounded-xl hover:bg-gray-50 font-medium" href="'+h.u+'">'+h.t+'</a>').join('') : '<p class="text-gray-400 text-xs">Sem resultados.</p>';
+    });
+
+    document.querySelectorAll('.row-prev').forEach(b => b.addEventListener('click', () => document.getElementById(b.dataset.target)?.scrollBy({ left: -300, behavior: 'smooth' })));
+    document.querySelectorAll('.row-next').forEach(b => b.addEventListener('click', () => document.getElementById(b.dataset.target)?.scrollBy({ left: 300, behavior: 'smooth' })));
+
+    // Likes (localStorage)
+    document.querySelectorAll('.like-btn').forEach(btn => {
+      const id = btn.dataset.id;
+      const key = 'mm-like:' + id;
+      const countEl = btn.parentElement.querySelector('.like-count');
+      let base = parseInt(countEl?.textContent || '0', 10);
+      if (localStorage.getItem(key) === '1') {
+        btn.classList.add('liked');
+      }
+      btn.addEventListener('click', (e) => {
+        e.preventDefault(); e.stopPropagation();
+        const liked = btn.classList.toggle('liked');
+        localStorage.setItem(key, liked ? '1' : '0');
+        if (countEl) countEl.textContent = String(base + (liked ? 1 : 0));
+      });
+    });
+  </script>
+</body>
+</html>

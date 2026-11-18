@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../../../images/favicon.ico">
+  <title>Morcego-insectívoro | Jardim Botânico EGFB</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html { height: 100%; overflow-y: scroll; }
+    body { min-height: 100%; font-family: system-ui, sans-serif; margin: 0; }
+  
+.iucn-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 3.25rem; height: 3.25rem; border-radius: 9999px;
+  font-weight: 800; font-size: 0.95rem; letter-spacing: 0.02em;
+  color: #fff; flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,.12);
+}
+.iucn-badge.sm { width: 2rem; height: 2rem; font-size: 0.65rem; }
+.iucn-badge.LC { background: #4caf50; }
+.iucn-badge.NT { background: #c6d92d; }
+.iucn-badge.VU { background: #f0c808; color: #fff; }
+.iucn-badge.EN { background: #f07c2a; }
+.iucn-badge.CR { background: #d32f2f; }
+.iucn-badge.EW { background: #5c2d5e; }
+.iucn-badge.DD { background: #b0b0a8; }
+.iucn-badge.NE { background: #fff; color: #111; border: 2px solid #333; }
+
+</style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <header class="fixed top-0 left-0 right-0 z-[1000] bg-white/95 backdrop-blur-md shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-16 gap-3">
+        <a href="../../jardim-botanico.html" class="flex items-center gap-3 shrink-0 min-w-0">
+          <img src="../../../images/logo-main.png" alt="EGFB" class="h-11 shrink-0">
+          <div class="min-w-0">
+            <div class="font-bold text-[#1a5c2e] text-sm leading-tight">Jardim Botânico</div>
+            <div class="text-xs text-gray-600 font-medium truncate">Mamíferos</div>
+          </div>
+        </a>
+        <nav class="hidden lg:flex items-center gap-1">
+          <div class="relative group">
+            <button type="button" class="px-3 py-2 text-sm font-medium text-gray-800 hover:text-[#1a5c2e] flex items-center gap-1">Habitats
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition absolute left-0 top-full pt-2 z-50 min-w-[240px]">
+              <div class="bg-[#0f3d1e] rounded-lg shadow-xl py-2">
+                <a href="../habitat-aberto.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Habitat Aberto</a>
+                <a href="../habitat-fechado.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Habitat Fechado</a>
+                <a href="../habitat-aquatico.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Habitat Aquático</a>
+              </div>
+            </div>
+          </div>
+          <div class="relative group">
+            <button type="button" class="px-3 py-2 text-sm font-medium text-gray-800 hover:text-[#1a5c2e] flex items-center gap-1">Espécies
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition absolute left-0 top-full pt-2 z-50 min-w-[200px]">
+              <div class="bg-[#0f3d1e] rounded-lg shadow-xl py-2">
+                <a href="../especies-anfibios.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Anfíbios</a>
+                <a href="../especies-mamiferos.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Mamíferos</a>
+                <a href="../especies-aves.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Aves</a>
+                <a href="../especies-repteis.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Répteis</a>
+                <a href="../especies-plantas.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Plantas / Flora</a>
+                <a href="../especies-invertebrados.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Invertebrados</a>
+                <a href="../especies-peixes.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Peixes</a>
+              </div>
+            </div>
+          </div>
+          <div class="relative group">
+            <button type="button" class="px-3 py-2 text-sm font-medium text-gray-800 hover:text-[#1a5c2e] flex items-center gap-1">Sobre o Jardim
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition absolute left-0 top-full pt-2 z-50 min-w-[220px]">
+              <div class="bg-[#0f3d1e] rounded-lg shadow-xl py-2">
+                <a href="../sobre.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Descrição e Localização</a>
+                <a href="../georreferenciacao.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Mapa e Georreferenciação</a>
+              </div>
+            </div>
+          </div>
+          <a href="../doar.html" class="ml-2 px-5 py-2 bg-[#e8943a] text-white text-sm font-semibold rounded-full">Doar</a>
+        </nav>
+        <div class="flex items-center gap-2 shrink-0">
+          <a href="../pesquisa.html" class="w-10 h-10 rounded-full flex items-center justify-center text-gray-700 hover:bg-gray-100" aria-label="Pesquisar" title="Pesquisar">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          </a>
+          <a href="../../jardim-botanico.html" class="hidden sm:inline-flex items-center justify-center h-9 px-4 rounded-full border border-gray-200 text-xs font-semibold text-gray-700 hover:border-[#1a5c2e] hover:text-[#1a5c2e] bg-white transition">Jardim Botânico</a>
+          <button type="button" id="menu-btn" class="lg:hidden w-10 h-10 rounded-full flex items-center justify-center text-gray-700 hover:bg-gray-100" aria-label="Menu">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div id="mobile-menu" class="hidden lg:hidden bg-white border-t px-4 py-3 space-y-1" style="max-height:calc(100vh - 4rem);overflow-y:auto;-webkit-overflow-scrolling:touch">
+      <a href="../pesquisa.html" class="block py-2 text-sm font-semibold text-[#1a5c2e]">Pesquisar</a>
+      <a href="../habitat-aberto.html" class="block py-2 text-sm">Habitat Aberto</a>
+      <a href="../habitat-fechado.html" class="block py-2 text-sm">Habitat Fechado</a>
+      <a href="../habitat-aquatico.html" class="block py-2 text-sm">Habitat Aquático</a>
+      <a href="../especies-anfibios.html" class="block py-2 text-sm">Anfíbios</a>
+      <a href="../especies-mamiferos.html" class="block py-2 text-sm">Mamíferos</a>
+      <a href="../especies-aves.html" class="block py-2 text-sm">Aves</a>
+      <a href="../especies-repteis.html" class="block py-2 text-sm">Répteis</a>
+      <a href="../especies-plantas.html" class="block py-2 text-sm">Plantas / Flora</a>
+      <a href="../especies-invertebrados.html" class="block py-2 text-sm">Invertebrados</a>
+      <a href="../especies-peixes.html" class="block py-2 text-sm">Peixes</a>
+      <a href="../sobre.html" class="block py-2 text-sm">Descrição e Localização</a>
+      <a href="../georreferenciacao.html" class="block py-2 text-sm">Mapa e Georreferenciação</a>
+      
+    </div>
+  </header>
+
+  <main class="pt-20 pb-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      
+      
+      <div class="mt-4 grid lg:grid-cols-2 gap-8">
+        <div>
+          <div class="rounded-2xl overflow-hidden shadow-lg border bg-gray-100 aspect-[4/3]">
+            <img src="../../../images/habitats/habitat-fechado.jpg" alt="Morcego-insectívoro" class="w-full h-full object-cover">
+          </div>
+        </div>
+        <div>
+          <p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">Mamíferos</p>
+          <h1 class="text-3xl sm:text-4xl font-bold text-black mt-1">Morcego-insectívoro</h1>
+          <p class="text-xl text-gray-500 italic mt-1">Neoromicia nana</p>
+          <div class="mt-4 inline-flex items-center gap-2">
+            <span class="iucn-badge LC" title="LC">LC</span>
+            <span class="text-sm text-gray-600">Pouco Preocupante · IUCN</span>
+          </div>
+        </div>
+      </div>
+
+      <section class="mt-12">
+        <h2 class="text-xl font-bold text-black flex items-center gap-2 mb-4">
+          <span class="text-red-700">Taxonomia</span>
+        </h2>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 bg-white rounded-2xl border p-6 shadow-sm">
+          <div><p class="text-xs text-gray-500 uppercase tracking-wide">Reino</p><p class="font-semibold text-red-800 text-lg border-b border-red-200 pb-1">Animalia</p></div><div><p class="text-xs text-gray-500 uppercase tracking-wide">Filo</p><p class="font-semibold text-red-800 text-lg border-b border-red-200 pb-1">Chordata</p></div><div><p class="text-xs text-gray-500 uppercase tracking-wide">Classe</p><p class="font-semibold text-red-800 text-lg border-b border-red-200 pb-1">Mammalia</p></div><div><p class="text-xs text-gray-500 uppercase tracking-wide">Ordem</p><p class="font-semibold text-red-800 text-lg border-b border-red-200 pb-1">Chiroptera</p></div><div><p class="text-xs text-gray-500 uppercase tracking-wide">Família</p><p class="font-semibold text-red-800 text-lg border-b border-red-200 pb-1">Vespertilionidae</p></div><div><p class="text-xs text-gray-500 uppercase tracking-wide">Género</p><p class="font-semibold text-red-800 text-lg border-b border-red-200 pb-1">Neoromicia</p></div>
+        </div>
+      </section>
+
+      <section class="mt-10">
+        <h2 class="text-xl font-bold text-black mb-3 border-b-2 border-red-700 pb-1 inline-block">Estado de conservação</h2>
+        <div class="bg-white rounded-2xl border p-6 shadow-sm mt-3">
+          <p class="text-gray-700"><strong>Avaliação global (IUCN):</strong> LC — Pouco Preocupante.</p>
+          <p class="text-sm text-gray-500 mt-2">Informação de referência; o inventário local do Jardim Botânico EGFB continua em actualização.</p>
+        </div>
+      </section>
+
+      <section class="mt-10">
+        <h2 class="text-xl font-bold text-black mb-3 border-b-2 border-red-700 pb-1 inline-block">Distribuição</h2>
+        <div class="bg-white rounded-2xl border p-6 shadow-sm mt-3 text-gray-700 leading-relaxed">África Austral e Oriental; abriga-se em árvores e construções.</div>
+      <div class="mt-4">
+        </div>
+
+      </section>
+
+      <section class="mt-10">
+        <h2 class="text-xl font-bold text-black mb-3 border-b-2 border-red-700 pb-1 inline-block">Ecologia</h2>
+        <div class="bg-white rounded-2xl border p-6 shadow-sm mt-3 text-gray-700 leading-relaxed">Caça insectos em voo ao crepúsculo e à noite.</div>
+      </section>
+
+      <section class="mt-10">
+        <h2 class="text-xl font-bold text-black mb-3 border-b-2 border-red-700 pb-1 inline-block">Biologia</h2>
+        <div class="bg-white rounded-2xl border p-6 shadow-sm mt-3 text-gray-700 leading-relaxed">Uma ou duas crias por ano; importante no controlo de insectos.</div>
+      </section>
+        
+    </div>
+  
+    </div>
+  </main>
+  <footer class="bg-[#0f3d1e] text-white mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+      <div class="flex flex-col sm:flex-row justify-between gap-6 items-start">
+        <div class="flex items-center gap-2">
+          <img src="../../../images/logo-main.png" alt="" class="h-10">
+          <span class="font-bold">Jardim Botânico EGFB</span>
+        </div>
+        <div class="flex flex-wrap gap-4 text-sm">
+          
+          <a href="../../jardim-botanico.html" class="hidden sm:inline-flex items-center justify-center h-10 px-4 rounded-full border border-gray-200 text-xs font-semibold text-gray-700 hover:border-[#1a5c2e] hover:text-[#1a5c2e] bg-white transition">Jardim Botânico</a>
+          <a href="../pesquisa.html" class="text-white/70 hover:text-white">Pesquisar</a>
+        </div>
+      </div>
+      <div class="border-t border-white/10 mt-8 pt-4 text-center text-xs text-white/50">© 2026 Jardim Botânico EGFB · ISPM</div>
+    </div>
+  </footer>
+  <script>
+    document.getElementById('menu-btn')?.addEventListener('click', function () {
+      document.getElementById('mobile-menu')?.classList.toggle('hidden');
+    });
+  </script>
+
+
+</body>
+</html>

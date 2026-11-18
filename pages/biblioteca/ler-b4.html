@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ler · Gestão de Destinos Turísticos: Sistemas, Processos</title>
+  <link rel="icon" href="../../images/favicon.ico">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+</head>
+<body class="bg-[#0b3d44] text-white antialiased">
+  <header class="sticky top-0 z-50 bg-[#0b3d44] border-b border-white/10">
+    <div class="max-w-[1600px] mx-auto px-3 h-12 flex items-center justify-between gap-2">
+      <a href="b4.html" class="text-sm font-semibold text-teal-100">← Ficha</a>
+      <span class="text-xs truncate opacity-80">Gestão de Destinos Turísticos: Sistemas, Processos e Inovação</span>
+      <a href="../biblioteca.html" class="text-xs text-white/60">Biblioteca</a>
+    </div>
+  </header>
+  <div class="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-[240px_1fr_220px] min-h-[calc(100vh-3rem)]">
+    <aside class="border-b lg:border-b-0 lg:border-r border-white/10 p-4 bg-[#0a3338] space-y-4">
+      <div class="w-[160px] h-[226px] mx-auto rounded-md overflow-hidden bg-black/40 flex items-center justify-center"><canvas id="cover" class="max-w-full max-h-full"></canvas></div>
+      <div>
+        <div class="text-[10px] font-bold uppercase text-teal-200/70">Ecoturismo e turismo</div>
+        <h1 class="font-bold text-lg mt-1">Gestão de Destinos Turísticos: Sistemas, Processos e Inovação</h1>
+        <p class="text-xs text-white/50 mt-1">Lício Valério Lima Vieira; José Wellington Carvalho Vilar (Orgs.) · 2020</p>
+        <p class="text-sm text-white/80 mt-3">Sistemas, processos e inovação na gestão de destinos turísticos.</p>
+      </div>
+    </aside>
+    <div class="bg-black/50 p-2 sm:p-3 min-h-[70vh]"><iframe class="w-full h-full min-h-[70vh] border-0 bg-white" src="pdfs/gestao-destinos-ifs.pdf#toolbar=1&view=FitH"></iframe></div>
+    <aside class="hidden lg:block border-l border-white/10 p-3 bg-[#0a3338]">
+      <div class="text-[10px] font-bold uppercase text-white/40 mb-3">Relacionados</div>
+      <a href="b5.html" class="block p-2 rounded-lg hover:bg-white/5"><div class="text-xs font-bold text-white line-clamp-2">Gestão de Destinos Turísticos (Vol. 1)</div><div class="text-[10px] text-white/50">2014</div></a><a href="b6.html" class="block p-2 rounded-lg hover:bg-white/5"><div class="text-xs font-bold text-white line-clamp-2">Organização de Eventos</div><div class="text-[10px] text-white/50">2011</div></a>
+    </aside>
+  </div>
+<script>pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+(async()=>{try{const pdf=await pdfjsLib.getDocument('pdfs/gestao-destinos-ifs.pdf').promise;const page=await pdf.getPage(1);const c=document.getElementById('cover');if(!c)return;const base=page.getViewport({scale:1});const scale=Math.min(160/base.width,226/base.height)*2;const vp=page.getViewport({scale});c.width=vp.width;c.height=vp.height;await page.render({canvasContext:c.getContext('2d'),viewport:vp}).promise;}catch(e){}})();</script>
+</body>
+</html>

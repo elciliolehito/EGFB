@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Synapse · Rede de alumni EGFB</title>
+  <link rel="icon" href="../images/favicon.ico">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="bg-[#f4f6f5] antialiased">
+
+  <header class="bg-white/95 backdrop-blur sticky top-0 z-50 border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-3">
+      <a href="../index.html" class="flex items-center gap-2.5 shrink-0">
+        <img src="../images/logo-main.png" alt="EGFB" class="h-10 object-contain">
+        <span class="font-extrabold text-[#0b3d44] hidden sm:block text-sm">EGFB</span>
+      </a>
+      <nav class="hidden lg:flex items-center gap-1 text-sm font-medium text-gray-700">
+        <div class="relative group">
+          <button type="button" class="px-3 py-2 rounded-lg hover:bg-gray-50 flex items-center gap-1">Sobre Nós
+            <svg class="w-3.5 h-3.5 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="absolute left-0 top-full pt-1 hidden group-hover:block min-w-[200px]">
+            <div class="bg-white rounded-xl shadow-xl border border-gray-100 py-2 text-sm">
+              <a href="sobre.html" class="block px-4 py-2.5 hover:bg-gray-50">O que é o EGFB?</a>
+              <a href="geracoes.html" class="block px-4 py-2.5 hover:bg-gray-50">Gerações</a>
+              <a href="parceiros.html" class="block px-4 py-2.5 hover:bg-gray-50">Parceiros</a>
+              <a href="marcos.html" class="block px-4 py-2.5 hover:bg-gray-50">Marcos</a>
+            </div>
+          </div>
+        </div>
+        <a href="formacao.html" class="px-3 py-2 rounded-lg hover:bg-gray-50">Mini Cursos e Workshops</a>
+        <a href="synapse.html" class="px-3 py-2 rounded-lg hover:bg-gray-50 bg-gray-50 text-[#0b3d44]">Synapse</a>
+        <a href="noticias.html" class="px-3 py-2 rounded-lg hover:bg-gray-50 ">Notícias</a>
+      </nav>
+      <div class="flex items-center gap-2">
+        <a href="../index.html" class="text-xs font-bold h-9 px-3 rounded-full border border-gray-200 hover:border-[#0b3d44] text-[#0b3d44] inline-flex items-center">Início</a>
+        <button type="button" id="mbtn" class="lg:hidden p-2 rounded-lg hover:bg-gray-100" aria-label="Menu">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+    <div id="mnav" class="hidden lg:hidden border-t px-4 py-3 text-sm space-y-1 bg-white">
+      <p class="text-xs font-bold text-gray-400 uppercase px-2">Sobre Nós</p>
+      <a class="block px-2 py-2" href="sobre.html">O que é o EGFB?</a>
+      <a class="block px-2 py-2" href="geracoes.html">Gerações</a>
+      <a class="block px-2 py-2" href="parceiros.html">Parceiros</a>
+      <a class="block px-2 py-2" href="marcos.html">Marcos</a>
+      <a class="block px-2 py-2 font-medium" href="synapse.html">Synapse</a>
+      <a class="block px-2 py-2 font-medium" href="noticias.html">Notícias</a>
+    </div>
+  </header>
+  <script>document.getElementById('mbtn')?.addEventListener('click',()=>document.getElementById('mnav').classList.toggle('hidden'));</script>
+
+  <section class="relative bg-[#0b3d44] text-white overflow-hidden">
+    <div class="absolute inset-0 opacity-30"><img src="../images/wildlife/buffalo-oxpecker.jpg" class="w-full h-full object-cover" alt=""></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-[#0b3d44] via-[#0b3d44]/90 to-transparent"></div>
+    <div class="relative max-w-6xl mx-auto px-4 py-16 sm:py-24">
+      <p class="text-xs font-bold tracking-[0.2em] uppercase text-teal-200">Rede profissional</p>
+      <h1 class="mt-2 text-4xl sm:text-6xl font-extrabold">Synapse</h1>
+      <p class="mt-4 text-lg text-white/85 max-w-xl">Onde os formados do EGFB estão hoje — conservação, ecoturismo, fiscalização, GIS e educação.</p>
+      <div class="mt-8 flex flex-wrap gap-3 text-sm">
+        <span class="px-3 py-1.5 rounded-full bg-white/10 border border-white/20">Conservação</span>
+        <span class="px-3 py-1.5 rounded-full bg-white/10 border border-white/20">Ecoturismo</span>
+        <span class="px-3 py-1.5 rounded-full bg-white/10 border border-white/20">Fiscalização</span>
+        <span class="px-3 py-1.5 rounded-full bg-white/10 border border-white/20">GIS</span>
+      </div>
+    </div>
+  </section>
+
+  <main class="max-w-6xl mx-auto px-4 py-12">
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-8">
+      <h2 class="text-xl font-extrabold text-gray-900">Perfis em destaque</h2>
+      <input id="q" type="search" placeholder="Pesquisar nome, área ou local…" class="h-11 w-full sm:w-72 rounded-full border px-4 text-sm">
+    </div>
+    <div id="grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      
+      <a href="synapse/ana-mucavele.html" data-search="Ana Mucavele Técnica de conservação Parque Nacional de Gorongosa Conservação".lower() class="group bg-white rounded-3xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-xl transition">
+        <div class="aspect-[4/3] relative overflow-hidden">
+          <img src="../images/wildlife/lion.jpg" alt="" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+          <div class="absolute top-3 left-3 text-[10px] font-bold uppercase tracking-wide bg-white/90 text-[#0b3d44] px-2 py-1 rounded-full">Conservação</div>
+        </div>
+        <div class="p-5">
+          <h3 class="font-extrabold text-gray-900 group-hover:text-[#0b3d44]">Ana Mucavele</h3>
+          <p class="text-sm text-emerald-700 font-medium mt-0.5">Técnica de conservação</p>
+          <p class="text-xs text-gray-500 mt-1">Parque Nacional de Gorongosa</p>
+          <p class="text-xs text-gray-400 mt-2">Geração 2022</p>
+        </div>
+      </a>
+      <a href="synapse/carlos-nhampossa.html" data-search="Carlos Nhampossa Guia e intérprete ambiental Operadora de ecoturismo · Manica Ecoturismo".lower() class="group bg-white rounded-3xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-xl transition">
+        <div class="aspect-[4/3] relative overflow-hidden">
+          <img src="../images/wildlife/elephant.jpg" alt="" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+          <div class="absolute top-3 left-3 text-[10px] font-bold uppercase tracking-wide bg-white/90 text-[#0b3d44] px-2 py-1 rounded-full">Ecoturismo</div>
+        </div>
+        <div class="p-5">
+          <h3 class="font-extrabold text-gray-900 group-hover:text-[#0b3d44]">Carlos Nhampossa</h3>
+          <p class="text-sm text-emerald-700 font-medium mt-0.5">Guia e intérprete ambiental</p>
+          <p class="text-xs text-gray-500 mt-1">Operadora de ecoturismo · Manica</p>
+          <p class="text-xs text-gray-400 mt-2">Geração 2022</p>
+        </div>
+      </a>
+      <a href="synapse/fatima-sitoe.html" data-search="Fátima Sitoe Técnica de fiscalização Área de conservação provincial Fiscalização".lower() class="group bg-white rounded-3xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-xl transition">
+        <div class="aspect-[4/3] relative overflow-hidden">
+          <img src="../images/wildlife/giraffe.jpg" alt="" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+          <div class="absolute top-3 left-3 text-[10px] font-bold uppercase tracking-wide bg-white/90 text-[#0b3d44] px-2 py-1 rounded-full">Fiscalização</div>
+        </div>
+        <div class="p-5">
+          <h3 class="font-extrabold text-gray-900 group-hover:text-[#0b3d44]">Fátima Sitoe</h3>
+          <p class="text-sm text-emerald-700 font-medium mt-0.5">Técnica de fiscalização</p>
+          <p class="text-xs text-gray-500 mt-1">Área de conservação provincial</p>
+          <p class="text-xs text-gray-400 mt-2">Geração 2024</p>
+        </div>
+      </a>
+      <a href="synapse/joao-bane.html" data-search="João Bane Técnico GIS Projectos de mapeamento · ISPM GIS".lower() class="group bg-white rounded-3xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-xl transition">
+        <div class="aspect-[4/3] relative overflow-hidden">
+          <img src="../images/wildlife/zebras.png" alt="" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+          <div class="absolute top-3 left-3 text-[10px] font-bold uppercase tracking-wide bg-white/90 text-[#0b3d44] px-2 py-1 rounded-full">GIS</div>
+        </div>
+        <div class="p-5">
+          <h3 class="font-extrabold text-gray-900 group-hover:text-[#0b3d44]">João Bane</h3>
+          <p class="text-sm text-emerald-700 font-medium mt-0.5">Técnico GIS</p>
+          <p class="text-xs text-gray-500 mt-1">Projectos de mapeamento · ISPM</p>
+          <p class="text-xs text-gray-400 mt-2">Geração 2024</p>
+        </div>
+      </a>
+      <a href="synapse/maria-langa.html" data-search="Maria Langa Docente assistente Instituto médio · Manica Educação".lower() class="group bg-white rounded-3xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-xl transition">
+        <div class="aspect-[4/3] relative overflow-hidden">
+          <img src="../images/wildlife/monkey.jpg" alt="" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+          <div class="absolute top-3 left-3 text-[10px] font-bold uppercase tracking-wide bg-white/90 text-[#0b3d44] px-2 py-1 rounded-full">Educação</div>
+        </div>
+        <div class="p-5">
+          <h3 class="font-extrabold text-gray-900 group-hover:text-[#0b3d44]">Maria Langa</h3>
+          <p class="text-sm text-emerald-700 font-medium mt-0.5">Docente assistente</p>
+          <p class="text-xs text-gray-500 mt-1">Instituto médio · Manica</p>
+          <p class="text-xs text-gray-400 mt-2">Geração 2020</p>
+        </div>
+      </a>
+      <a href="synapse/pedro-nhavoto.html" data-search="Pedro Nhavoto Gestor de operações de campo Lodge de natureza Turismo".lower() class="group bg-white rounded-3xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-xl transition">
+        <div class="aspect-[4/3] relative overflow-hidden">
+          <img src="../images/wildlife/lilac-roller.jpg" alt="" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+          <div class="absolute top-3 left-3 text-[10px] font-bold uppercase tracking-wide bg-white/90 text-[#0b3d44] px-2 py-1 rounded-full">Turismo</div>
+        </div>
+        <div class="p-5">
+          <h3 class="font-extrabold text-gray-900 group-hover:text-[#0b3d44]">Pedro Nhavoto</h3>
+          <p class="text-sm text-emerald-700 font-medium mt-0.5">Gestor de operações de campo</p>
+          <p class="text-xs text-gray-500 mt-1">Lodge de natureza</p>
+          <p class="text-xs text-gray-400 mt-2">Geração 2020</p>
+        </div>
+      </a>
+    </div>
+  </main>
+
+  <section class="bg-white border-t py-12">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <h2 class="text-xl font-bold text-[#0b3d44] mb-6">Nossos Parceiros</h2>
+      <div class="flex flex-wrap items-center justify-center gap-10">
+        <img src="../images/logo-ispm.jpg" alt="ISPM" class="h-12 object-contain">
+        <img src="../images/logo-casa-msika.png" alt="Casa Msika" class="h-10 object-contain">
+        <img src="../images/logo-magodo.jpg" alt="Magodo" class="h-12 object-contain">
+        <img src="../images/logo-main.png" alt="EGFB" class="h-10 object-contain">
+      </div>
+    </div>
+  </section>
+  <footer class="bg-[#061e22] text-white">
+    <div class="max-w-6xl mx-auto px-4 py-10 grid sm:grid-cols-3 gap-8 text-sm">
+      <div>
+        <div class="font-bold text-lg">EGFB · ISPM</div>
+        <p class="text-white/50 text-xs mt-2 leading-relaxed">Ecoturismo e Gestão de Fauna Bravia — Instituto Superior Politécnico de Manica.</p>
+      </div>
+      <div>
+        <div class="font-semibold text-teal-200 mb-2">Sobre Nós</div>
+        <ul class="space-y-1 text-white/70">
+          <li><a class="hover:text-white" href="../pages/sobre.html">O que é o EGFB?</a></li>
+          <li><a class="hover:text-white" href="../pages/geracoes.html">Gerações</a></li>
+          <li><a class="hover:text-white" href="../pages/parceiros.html">Parceiros</a></li>
+          <li><a class="hover:text-white" href="../pages/marcos.html">Marcos</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="font-semibold text-teal-200 mb-2">Mais</div>
+        <ul class="space-y-1 text-white/70">
+          <li><a class="hover:text-white" href="../pages/synapse.html">Synapse</a></li>
+          <li><a class="hover:text-white" href="../pages/noticias.html">Notícias</a></li>
+          <li><a class="hover:text-white" href="../index.html">Início</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-white/10 text-center text-xs text-white/40 py-4">© 2026 EGFB – ISPM</div>
+  </footer>
+<script>
+const q=document.getElementById('q');
+q.oninput=()=>{
+  const v=q.value.toLowerCase();
+  document.querySelectorAll('#grid > a').forEach(a=>{
+    a.style.display=!v||a.dataset.search.includes(v)?'':'none';
+  });
+};
+</script>
+</body>
+</html>

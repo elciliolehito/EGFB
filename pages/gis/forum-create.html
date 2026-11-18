@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Criar · Fórum GIS</title>
+  <link rel="icon" href="../../images/favicon.ico">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="bg-[#dae0e6] antialiased">
+  <header class="sticky top-0 z-[100] bg-[#0b3d44] text-white shadow">
+    <div class="max-w-3xl mx-auto px-3 h-12 flex items-center justify-between">
+      <a href="forum.html" class="text-sm font-bold">← Fórum</a>
+      <span class="font-bold text-sm">Criar publicação</span>
+      <span class="w-12"></span>
+    </div>
+  </header>
+  <main class="max-w-3xl mx-auto px-3 py-6">
+    <form id="form" class="bg-white rounded-xl border border-gray-200 p-5 space-y-4">
+      <div>
+        <label class="text-xs font-bold text-gray-500 uppercase">Autor</label>
+        <input id="author" required class="mt-1 w-full border rounded-lg px-3 py-2.5 text-sm" placeholder="Nome">
+      </div>
+      <div>
+        <label class="text-xs font-bold text-gray-500 uppercase">Título</label>
+        <input id="title" required maxlength="300" class="mt-1 w-full border rounded-lg px-3 py-3 text-lg font-bold" placeholder="A tua pergunta ou tema">
+      </div>
+      <div>
+        <label class="text-xs font-bold text-gray-500 uppercase">Texto</label>
+        <textarea id="body" rows="6" class="mt-1 w-full border rounded-lg px-3 py-2.5 text-sm"></textarea>
+      </div>
+      <div>
+        <label class="text-xs font-bold text-gray-500 uppercase">Imagem ou vídeo</label>
+        <input id="media" type="file" accept="image/*,video/*" class="mt-1 block w-full text-sm">
+        <div id="preview" class="mt-3 hidden"></div>
+      </div>
+      <div class="flex justify-end gap-2">
+        <a href="forum.html" class="h-10 px-4 rounded-full text-sm font-semibold text-gray-600 inline-flex items-center">Cancelar</a>
+        <button class="h-10 px-6 rounded-full bg-[#0b3d44] text-white text-sm font-bold">Publicar</button>
+      </div>
+    </form>
+  </main>
+<script>
+const KEY='egfb_gis_forum_v2';
+const USER_KEY='egfb_gis_user';
+function load(){ try{return JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e){return [];} }
+function save(list){ localStorage.setItem(KEY, JSON.stringify(list)); }
+function currentUser(){ try{return JSON.parse(localStorage.getItem(USER_KEY)||'null');}catch(e){return null;} }
+const u=currentUser();
+if(u){ document.getElementById('author').value=u.name; document.getElementById('author').readOnly=true; }
+let mediaData=null, mediaType=null;
+document.getElementById('media').onchange=function(e){
+  const f=e.target.files[0]; if(!f) return;
+  if(f.size>4*1024*1024){ alert('Máx. ~4 MB'); e.target.value=''; return; }
+  const r=new FileReader();
+  r.onload=()=>{ mediaData=r.result; mediaType=f.type.startsWith('video')?'video':'image';
+    const p=document.getElementById('preview'); p.classList.remove('hidden');
+    p.innerHTML=mediaType==='video'?`<video src="${mediaData}" class="max-h-48 rounded-lg" controls></video>`:`<img src="${mediaData}" class="max-h-48 rounded-lg object-cover">`;
+  };
+  r.readAsDataURL(f);
+};
+document.getElementById('form').onsubmit=function(e){
+  e.preventDefault();
+  const author=document.getElementById('author').value.trim();
+  const title=document.getElementById('title').value.trim();
+  const body=document.getElementById('body').value.trim();
+  if(!author||!title) return;
+  const list=load();
+  const id='p'+Date.now()+Math.random().toString(36).slice(2,7);
+  list.push({ id, author, title, body, ts:Date.now(), ups:1, downs:0, views:0, comments:[], media:mediaData, mediaType });
+  save(list);
+  localStorage.setItem('egfb_vote_'+id,'up');
+  location.href='forum-post.html?id='+encodeURIComponent(id);
+};
+</script>
+</body>
+</html>

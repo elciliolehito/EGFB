@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+
+  <title>EGFB | Ecoturismo e Gestão de Fauna Bravia – ISPM</title>
+  <meta name="description" content="Curso de Ecoturismo e Gestão de Fauna Bravia do Instituto Superior Politécnico de Manica. Conservação, biodiversidade e gestão sustentável da fauna em Moçambique.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'egfb-green': '#1a5c2e',
+            'egfb-green-dark': '#0f3d1e',
+            'egfb-green-light': '#2d7a45',
+            'egfb-blue': '#1e88c9',
+            'egfb-yellow': '#f5c518',
+            'egfb-orange': '#c45c11',
+            'egfb-brown': '#8b4513',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .hero-overlay {
+      background: linear-gradient(to bottom, rgba(15,61,30,0.55) 0%, rgba(15,61,30,0.75) 100%);
+    }
+    .dropdown { position: relative; }
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      left: 0;
+      top: 100%;
+      margin-top: 0;
+      padding-top: 8px; /* bridge for mouse */
+      z-index: 50;
+    }
+    .dropdown:hover .dropdown-menu,
+    .dropdown-menu:hover { display: block; }
+    .dropdown-menu > div {
+      background: white;
+      border-radius: 0.75rem;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+      border: 1px solid #f3f4f6;
+      padding: 0.5rem 0;
+    }
+    .nav-link { transition: color 0.2s; }
+    .nav-link:hover { color: #000; }
+    .card-hover { transition: transform 0.3s, box-shadow 0.3s; }
+    .card-hover:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+    .pillar-circle { transition: transform 0.3s; }
+    .pillar-circle:hover { transform: scale(1.08); }
+    .stat-card { transition: transform 0.25s; }
+    .stat-card:hover { transform: translateY(-4px); }
+    .fade-in { animation: fadeIn 0.8s ease-out; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    /* Mobile menu */
+    #mobile-menu { transition: transform 0.3s ease-in-out; }
+    #mobile-menu.closed { transform: translateX(100%); }
+    #mobile-menu.open { transform: translateX(0); }
+  </style>
+</head>
+<body class="bg-white text-gray-800">
+
+  <!-- ========== HEADER ========== -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 lg:h-20">
+        <!-- Logo -->
+        <a href="index.html" class="flex items-center gap-3">
+          <img src="images/logo-main.png" alt="EGFB Logo" class="h-12 lg:h-14 w-auto">
+          <div class="hidden sm:block">
+            <div class="text-black font-bold text-lg leading-tight">EGFB</div>
+            <div class="text-xs text-gray-600 leading-tight">Ecoturismo & Gestão de Fauna Bravia</div>
+          </div>
+        </a>
+
+        
+        <!-- Desktop Nav -->
+        <nav class="hidden lg:flex items-center gap-1">
+          <!-- Sobre Nós -->
+          <div class="dropdown">
+            <button class="nav-link px-3 py-2 text-sm font-medium text-gray-800 flex items-center gap-1">
+              Sobre Nós
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="dropdown-menu w-56">
+              <div>
+                                <a href="pages/sobre.html" class="block px-4 py-2.5 text-sm text-gray-800 hover:bg-gray-100">O que é o EGFB?</a>
+                <a href="pages/geracoes.html" class="block px-4 py-2.5 text-sm text-gray-800 hover:bg-gray-100">Gerações</a>
+                <a href="pages/parceiros.html" class="block px-4 py-2.5 text-sm text-gray-800 hover:bg-gray-100">Parceiros</a>
+                <a href="pages/marcos.html" class="block px-4 py-2.5 text-sm text-gray-800 hover:bg-gray-100">Marcos</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Base de Dados -->
+          <div class="dropdown">
+            <button class="nav-link px-3 py-2 text-sm font-medium text-gray-800 flex items-center gap-1">
+              Base de Dados
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="dropdown-menu w-64">
+              <div>
+                <a href="pages/jardim-botanico.html" class="block px-4 py-2.5 text-sm text-gray-800 hover:bg-gray-100">Jardim Botânico</a>
+                <a href="pages/museu.html" class="block px-4 py-2.5 text-sm text-gray-800 hover:bg-gray-100">Mini-museu de Biodiversidade</a>
+                <a href="pages/repositorio.html" class="block px-4 py-2.5 text-sm text-gray-800 hover:bg-gray-100">Repositório de Monografias</a>
+                <a href="pages/gis.html" class="block px-4 py-2.5 text-sm text-gray-800 hover:bg-gray-100">Mapas e Dados de Geoprocessamento (GIS)</a>
+                <a href="pages/biblioteca.html" class="block px-4 py-2.5 text-sm text-gray-800 hover:bg-gray-100">Biblioteca EGFB</a>
+              </div>
+            </div>
+          </div>
+
+          <a href="pages/formacao.html" class="nav-link px-3 py-2 text-sm font-medium text-gray-800">Mini Cursos e Workshops</a>
+          <a href="pages/synapse.html" class="nav-link px-3 py-2 text-sm font-medium text-gray-800">Synapse</a>
+          <a href="pages/noticias.html" class="nav-link px-3 py-2 text-sm font-medium text-gray-800">Notícias</a>
+        </nav>
+
+        <!-- Right side: Search + Language + Mobile button -->
+        <div class="flex items-center gap-3">
+          <button id="search-btn" class="p-2 text-gray-800 hover:text-black" aria-label="Pesquisar">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          </button>
+          <div class="hidden sm:flex items-center gap-1 bg-gray-100 rounded-full p-1" id="lang-switch">
+            <button data-lang="pt" class="lang-btn px-2.5 py-1 text-xs font-semibold rounded-full bg-black text-white">PT</button>
+            <button data-lang="en" class="lang-btn px-2.5 py-1 text-xs font-semibold rounded-full text-gray-600 hover:bg-white">EN</button>
+          </div>
+          <!-- Mobile menu button -->
+          <button id="menu-btn" class="lg:hidden p-2 text-gray-700" aria-label="Menu">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Menu Overlay -->
+  <div id="mobile-menu" class="fixed inset-0 z-50 bg-white closed lg:hidden">
+    <div class="flex items-center justify-between p-4 border-b">
+      <img src="images/logo-main.png" alt="EGFB" class="h-10">
+      <button id="close-menu" class="p-2">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <nav class="p-4 space-y-1 overflow-y-auto h-[calc(100vh-80px)]">
+      <div class="py-2">
+        <div class="font-semibold text-black px-3 py-2">Sobre Nós</div>
+                <a href="pages/sobre.html" class="block px-6 py-2.5 text-gray-700">O que é o EGFB?</a>
+        <a href="pages/geracoes.html" class="block px-6 py-2.5 text-gray-700">Gerações</a>
+        <a href="pages/parceiros.html" class="block px-6 py-2.5 text-gray-700">Parceiros</a>
+        <a href="pages/marcos.html" class="block px-6 py-2.5 text-gray-700">Marcos</a>
+      </div>
+      <div class="py-2 border-t">
+        <div class="font-semibold text-black px-3 py-2">Base de Dados</div>
+        <a href="pages/jardim-botanico.html" class="block px-6 py-2.5 text-gray-700">Jardim Botânico</a>
+        <a href="pages/museu.html" class="block px-6 py-2.5 text-gray-700">Mini-museu de Biodiversidade</a>
+        <a href="pages/repositorio.html" class="block px-6 py-2.5 text-gray-700">Repositório de Monografias</a>
+        <a href="pages/gis.html" class="block px-6 py-2.5 text-gray-700">Mapas e Dados GIS</a>
+        <a href="pages/biblioteca.html" class="block px-6 py-2.5 text-gray-700">Biblioteca EGFB</a>
+      </div>
+      <a href="pages/formacao.html" class="block px-3 py-3 font-semibold text-black border-t">Mini Cursos e Workshops</a>
+      <a href="pages/synapse.html" class="block px-3 py-3 font-semibold text-black">Synapse</a>
+      <a href="pages/noticias.html" class="block px-3 py-3 font-semibold text-black">Notícias</a>
+    </nav>
+  </div>
+
+  <!-- ========== HERO ========== -->
+  <section class="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
+    <!-- Background video -->
+    <video class="absolute inset-0 w-full h-full object-cover" autoplay muted loop playsinline poster="images/wildlife/zebras.png">
+      <source src="videos/wildebeest-aerial.mp4" type="video/mp4">
+      <!-- Fallback image if video fails -->
+      <img src="images/wildlife/zebras.png" alt="Fauna bravia" class="w-full h-full object-cover">
+    </video>
+    <div class="hero-overlay absolute inset-0"></div>
+    <div class="relative z-10 max-w-4xl mx-auto px-4 text-center text-white fade-in">
+      <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+        Formamos profissionais para a conservação da biodiversidade e gestão sustentável da fauna em Moçambique
+      </h1>
+      <p class="text-lg sm:text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+        Curso de Ecoturismo e Gestão de Fauna Bravia – ISPM
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="pages/sobre.html" class="inline-flex items-center justify-center px-8 py-3.5 bg-egfb-yellow text-egfb-green-dark font-semibold rounded-full hover:bg-yellow-400 transition shadow-lg">
+          Conhecer o Curso
+          <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+        <a href="pages/sobre.html" class="inline-flex items-center justify-center px-8 py-3.5 border-2 border-white text-white font-semibold rounded-full hover:bg-white/10 transition">
+          Conhecer o curso
+        </a>
+      </div>
+    </div>
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 text-white animate-bounce">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+    </div>
+  </section>
+  <section class="py-20 bg-gray-50" id="marcos">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+        <div>
+          <h2 class="text-3xl md:text-4xl font-bold text-black">Nossos Marcos</h2>
+          <p class="text-gray-600 mt-2">Projetos e conquistas permanentes do curso EGFB</p>
+        </div>
+        </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <!-- Card 1 -->
+        <a href="#" class="card-hover bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 group">
+          <div class="h-44 bg-cover bg-center relative" style="background-image: url('images/wildlife/giraffe.jpg');">
+            <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition"></div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-semibold text-egfb-green-dark group-hover:text-egfb-green">Jardim Botânico</h3>
+            <p class="text-sm text-gray-500 mt-1">Coleção viva de espécies nativas e base de dados botânica</p>
+          </div>
+        </a>
+        <!-- Card 2 -->
+        <a href="#" class="card-hover bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 group">
+          <div class="h-44 bg-cover bg-center relative" style="background-image: url('images/wildlife/elephant.jpg');">
+            <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition"></div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-semibold text-egfb-green-dark group-hover:text-egfb-green">Mini-museu de Biodiversidade</h3>
+            <p class="text-sm text-gray-500 mt-1">Espécimes, chifres, peles e material didáctico</p>
+          </div>
+        </a>
+        <!-- Card 3 -->
+        <a href="#" class="card-hover bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 group">
+          <div class="h-44 bg-cover bg-center relative" style="background-image: url('images/wildlife/monkey.jpg');">
+            <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition"></div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-semibold text-egfb-green-dark group-hover:text-egfb-green">Programa de Estágios</h3>
+            <p class="text-sm text-gray-500 mt-1">Inserção em áreas de conservação e operadores turísticos</p>
+          </div>
+        </a>
+        <!-- Card 4 -->
+        <a href="#" class="card-hover bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 group">
+          <div class="h-44 bg-cover bg-center relative" style="background-image: url('images/wildlife/lion.jpg');">
+            <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition"></div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-semibold text-egfb-green-dark group-hover:text-egfb-green">Inventários de Fauna</h3>
+            <p class="text-sm text-gray-500 mt-1">Monitoria de aves, mamíferos, répteis e flora</p>
+          </div>
+        </a>
+        <!-- Card 5 -->
+        <a href="#" class="card-hover bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 group">
+          <div class="h-44 bg-cover bg-center relative" style="background-image: url('images/wildlife/zebras.png');">
+            <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition"></div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-semibold text-egfb-green-dark group-hover:text-egfb-green">Trilhas Ecológicas</h3>
+            <p class="text-sm text-gray-500 mt-1">Desenho e interpretação ambiental de percursos</p>
+          </div>
+        </a>
+        <!-- Card 6 -->
+        <a href="#" class="card-hover bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 group">
+          <div class="h-44 bg-cover bg-center relative" style="background-image: url('images/wildlife/roller.jpg');">
+            <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition"></div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-semibold text-egfb-green-dark group-hover:text-egfb-green">Recuperação de Ecossistemas</h3>
+            <p class="text-sm text-gray-500 mt-1">Projetos de restauração e áreas úmidas</p>
+          </div>
+        </a>
+        <!-- Card 7 -->
+        <a href="#" class="card-hover bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 group">
+          <div class="h-44 bg-cover bg-center relative" style="background-image: url('images/wildlife/lilac-roller.jpg');">
+            <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition"></div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-semibold text-egfb-green-dark group-hover:text-egfb-green">Fiscalização & Armamento</h3>
+            <p class="text-sm text-gray-500 mt-1">Formação em legislação e técnicas de fiscalização</p>
+          </div>
+        </a>
+        <!-- Card 8 -->
+        <a href="#" class="card-hover bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 group">
+          <div class="h-44 bg-cover bg-center relative" style="background-image: url('images/wildlife/buffalo-oxpecker.jpg');">
+            <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition"></div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-semibold text-egfb-green-dark group-hover:text-egfb-green">Gestão de Alojamento</h3>
+            <p class="text-sm text-gray-500 mt-1">Unidades de alojamento e operações turísticas</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========== CITAÇÃO ========== -->
+  <section class="relative py-20 bg-black text-white overflow-hidden">
+    <video class="absolute inset-0 w-full h-full object-cover opacity-50" autoplay muted loop playsinline>
+      <source src="videos/elephants-sunset.mp4" type="video/mp4">
+    </video>
+    <div class="absolute inset-0 bg-black/60"></div>
+    <div class="relative max-w-4xl mx-auto px-4 text-center z-10">
+      <blockquote class="text-2xl sm:text-3xl md:text-4xl font-light leading-relaxed italic">
+        “A terra não nos pertence. Nós é que pertencemos a ela. Que cuidemos dela, antes que ela deixe de cuidar de nós.”
+      </blockquote>
+      <p class="mt-6 text-egfb-yellow font-medium">— Mia Couto</p>
+    </div>
+  </section>
+
+  <!-- ========== MISSÃO / VISÃO / VALORES (Carrossel simples) ========== -->
+  <section class="py-16 bg-gray-50" id="curso">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 text-center">
+          <div class="w-14 h-14 bg-egfb-green/10 rounded-full flex items-center justify-center mx-auto mb-5">
+            <svg class="w-7 h-7" style="color:#1a5c2e" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          </div>
+          <h3 class="text-xl font-bold text-black mb-3">Missão</h3>
+          <p class="text-gray-600 leading-relaxed">
+            Formar profissionais capacitados em ecoturismo e gestão de fauna bravia, promovendo a conservação da biodiversidade e o uso sustentável dos recursos naturais em Moçambique.
+          </p>
+        </div>
+        <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 text-center">
+          <div class="w-14 h-14 bg-egfb-blue/10 rounded-full flex items-center justify-center mx-auto mb-5">
+            <svg class="w-7 h-7" style="color:#1e88c9" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+          </div>
+          <h3 class="text-xl font-bold text-black mb-3">Visão</h3>
+          <p class="text-gray-600 leading-relaxed">
+            Ser referência nacional na formação de gestores de fauna e profissionais de ecoturismo, contribuindo para a consolidação do sistema de áreas de conservação de Moçambique.
+          </p>
+        </div>
+        <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 text-center">
+          <div class="w-14 h-14 bg-egfb-yellow/20 rounded-full flex items-center justify-center mx-auto mb-5">
+            <svg class="w-7 h-7" style="color:#c45c11" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+          </div>
+          <h3 class="text-xl font-bold text-black mb-3">Valores</h3>
+          <p class="text-gray-600 leading-relaxed">
+            Conservação, ética ambiental, excelência académica, valorização do componente prático, compromisso com as comunidades e sustentabilidade.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 4 PILARES ========== -->
+  <section class="py-20 bg-white">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <h2 class="text-3xl md:text-4xl font-bold text-black mb-4">Os Quatro Pilares do Curso EGFB</h2>
+      <p class="text-gray-600 max-w-2xl mx-auto mb-14">A formação está estruturada em quatro eixos fundamentais que se complementam ao longo dos 4 anos.</p>
+      
+      <div class="relative flex flex-wrap justify-center gap-8 md:gap-12">
+        <div class="pillar-circle flex flex-col items-center">
+          <div class="w-28 h-28 rounded-full flex items-center justify-center font-bold text-2xl shadow-lg mb-4" style="background:#f5c518;color:#0f3d1e;">01</div>
+          <h4 class="font-semibold text-lg text-black">Conservação da Biodiversidade</h4>
+          <p class="text-sm text-gray-500 mt-1 max-w-[160px]">Inventários, monitoria e gestão de espécies</p>
+        </div>
+        <div class="pillar-circle flex flex-col items-center">
+          <div class="w-28 h-28 rounded-full flex items-center justify-center font-bold text-2xl shadow-lg mb-4 text-white" style="background:#1a5c2e;">02</div>
+          <h4 class="font-semibold text-lg text-black">Gestão de Fauna Bravia</h4>
+          <p class="text-sm text-gray-500 mt-1 max-w-[160px]">Cativeiro, caça profissional e fiscalização</p>
+        </div>
+        <div class="pillar-circle flex flex-col items-center">
+          <div class="w-28 h-28 rounded-full flex items-center justify-center font-bold text-2xl shadow-lg mb-4 text-white" style="background:#1e88c9;">03</div>
+          <h4 class="font-semibold text-lg text-black">Ecoturismo</h4>
+          <p class="text-sm text-gray-500 mt-1 max-w-[160px]">Alojamento, guias, eventos e marketing</p>
+        </div>
+        <div class="pillar-circle flex flex-col items-center">
+          <div class="w-28 h-28 rounded-full flex items-center justify-center font-bold text-2xl shadow-lg mb-4 text-white" style="background:#c45c11;">04</div>
+          <h4 class="font-semibold text-lg text-black">Pesquisa & Prática</h4>
+          <p class="text-sm text-gray-500 mt-1 max-w-[160px]">Estágios, monografias e trabalho de campo</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== NÚMEROS / STATS ========== -->
+  <section class="py-16 bg-egfb-green-dark text-white">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div class="stat-card bg-egfb-green/40 rounded-2xl p-6 text-center">
+          <div class="text-3xl md:text-4xl font-bold text-egfb-yellow mb-1">4</div>
+          <div class="text-sm text-white/80">Anos de formação</div>
+        </div>
+        <div class="stat-card bg-egfb-green/40 rounded-2xl p-6 text-center">
+          <div class="text-3xl md:text-4xl font-bold text-egfb-yellow mb-1">12</div>
+          <div class="text-sm text-white/80">Blocos de módulos</div>
+        </div>
+        <div class="stat-card bg-egfb-green/40 rounded-2xl p-6 text-center">
+          <div class="text-3xl md:text-4xl font-bold text-egfb-yellow mb-1">+120</div>
+          <div class="text-sm text-white/80">Formandos</div>
+        </div>
+        <div class="stat-card bg-egfb-green/40 rounded-2xl p-6 text-center">
+          <div class="text-3xl md:text-4xl font-bold text-egfb-yellow mb-1">+35</div>
+          <div class="text-sm text-white/80">Áreas visitadas</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== VIDA SELVAGEM EM MOVIMENTO ========== -->
+  <section class="relative py-0 overflow-hidden">
+    <div class="relative h-[50vh] min-h-[320px] max-h-[520px]">
+      <video class="absolute inset-0 w-full h-full object-cover" autoplay muted loop playsinline>
+        <source src="videos/wildebeest-dust.mp4" type="video/mp4">
+      </video>
+      <div class="absolute inset-0 bg-gradient-to-t from-egfb-green-dark/80 via-egfb-green-dark/40 to-transparent"></div>
+      <div class="absolute inset-0 flex items-end">
+        <div class="max-w-7xl mx-auto px-4 pb-12 w-full text-white">
+          <h2 class="text-2xl md:text-3xl font-bold mb-2">A Fauna Bravia de Moçambique</h2>
+          <p class="text-white/90 max-w-2xl">Formamos gestores e profissionais preparados para conservar a biodiversidade e promover o ecoturismo sustentável nas áreas de conservação do país.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== MARCOS / PROJETOS ========== -->
+  <!-- ========== NOTÍCIAS ========== -->
+  <section class="py-20 bg-white" id="noticias">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+        <div>
+          <h2 class="text-3xl md:text-4xl font-bold text-black">Notícias</h2>
+          <p class="text-gray-600 mt-2">Visitas, actividades e actualizações do curso</p>
+        </div>
+        <a href="pages/noticias.html" class="inline-flex items-center px-6 py-2.5 bg-egfb-yellow text-egfb-green-dark font-semibold rounded-full hover:bg-yellow-400 transition">
+          Ver Mais
+          <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        <article class="card-hover bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100">
+          <div class="h-52 bg-cover bg-center" style="background-image: url('images/wildlife/buffalo-oxpecker.jpg');"></div>
+          <div class="p-6">
+            <time class="text-xs text-gray-400">03 Nov 2026</time>
+            <h3 class="font-semibold text-lg text-egfb-green-dark mt-2 leading-snug">Visita de estudo à Reserva do Gilé reforça competências de inventário de mamíferos</h3>
+            <p class="text-sm text-gray-500 mt-2 line-clamp-2">Estudantes do 2.º ano realizaram inventários de mamíferos e práticas de telemetria na Reserva Nacional do Gilé.</p>
+            <a href="#" class="inline-flex items-center text-egfb-green font-medium text-sm mt-4 hover:underline">
+              Ler mais
+              <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </article>
+        <article class="card-hover bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100">
+          <div class="h-52 bg-cover bg-center" style="background-image: url('images/wildlife/giraffe.jpg');"></div>
+          <div class="p-6">
+            <time class="text-xs text-gray-400">28 Out 2026</time>
+            <h3 class="font-semibold text-lg text-egfb-green-dark mt-2 leading-snug">Jardim Botânico EGFB recebe novas espécies de flora endémica</h3>
+            <p class="text-sm text-gray-500 mt-2 line-clamp-2">Mais de 40 espécimes de plantas nativas foram introduzidos no jardim didáctico do curso.</p>
+            <a href="#" class="inline-flex items-center text-egfb-green font-medium text-sm mt-4 hover:underline">
+              Ler mais
+              <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </article>
+        <article class="card-hover bg-white rounded-2xl overflow-hidden shadow-md border border-gray-100">
+          <div class="h-52 bg-cover bg-center" style="background-image: url('images/wildlife/monkey.jpg');"></div>
+          <div class="p-6">
+            <time class="text-xs text-gray-400">15 Out 2026</time>
+            <h3 class="font-semibold text-lg text-egfb-green-dark mt-2 leading-snug">Turma de 2026 inicia estágio em áreas de conservação</h3>
+            <p class="text-sm text-gray-500 mt-2 line-clamp-2">Estudantes do 3.º ano iniciaram estágios em Coutadas, Parques Nacionais e operadores de ecoturismo.</p>
+            <a href="#" class="inline-flex items-center text-egfb-green font-medium text-sm mt-4 hover:underline">
+              Ler mais
+              <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== PARCEIROS ========== -->
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <h2 class="text-3xl font-bold text-egfb-green-dark mb-3">Nossos Parceiros</h2>
+      <p class="text-gray-600 mb-10">Instituições e organizações que apoiam a formação EGFB</p>
+      
+      <div class="flex flex-wrap items-center justify-center gap-10 md:gap-16">
+        <div class="flex flex-col items-center gap-2">
+          <img src="images/logo-ispm.jpg" alt="ISPM" class="h-16 object-contain">
+          <span class="text-xs text-gray-500">ISPM</span>
+        </div>
+        <div class="flex flex-col items-center gap-2">
+          <img src="images/logo-casa-msika.png" alt="Casa Msika Lodge" class="h-14 object-contain">
+          <span class="text-xs text-gray-500">Casa Msika Lodge</span>
+        </div>
+        <div class="flex flex-col items-center gap-2">
+          <img src="images/logo-magodo.jpg" alt="Magodo Treinamento" class="h-16 object-contain">
+          <span class="text-xs text-gray-500">Magodo Treinamento</span>
+        </div>
+        <div class="flex flex-col items-center gap-2">
+          <img src="images/logo-main.png" alt="EGFB" class="h-16 object-contain">
+          <span class="text-xs text-gray-500">EGFB</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="bg-gray-100 text-black border-t border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 py-14">
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
+        <!-- Col 1 -->
+        <div>
+          <h4 class="font-semibold text-black mb-4">Sobre Nós</h4>
+          <ul class="space-y-2 text-sm text-gray-700">
+            <li><a href="pages/sobre.html" class="hover:text-black">O Curso</a></li>
+            <li><a href="pages/sobre.html" class="hover:text-black">O que é o EGFB?</a></li>
+            <li><a href="pages/geracoes.html" class="hover:text-black">Gerações</a></li>
+            <li><a href="pages/parceiros.html" class="hover:text-black">Parceiros</a></li>
+            <li><a href="pages/marcos.html" class="hover:text-black">Marcos</a></li>
+          </ul>
+        </div>
+        <!-- Col 2 -->
+        <div>
+          <h4 class="font-semibold text-black mb-4">Formação & Rede</h4>
+          <ul class="space-y-2 text-sm text-gray-700">
+            <li><a href="pages/formacao.html" class="hover:text-black">Mini Cursos e Workshops</a></li>
+            <li><a href="pages/synapse.html" class="hover:text-black">Synapse</a></li>
+            <li><a href="pages/noticias.html" class="hover:text-black">Notícias</a></li>
+          </ul>
+        </div>
+        <!-- Col 3 -->
+        <div>
+          <h4 class="font-semibold text-black mb-4">Base de Dados</h4>
+          <ul class="space-y-2 text-sm text-gray-700">
+            <li><a href="pages/jardim-botanico.html" class="hover:text-black">Jardim Botânico</a></li>
+            <li><a href="pages/museu.html" class="hover:text-black">Mini-museu de Biodiversidade</a></li>
+            <li><a href="pages/repositorio.html" class="hover:text-black">Repositório de Monografias</a></li>
+            <li><a href="pages/gis.html" class="hover:text-black">Mapas e Dados GIS</a></li>
+            <li><a href="pages/biblioteca.html" class="hover:text-black">Biblioteca EGFB</a></li>
+          </ul>
+        </div>
+        <!-- Col 4 -->
+        <div>
+          <h4 class="font-semibold text-black mb-4">Contacto</h4>
+          <ul class="space-y-2 text-sm text-gray-700">
+            <li>Instituto Superior Politécnico de Manica</li>
+            <li>Manica, Moçambique</li>
+            <li class="pt-2">
+              <div class="flex gap-3">
+                <a href="#" class="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center hover:bg-black hover:text-white transition text-gray-700">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                </a>
+                <a href="#" class="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center hover:bg-black hover:text-white transition text-gray-700">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </a>
+                <a href="#" class="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center hover:bg-black hover:text-white transition text-gray-700">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                </a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-12 pt-8 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="flex items-center gap-3">
+          <img src="images/logo-main.png" alt="EGFB" class="h-10">
+          <span class="text-sm text-gray-600">Ecoturismo e Gestão de Fauna Bravia</span>
+        </div>
+        <p class="text-xs text-gray-500">© 2026 EGFB – ISPM. Todos os direitos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Search Overlay -->
+  <div id="search-overlay" class="fixed inset-0 z-[60] bg-white hidden flex-col">
+    <div class="max-w-3xl mx-auto w-full px-4 pt-8">
+      <div class="flex items-center gap-3 border-b border-gray-200 pb-4">
+        <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        <input id="search-input" type="text" placeholder="Pesquisar no site EGFB..." class="flex-1 text-lg outline-none text-black placeholder-gray-400">
+        <button id="close-search" class="p-2 text-gray-600 hover:text-black" aria-label="Fechar">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div id="search-results" class="mt-6 text-gray-600 text-sm">Digite para pesquisar...</div>
+    </div>
+  </div>
+  <script>
+    // Mobile menu
+    const menuBtn = document.getElementById('menu-btn');
+    const closeBtn = document.getElementById('close-menu');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.remove('closed');
+      mobileMenu.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+    closeBtn.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      mobileMenu.classList.add('closed');
+      document.body.style.overflow = '';
+    });
+
+    // Close mobile menu when clicking a link
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        mobileMenu.classList.add('closed');
+        document.body.style.overflow = '';
+      });
+    });
+  </script>
+
+  <div id="google_translate_element" class="hidden"></div>
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'pt',
+        includedLanguages: 'en,pt',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        autoDisplay: false
+      }, 'google_translate_element');
+    }
+  </script>
+  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</body>
+</html>
+
+  <script>
+    // Search
+    const searchBtn = document.getElementById('search-btn');
+    const searchOverlay = document.getElementById('search-overlay');
+    const closeSearch = document.getElementById('close-search');
+    const searchInput = document.getElementById('search-input');
+
+    if (searchBtn) {
+      searchBtn.addEventListener('click', () => {
+        searchOverlay.classList.remove('hidden');
+        searchOverlay.classList.add('flex');
+        searchInput.focus();
+        document.body.style.overflow = 'hidden';
+      });
+    }
+    if (closeSearch) {
+      closeSearch.addEventListener('click', () => {
+        searchOverlay.classList.add('hidden');
+        searchOverlay.classList.remove('flex');
+        document.body.style.overflow = '';
+      });
+    }
+    // ESC to close
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && searchOverlay && !searchOverlay.classList.contains('hidden')) {
+        searchOverlay.classList.add('hidden');
+        searchOverlay.classList.remove('flex');
+        document.body.style.overflow = '';
+      }
+    });
+
+    // Language toggle (visual only for now)
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.lang-btn').forEach(b => {
+          b.classList.remove('bg-black', 'text-white');
+          b.classList.add('text-gray-600');
+        });
+        btn.classList.add('bg-black', 'text-white');
+        btn.classList.remove('text-gray-600');
+        
+        const lang = btn.getAttribute('data-lang');
+        // Try to use Google Translate select if available
+        setTimeout(() => {
+          const select = document.querySelector('.goog-te-combo');
+          if (select) {
+            select.value = lang === 'en' ? 'en' : 'pt';
+            select.dispatchEvent(new Event('change'));
+          }
+        }, 800);
+        
+      });
+    });
+  </script>
+
+  <div id="google_translate_element" class="hidden"></div>
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'pt',
+        includedLanguages: 'en,pt',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        autoDisplay: false
+      }, 'google_translate_element');
+    }
+  </script>
+  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</body>
+</html>

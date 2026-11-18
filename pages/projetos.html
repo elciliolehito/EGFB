@@ -1,0 +1,123 @@
+<!-- PÁGINA OBSOLETA: sem ligação no menu. -->
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../images/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../images/apple-touch-icon.png">
+
+  <title>Marcos & Projetos | EGFB – ISPM</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'egfb-green': '#1a5c2e',
+            'egfb-green-dark': '#0f3d1e',
+            'egfb-yellow': '#f5c518',
+          },
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+  <header class="bg-white shadow-sm sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+      <a href="../index.html" class="flex items-center gap-3">
+        <img src="../images/logo-main.png" alt="EGFB" class="h-11">
+        <div>
+          <div class="font-bold text-black text-lg leading-tight">EGFB</div>
+          <div class="text-xs text-gray-600">Marcos & Projetos</div>
+        </div>
+      </a>
+      <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-700">
+        <a href="../index.html" class="hover:text-black">Início</a>
+        <a href="modulos.html" class="hover:text-black">Módulos</a>
+        <a href="jardim-botanico.html" class="hover:text-black">Jardim Botânico</a>
+        <a href="noticias.html" class="hover:text-black">Notícias</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 py-12">
+    <h1 class="text-3xl md:text-4xl font-bold text-black mb-2">Nossos Marcos</h1>
+    <p class="text-gray-600 mb-10">Projetos e conquistas permanentes do curso de Ecoturismo e Gestão de Fauna Bravia</p>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <a href="#marco-1" class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-lg transition group">
+        <div class="h-48 bg-cover bg-center" style="background-image:url('../images/wildlife/giraffe.jpg')"></div>
+        <div class="p-6">
+          <h2 class="font-bold text-lg text-black group-hover:underline">Jardim Botânico EGFB</h2>
+          <p class="text-sm text-gray-600 mt-2">Coleção viva de espécies nativas, habitats fechados, abertos e aquáticos, e base de dados botânica e faunística.</p>
+        </div>
+      </a>
+
+      <a href="#marco-2" class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-lg transition group">
+        <div class="h-48 bg-cover bg-center" style="background-image:url('../images/wildlife/elephant.jpg')"></div>
+        <div class="p-6">
+          <h2 class="font-bold text-lg text-black group-hover:underline">Museu de História Natural</h2>
+          <p class="text-sm text-gray-600 mt-2">Espécimes em cativeiro, chifres, peles e material didáctico para apoio às aulas práticas.</p>
+        </div>
+      </a>
+
+      <a href="#marco-3" class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-lg transition group">
+        <div class="h-48 bg-cover bg-center" style="background-image:url('../images/wildlife/lion.jpg')"></div>
+        <div class="p-6">
+          <h2 class="font-bold text-lg text-black group-hover:underline">Programa de Estágios</h2>
+          <p class="text-sm text-gray-600 mt-2">Inserção de estudantes em áreas de conservação, operadores turísticos e instituições de gestão de fauna.</p>
+        </div>
+      </a>
+
+      <a href="#marco-4" class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-lg transition group">
+        <div class="h-48 bg-cover bg-center" style="background-image:url('../images/wildlife/zebras.png')"></div>
+        <div class="p-6">
+          <h2 class="font-bold text-lg text-black group-hover:underline">Inventários de Fauna</h2>
+          <p class="text-sm text-gray-600 mt-2">Monitoria contínua de aves, mamíferos, répteis, anfíbios, invertebrados e flora no campus e áreas vizinhas.</p>
+        </div>
+      </a>
+
+      <a href="#marco-5" class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-lg transition group">
+        <div class="h-48 bg-cover bg-center" style="background-image:url('../images/wildlife/roller.jpg')"></div>
+        <div class="p-6">
+          <h2 class="font-bold text-lg text-black group-hover:underline">Trilhas Ecológicas</h2>
+          <p class="text-sm text-gray-600 mt-2">Desenho, sinalização e interpretação ambiental de percursos no Jardim Botânico e zonas de prática.</p>
+        </div>
+      </a>
+
+      <a href="#marco-6" class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-lg transition group">
+        <div class="h-48 bg-cover bg-center" style="background-image:url('../images/wildlife/monkey.jpg')"></div>
+        <div class="p-6">
+          <h2 class="font-bold text-lg text-black group-hover:underline">Recuperação de Ecossistemas</h2>
+          <p class="text-sm text-gray-600 mt-2">Projetos de restauração, controlo de espécies invasoras e recuperação de áreas húmidas e habitats degradados.</p>
+        </div>
+      </a>
+    </div>
+
+    <!-- Detail example -->
+    <div id="marco-1" class="mt-16 bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+      <h2 class="text-2xl font-bold text-black mb-4">Jardim Botânico EGFB</h2>
+      <p class="text-gray-700 leading-relaxed mb-4">
+        O Jardim Botânico do ISPM, localizado em Matsinho, Distrito de Vanduzi, Província de Manica, é uma área de conservação, ensino e investigação inserida na ecorregião das Florestas de Miombo. Abriga habitats fechados (dossel de Brachystegia, Julbernardia), abertos (savanas com gramíneas) e aquáticos (lagoas sazonais).
+      </p>
+      <p class="text-gray-700 leading-relaxed mb-4">
+        Serve de laboratório vivo para inventários de fauna e flora, estudos de ameaças (invasoras, fogo, pisoteio) e implementação de estratégias de mitigação pelos estudantes do curso EGFB.
+      </p>
+      <a href="jardim-botanico.html" class="inline-block mt-2 px-5 py-2.5 bg-black text-white text-sm font-semibold rounded-full">Ver Base de Dados →</a>
+    </div>
+  </main>
+
+  <footer class="bg-egfb-green-dark text-white mt-16 py-10">
+    <div class="max-w-6xl mx-auto px-4 text-center text-sm text-white/70">
+      © 2026 EGFB – ISPM. Todos os direitos reservados.
+    </div>
+  </footer>
+</body>
+</html>

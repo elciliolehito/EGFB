@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>O que é o EGFB? · Ecoturismo e Gestão de Fauna Bravia</title>
+  <link rel="icon" href="../images/favicon.ico">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>body{font-family:Inter,system-ui,sans-serif}</style>
+</head>
+<body class="bg-white text-gray-800 antialiased">
+
+  <header class="bg-white/95 backdrop-blur sticky top-0 z-50 border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-3">
+      <a href="../index.html" class="flex items-center gap-2.5 shrink-0">
+        <img src="../images/logo-main.png" alt="EGFB" class="h-10 object-contain">
+        <span class="font-extrabold text-[#0b3d44] hidden sm:block text-sm">EGFB</span>
+      </a>
+      <nav class="hidden lg:flex items-center gap-1 text-sm font-medium text-gray-700">
+        <div class="relative group">
+          <button type="button" class="px-3 py-2 rounded-lg hover:bg-gray-50 flex items-center gap-1">Sobre Nós
+            <svg class="w-3.5 h-3.5 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="absolute left-0 top-full pt-1 hidden group-hover:block min-w-[200px]">
+            <div class="bg-white rounded-xl shadow-xl border border-gray-100 py-2 text-sm">
+              <a href="sobre.html" class="block px-4 py-2.5 hover:bg-gray-50">O que é o EGFB?</a>
+              <a href="geracoes.html" class="block px-4 py-2.5 hover:bg-gray-50">Gerações</a>
+              <a href="parceiros.html" class="block px-4 py-2.5 hover:bg-gray-50">Parceiros</a>
+              <a href="marcos.html" class="block px-4 py-2.5 hover:bg-gray-50">Marcos</a>
+            </div>
+          </div>
+        </div>
+        <a href="formacao.html" class="px-3 py-2 rounded-lg hover:bg-gray-50">Mini Cursos e Workshops</a>
+        <a href="synapse.html" class="px-3 py-2 rounded-lg hover:bg-gray-50 ">Synapse</a>
+        <a href="noticias.html" class="px-3 py-2 rounded-lg hover:bg-gray-50 ">Notícias</a>
+      </nav>
+      <div class="flex items-center gap-2">
+        <a href="../index.html" class="text-xs font-bold h-9 px-3 rounded-full border border-gray-200 hover:border-[#0b3d44] text-[#0b3d44] inline-flex items-center">Início</a>
+        <button type="button" id="mbtn" class="lg:hidden p-2 rounded-lg hover:bg-gray-100" aria-label="Menu">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+    <div id="mnav" class="hidden lg:hidden border-t px-4 py-3 text-sm space-y-1 bg-white">
+      <p class="text-xs font-bold text-gray-400 uppercase px-2">Sobre Nós</p>
+      <a class="block px-2 py-2" href="sobre.html">O que é o EGFB?</a>
+      <a class="block px-2 py-2" href="geracoes.html">Gerações</a>
+      <a class="block px-2 py-2" href="parceiros.html">Parceiros</a>
+      <a class="block px-2 py-2" href="marcos.html">Marcos</a>
+      <a class="block px-2 py-2 font-medium" href="synapse.html">Synapse</a>
+      <a class="block px-2 py-2 font-medium" href="noticias.html">Notícias</a>
+    </div>
+  </header>
+  <script>document.getElementById('mbtn')?.addEventListener('click',()=>document.getElementById('mnav').classList.toggle('hidden'));</script>
+
+  <section class="relative min-h-[42vh] flex items-end">
+    <img src="../images/wildlife/elephant.jpg" alt="" class="absolute inset-0 w-full h-full object-cover">
+    <div class="absolute inset-0 bg-gradient-to-t from-[#0b3d44] via-[#0b3d44]/70 to-black/30"></div>
+    <div class="relative max-w-5xl mx-auto px-4 pb-12 pt-24 text-white">
+      <p class="text-xs font-bold tracking-[0.2em] uppercase text-emerald-200">Curso · ISPM</p>
+      <h1 class="mt-2 text-4xl sm:text-5xl font-extrabold leading-tight">O que é o EGFB?</h1>
+      <p class="mt-3 text-lg text-white/85 max-w-2xl">Ecoturismo e Gestão de Fauna Bravia — formação superior orientada para a conservação, o turismo responsável e a gestão de recursos naturais em Moçambique.</p>
+    </div>
+  </section>
+
+  <section class="max-w-5xl mx-auto px-4 py-16 grid md:grid-cols-3 gap-8">
+    <div class="md:col-span-2 space-y-6 text-[15px] leading-relaxed text-gray-700">
+      <p>O <strong>EGFB</strong> é o curso de <strong>Ecoturismo e Gestão de Fauna Bravia</strong> do Instituto Superior Politécnico de Manica (ISPM). Forma técnicos e profissionais capazes de planear, monitorizar e gerir áreas de conservação, destinos de natureza e operações de turismo com base científica e ética ambiental.</p>
+      <p>A estrutura académica combina <strong>ecologia de campo</strong>, <strong>inventários de biodiversidade</strong>, <strong>geoprocessamento</strong>, <strong>fiscalização</strong>, <strong>gestão financeira</strong> e <strong>práticas de ecoturismo</strong>. Os estudantes trabalham no Jardim Botânico, no Mini-Museu de Biodiversidade e em visitas a áreas de conservação da região de Manica.</p>
+      <p>O curso está inserido na Divisão de Economia, Gestão e Turismo do ISPM e dialoga com parceiros públicos e privados da conservação e do turismo.</p>
+    </div>
+    <aside class="space-y-4">
+      <div class="rounded-2xl bg-[#0b3d44] text-white p-6">
+        <div class="text-xs font-bold uppercase tracking-wide text-teal-200">Duração</div>
+        <div class="text-3xl font-extrabold mt-1">4 anos</div>
+        <p class="text-sm text-white/70 mt-2">12 blocos · módulos teóricos e de campo</p>
+      </div>
+      <div class="rounded-2xl border border-gray-100 p-6 bg-gray-50">
+        <div class="text-xs font-bold uppercase tracking-wide text-gray-500">Sede</div>
+        <div class="font-bold text-[#0b3d44] mt-1">ISPM · Manica</div>
+        <p class="text-sm text-gray-600 mt-1">Matsinho / Vanduzi · Província de Manica</p>
+      </div>
+    </aside>
+  </section>
+
+  <section class="bg-[#f4f6f5] py-16">
+    <div class="max-w-5xl mx-auto px-4">
+      <h2 class="text-2xl font-extrabold text-[#0b3d44] text-center mb-10">Pilares da formação</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+          <div class="text-2xl font-black text-emerald-600/30">01</div>
+          <h3 class="font-bold text-gray-900 mt-1">Conservação</h3>
+          <p class="text-sm text-gray-600 mt-2">Habitats, inventários e monitorização de espécies.</p>
+        </div><div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+          <div class="text-2xl font-black text-emerald-600/30">02</div>
+          <h3 class="font-bold text-gray-900 mt-1">Ecoturismo</h3>
+          <p class="text-sm text-gray-600 mt-2">Trilhas, interpretação ambiental e turismo responsável.</p>
+        </div><div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+          <div class="text-2xl font-black text-emerald-600/30">03</div>
+          <h3 class="font-bold text-gray-900 mt-1">Gestão</h3>
+          <p class="text-sm text-gray-600 mt-2">Fiscalização, planeamento e gestão de áreas protegidas.</p>
+        </div><div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+          <div class="text-2xl font-black text-emerald-600/30">04</div>
+          <h3 class="font-bold text-gray-900 mt-1">Tecnologia</h3>
+          <p class="text-sm text-gray-600 mt-2">GIS, dados de campo e análise espacial.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="max-w-5xl mx-auto px-4 py-16">
+    <h2 class="text-2xl font-extrabold text-[#0b3d44] mb-6">Missão, visão e valores</h2>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="rounded-2xl border-l-4 border-emerald-600 bg-gray-50 p-6">
+        <h3 class="font-bold text-[#0b3d44]">Missão</h3>
+        <p class="text-sm text-gray-600 mt-2">Formar profissionais competentes para a conservação da biodiversidade e o desenvolvimento de ecoturismo sustentável em Moçambique.</p>
+      </div>
+      <div class="rounded-2xl border-l-4 border-teal-500 bg-gray-50 p-6">
+        <h3 class="font-bold text-[#0b3d44]">Visão</h3>
+        <p class="text-sm text-gray-600 mt-2">Ser referência nacional em formação aplicada em fauna bravia, ecoturismo e gestão de áreas de conservação.</p>
+      </div>
+      <div class="rounded-2xl border-l-4 border-amber-500 bg-gray-50 p-6">
+        <h3 class="font-bold text-[#0b3d44]">Valores</h3>
+        <p class="text-sm text-gray-600 mt-2">Ética ambiental, rigor científico, trabalho de campo, serviço às comunidades e parceria institucional.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white border-t py-12">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <h2 class="text-xl font-bold text-[#0b3d44] mb-6">Nossos Parceiros</h2>
+      <div class="flex flex-wrap items-center justify-center gap-10">
+        <img src="../images/logo-ispm.jpg" alt="ISPM" class="h-12 object-contain">
+        <img src="../images/logo-casa-msika.png" alt="Casa Msika" class="h-10 object-contain">
+        <img src="../images/logo-magodo.jpg" alt="Magodo" class="h-12 object-contain">
+        <img src="../images/logo-main.png" alt="EGFB" class="h-10 object-contain">
+      </div>
+    </div>
+  </section>
+  <footer class="bg-[#061e22] text-white">
+    <div class="max-w-6xl mx-auto px-4 py-10 grid sm:grid-cols-3 gap-8 text-sm">
+      <div>
+        <div class="font-bold text-lg">EGFB · ISPM</div>
+        <p class="text-white/50 text-xs mt-2 leading-relaxed">Ecoturismo e Gestão de Fauna Bravia — Instituto Superior Politécnico de Manica.</p>
+      </div>
+      <div>
+        <div class="font-semibold text-teal-200 mb-2">Sobre Nós</div>
+        <ul class="space-y-1 text-white/70">
+          <li><a class="hover:text-white" href="../pages/sobre.html">O que é o EGFB?</a></li>
+          <li><a class="hover:text-white" href="../pages/geracoes.html">Gerações</a></li>
+          <li><a class="hover:text-white" href="../pages/parceiros.html">Parceiros</a></li>
+          <li><a class="hover:text-white" href="../pages/marcos.html">Marcos</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="font-semibold text-teal-200 mb-2">Mais</div>
+        <ul class="space-y-1 text-white/70">
+          <li><a class="hover:text-white" href="../pages/synapse.html">Synapse</a></li>
+          <li><a class="hover:text-white" href="../pages/noticias.html">Notícias</a></li>
+          <li><a class="hover:text-white" href="../index.html">Início</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-white/10 text-center text-xs text-white/40 py-4">© 2026 EGFB – ISPM</div>
+  </footer>
+</body>
+</html>

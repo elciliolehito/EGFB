@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil · Fórum GIS</title>
+  <link rel="icon" href="../../images/favicon.ico">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="bg-[#dae0e6] antialiased">
+  <header class="sticky top-0 z-[100] bg-[#0b3d44] text-white shadow">
+    <div class="max-w-3xl mx-auto px-3 h-12 flex items-center justify-between">
+      <a href="forum.html" class="text-sm font-bold">← Fórum</a>
+      <span class="font-bold text-sm" id="title">Perfil</span>
+      <a href="forum-account.html" class="text-xs font-semibold">Conta</a>
+    </div>
+  </header>
+  <main class="max-w-3xl mx-auto px-3 py-6" id="root"></main>
+<script>
+const KEY='egfb_gis_forum_v2';
+function loadPosts(){ try{return JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e){return [];} }
+function esc(s){ return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function score(p){ return (p.ups||0)-(p.downs||0); }
+const u=new URLSearchParams(location.search).get('u')||'';
+document.getElementById('title').textContent='GIS / '+u;
+const posts=loadPosts().filter(p=>p.author===u).sort((a,b)=>b.ts-a.ts);
+const comments=[];
+loadPosts().forEach(p=>{
+  (function walk(cs, title, pid){ (cs||[]).forEach(c=>{ if(c.author===u) comments.push({ body:c.body, title, pid, ts:c.ts }); walk(c.replies, title, pid); }); })(p.comments, p.title, p.id);
+});
+comments.sort((a,b)=>b.ts-a.ts);
+document.getElementById('root').innerHTML=`
+<div class="bg-white rounded-xl border border-gray-200 p-6 mb-4">
+  <div class="text-xs text-gray-500">Perfil</div>
+  <h1 class="text-2xl font-extrabold text-gray-900">GIS / ${esc(u)}</h1>
+  <p class="text-sm text-gray-600 mt-2">${posts.length} publicações · ${comments.length} comentários</p>
+</div>
+<div class="bg-white rounded-xl border border-gray-200 p-4 mb-4">
+  <h2 class="font-bold text-sm mb-3">Publicações</h2>
+  ${posts.length?posts.map(p=>`<a href="forum-post.html?id=${encodeURIComponent(p.id)}" class="block py-2 border-b border-gray-50 last:border-0 hover:bg-gray-50 rounded px-2"><div class="font-semibold text-gray-900 text-sm">${esc(p.title)}</div><div class="text-xs text-gray-500">⬆ ${score(p)}</div></a>`).join(''):'<p class="text-sm text-gray-400">Nenhuma publicação</p>'}
+</div>
+<div class="bg-white rounded-xl border border-gray-200 p-4">
+  <h2 class="font-bold text-sm mb-3">Comentários</h2>
+  ${comments.length?comments.map(c=>`<a href="forum-post.html?id=${encodeURIComponent(c.pid)}" class="block py-2 border-b border-gray-50 last:border-0 hover:bg-gray-50 rounded px-2"><div class="text-xs text-gray-500">em ${esc(c.title)}</div><div class="text-sm text-gray-800">${esc(c.body)}</div></a>`).join(''):'<p class="text-sm text-gray-400">Nenhum comentário</p>'}
+</div>`;
+</script>
+</body>
+</html>

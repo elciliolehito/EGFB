@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
+  <title>Habitat Fechado: Savanas Arborizadas | Jardim Botânico EGFB</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'jb-green': '#1a5c2e',
+            'jb-green-dark': '#0f3d1e',
+            'jb-yellow': '#f5c518',
+            'jb-orange': '#e8943a',
+          },
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .dropdown { position: relative; }
+    .dropdown-menu { display: none; position: absolute; left: 0; top: 100%; padding-top: 8px; z-index: 50; min-width: 240px; }
+    .dropdown:hover .dropdown-menu, .dropdown-menu:hover { display: block; }
+    .dropdown-menu > div { background: #0f3d1e; border-radius: 0.5rem; box-shadow: 0 16px 40px rgba(0,0,0,0.25); padding: 0.5rem 0; }
+    .dropdown-menu a { display: block; padding: 0.65rem 1.25rem; color: #e8f0ea; font-size: 0.875rem; }
+    .dropdown-menu a:hover { background: #1a5c2e; color: #fff; }
+    header { z-index: 1000 !important; }
+    .slide-card { transition: transform 0.25s, box-shadow 0.25s; }
+    .slide-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.12); }
+  
+    #mobile-menu {
+      max-height: calc(100vh - 4rem);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .species-card { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+    .species-card:hover { transform: translateY(-6px); box-shadow: 0 14px 28px rgba(0,0,0,0.12); }
+    .species-card img { transition: transform 0.4s ease; }
+    .species-card:hover img { transform: scale(1.05); }
+
+</style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <header class="fixed top-0 left-0 right-0 z-[1000] bg-white/95 backdrop-blur-md shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-16 gap-3">
+        <a href="../jardim-botanico.html" class="flex items-center gap-3 shrink-0 min-w-0">
+          <img src="../../images/logo-main.png" alt="EGFB" class="h-11 shrink-0">
+          <div class="min-w-0">
+            <div class="font-bold text-[#1a5c2e] text-sm leading-tight">Jardim Botânico</div>
+            <div class="text-xs text-gray-600 font-medium truncate">Habitat Fechado</div>
+          </div>
+        </a>
+        <nav class="hidden lg:flex items-center gap-1">
+          <div class="relative group">
+            <button type="button" class="px-3 py-2 text-sm font-medium text-gray-800 hover:text-[#1a5c2e] flex items-center gap-1">Habitats
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition absolute left-0 top-full pt-2 z-50 min-w-[240px]">
+              <div class="bg-[#0f3d1e] rounded-lg shadow-xl py-2">
+                <a href="habitat-aberto.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Habitat Aberto</a>
+                <a href="habitat-fechado.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Habitat Fechado</a>
+                <a href="habitat-aquatico.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Habitat Aquático</a>
+              </div>
+            </div>
+          </div>
+          <div class="relative group">
+            <button type="button" class="px-3 py-2 text-sm font-medium text-gray-800 hover:text-[#1a5c2e] flex items-center gap-1">Espécies
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition absolute left-0 top-full pt-2 z-50 min-w-[200px]">
+              <div class="bg-[#0f3d1e] rounded-lg shadow-xl py-2">
+                <a href="especies-anfibios.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Anfíbios</a>
+                <a href="especies-mamiferos.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Mamíferos</a>
+                <a href="especies-aves.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Aves</a>
+                <a href="especies-repteis.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Répteis</a>
+                <a href="especies-plantas.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Plantas / Flora</a>
+                <a href="especies-invertebrados.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Invertebrados</a>
+                <a href="especies-peixes.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Peixes</a>
+              </div>
+            </div>
+          </div>
+          <div class="relative group">
+            <button type="button" class="px-3 py-2 text-sm font-medium text-gray-800 hover:text-[#1a5c2e] flex items-center gap-1">Sobre o Jardim
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition absolute left-0 top-full pt-2 z-50 min-w-[220px]">
+              <div class="bg-[#0f3d1e] rounded-lg shadow-xl py-2">
+                <a href="sobre.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Descrição e Localização</a>
+                <a href="georreferenciacao.html" class="block px-4 py-2 text-sm text-white/90 hover:bg-[#1a5c2e]">Mapa e Georreferenciação</a>
+              </div>
+            </div>
+          </div>
+          <a href="doar.html" class="ml-2 px-5 py-2 bg-[#e8943a] text-white text-sm font-semibold rounded-full">Doar</a>
+        </nav>
+        <div class="flex items-center gap-2 shrink-0">
+          <a href="pesquisa.html" class="w-10 h-10 rounded-full flex items-center justify-center text-gray-700 hover:bg-gray-100" aria-label="Pesquisar" title="Pesquisar">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          </a>
+          <a href="../jardim-botanico.html" class="hidden sm:inline-flex items-center justify-center h-9 px-4 rounded-full border border-gray-200 text-xs font-semibold text-gray-700 hover:border-[#1a5c2e] hover:text-[#1a5c2e] bg-white transition">Jardim Botânico</a>
+          <button type="button" id="menu-btn" class="lg:hidden w-10 h-10 rounded-full flex items-center justify-center text-gray-700 hover:bg-gray-100" aria-label="Menu">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div id="mobile-menu" class="hidden lg:hidden bg-white border-t px-4 py-3 space-y-1" style="max-height:calc(100vh - 4rem);overflow-y:auto;-webkit-overflow-scrolling:touch">
+      <a href="pesquisa.html" class="block py-2 text-sm font-semibold text-[#1a5c2e]">Pesquisar</a>
+      <a href="habitat-aberto.html" class="block py-2 text-sm">Habitat Aberto</a>
+      <a href="habitat-fechado.html" class="block py-2 text-sm">Habitat Fechado</a>
+      <a href="habitat-aquatico.html" class="block py-2 text-sm">Habitat Aquático</a>
+      <a href="especies-anfibios.html" class="block py-2 text-sm">Anfíbios</a>
+      <a href="especies-mamiferos.html" class="block py-2 text-sm">Mamíferos</a>
+      <a href="especies-aves.html" class="block py-2 text-sm">Aves</a>
+      <a href="especies-repteis.html" class="block py-2 text-sm">Répteis</a>
+      <a href="especies-plantas.html" class="block py-2 text-sm">Plantas / Flora</a>
+      <a href="especies-invertebrados.html" class="block py-2 text-sm">Invertebrados</a>
+      <a href="especies-peixes.html" class="block py-2 text-sm">Peixes</a>
+      <a href="sobre.html" class="block py-2 text-sm">Descrição e Localização</a>
+      <a href="georreferenciacao.html" class="block py-2 text-sm">Mapa e Georreferenciação</a>
+      <a href="../jardim-botanico.html" class="block py-2 text-sm text-gray-500 border-t mt-2">← Jardim Botânico</a>
+    </div>
+  </header>
+
+  <div class="pt-16">
+    <div class="relative h-56 sm:h-72 lg:h-80 overflow-hidden">
+      <img src="../../images/habitats/habitat-fechado.jpg" alt="Habitat Fechado: Savanas Arborizadas" class="w-full h-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+      <div class="absolute bottom-0 left-0 right-0 p-6 sm:p-10 max-w-7xl mx-auto">
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">Habitat Fechado: Savanas Arborizadas</h1>
+      </div>
+    </div>
+  </div>
+
+  <main class="pb-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 -mt-6 relative z-10">
+      
+<div class="space-y-8">
+  <section class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+    <div class="bg-jb-green px-6 py-4">
+      <h2 class="text-xl sm:text-2xl font-bold text-white">Caracterização do habitat</h2>
+    </div>
+    <div class="p-6 sm:p-8 space-y-5 text-gray-700 leading-relaxed">
+      <p>Uma das características mais marcantes dos habitats fechados é a presença de árvores de médio e grande porte que formam um dossel relativamente contínuo. Esta cobertura reduz significativamente a incidência direta da radiação solar sobre o solo, criando condições ambientais mais estáveis. Nos ecossistemas de Miombo da África Austral, o dossel é geralmente constituído por espécies dos géneros <em>Brachystegia</em>, <em>Julbernardia</em> e <em>Isoberlinia</em>, cuja copa intercepta parte da energia solar e regula a temperatura do ambiente inferior. Esta estrutura contribui para a manutenção da humidade do solo e reduz os efeitos das oscilações térmicas diárias (White, 1983; Frost, 1996).</p>
+      <p>O habitat fechado apresenta uma organização estrutural complexa, caracterizada pela existência de diferentes estratos vegetais. O estrato superior é formado pelas árvores dominantes, seguido por um estrato arbustivo intermédio e um estrato herbáceo inferior composto por ervas, plântulas e regeneração natural. Esta estratificação aumenta a diversidade de nichos ecológicos disponíveis para diferentes organismos, favorecendo uma elevada riqueza biológica. A estrutura vertical também influencia a circulação do ar, a disponibilidade de luz e a distribuição dos recursos alimentares dentro do ecossistema (Campbell, 1996).</p>
+      <p>Devido à proteção oferecida pelo dossel, os habitats fechados mantêm condições microclimáticas distintas das áreas abertas. A temperatura tende a ser mais moderada, a evaporação ocorre de forma mais lenta e a humidade relativa do ar permanece mais elevada durante grande parte do ano. Estas condições favorecem a sobrevivência de espécies vegetais e animais sensíveis às variações climáticas extremas, contribuindo para a estabilidade ecológica do sistema (Chidumayo &amp; Gumbo, 2010).</p>
+      <p>A queda contínua de folhas, galhos, frutos e outras estruturas vegetais origina uma camada de matéria orgânica sobre o solo. Este material sofre decomposição gradual por ação de fungos, bactérias e invertebrados, promovendo a reciclagem de nutrientes essenciais para o crescimento das plantas. A matéria orgânica também melhora a estrutura física do solo, aumenta a sua capacidade de retenção de água e reduz a erosão superficial (Frost, 1996).</p>
+      <p>Os habitats fechados constituem importantes refúgios para numerosas espécies de fauna e flora. A variedade de recursos alimentares, locais de abrigo e oportunidades de reprodução permite a coexistência de aves, mamíferos, répteis, anfíbios, insetos e microrganismos. Nos ecossistemas de Miombo, a diversidade biológica está diretamente relacionada com a complexidade estrutural da vegetação e com a disponibilidade de micro-habitats especializados (Ribeiro et al., 2010).</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-black mb-4">Principais ameaças</h2>
+    <div class="grid md:grid-cols-3 gap-5">
+      
+      <article class="slide-card bg-white rounded-2xl border border-red-100 shadow-sm overflow-hidden flex flex-col">
+        <img src="../../images/ameacas/lantana.jpg" alt="" class="w-full h-36 object-cover">
+        <div class="p-5 flex-1">
+          <h3 class="font-bold text-lg text-black mb-2">Invasão por Lantana camara</h3>
+          <p class="text-sm text-gray-700 leading-relaxed">Espécie exótica originária da América Tropical, entre as cem invasoras mais problemáticas do mundo. Forma matagais densos que impedem a regeneração natural das espécies nativas do Miombo, com elevada produção de sementes e dispersão eficiente.</p>
+        </div>
+      </article>
+      
+      <article class="slide-card bg-white rounded-2xl border border-red-100 shadow-sm overflow-hidden flex flex-col">
+        <img src="../../images/ameacas/chromolaena.jpg" alt="" class="w-full h-36 object-cover">
+        <div class="p-5 flex-1">
+          <h3 class="font-bold text-lg text-black mb-2">Invasão por Chromolaena odorata</h3>
+          <p class="text-sm text-gray-700 leading-relaxed">Invasora agressiva em clareiras e margens, com forte capacidade de regeneração após corte. Compete com a regeneração nativa e altera a estrutura do sub-bosque em habitats de Miombo.</p>
+        </div>
+      </article>
+      
+      <article class="slide-card bg-white rounded-2xl border border-red-100 shadow-sm overflow-hidden flex flex-col">
+        <img src="../../images/ameacas/incendios.jpg" alt="" class="w-full h-36 object-cover">
+        <div class="p-5 flex-1">
+          <h3 class="font-bold text-lg text-black mb-2">Incêndios florestais recorrentes</h3>
+          <p class="text-sm text-gray-700 leading-relaxed">Fogos frequentes ou de elevada intensidade afectam plântulas e árvores jovens, consomem matéria orgânica do solo e destroem habitats da fauna, além de aumentarem a erosão.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-2xl font-bold text-black mb-4">Impactos das ameaças</h2>
+    <div class="grid sm:grid-cols-2 gap-5">
+      <div class="slide-card bg-white rounded-2xl border p-6 shadow-sm">
+        <h3 class="font-bold text-jb-green mb-3">Impactos da invasão por Lantana camara</h3>
+        <ul class="list-disc pl-5 space-y-2 text-sm text-gray-700">
+          <li>Formação de matagais densos que impedem a regeneração natural das espécies nativas do Miombo.</li>
+          <li>Redução da diversidade vegetal e alteração da estrutura do habitat.</li>
+          <li>Atraso ou bloqueio dos processos normais de sucessão e regeneração ecológica.</li>
+        </ul>
+      </div>
+      <div class="slide-card bg-white rounded-2xl border p-6 shadow-sm">
+        <h3 class="font-bold text-jb-green mb-3">Impactos da invasão por Chromolaena odorata</h3>
+        <ul class="list-disc pl-5 space-y-2 text-sm text-gray-700">
+          <li>Competição intensa por luz e nutrientes em áreas abertas e clareiras.</li>
+          <li>Dificuldade no estabelecimento de plântulas nativas.</li>
+          <li>Manutenção do habitat em estado degradado enquanto a cobertura arbórea não se recupera.</li>
+        </ul>
+      </div>
+      <div class="slide-card bg-white rounded-2xl border p-6 shadow-sm sm:col-span-2">
+        <h3 class="font-bold text-jb-green mb-3">Impactos dos incêndios florestais</h3>
+        <ul class="list-disc pl-5 grid sm:grid-cols-2 gap-2 text-sm text-gray-700">
+          <li><strong>Mortalidade de plântulas e árvores jovens:</strong> reduz a renovação das populações vegetais (Trollope, 1984).</li>
+          <li><strong>Perda de matéria orgânica do solo:</strong> menor fertilidade e retenção de água (Higgins et al., 2000).</li>
+          <li><strong>Destruição de habitats da fauna:</strong> ninhos, tocas e áreas de alimentação.</li>
+          <li><strong>Aumento da erosão:</strong> solo exposto e sedimentos transportados para zonas húmidas.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-[#f0f7f2] rounded-2xl p-6 sm:p-8 border border-jb-green/20">
+    <h2 class="text-2xl font-bold text-jb-green mb-5">Estratégias de mitigação</h2>
+    <div class="grid md:grid-cols-2 gap-5">
+      <div class="bg-white rounded-xl p-5 shadow-sm">
+        <h3 class="font-bold text-black mb-3">Lantana camara</h3>
+        <ul class="list-disc pl-5 space-y-2 text-sm text-gray-700">
+          <li><strong>Remoção mecânica sistemática:</strong> arranque ou corte incluindo o sistema radicular, preferencialmente antes da frutificação, com monitorização de rebrotações (Shackleton et al., 2017).</li>
+          <li><strong>Restauração com espécies nativas do Miombo:</strong> ocupa espaços deixados vagos e reduz oportunidades de recolonização (Timberlake &amp; Chidumayo, 2011).</li>
+        </ul>
+      </div>
+      <div class="bg-white rounded-xl p-5 shadow-sm">
+        <h3 class="font-bold text-black mb-3">Chromolaena odorata</h3>
+        <ul class="list-disc pl-5 space-y-2 text-sm text-gray-700">
+          <li><strong>Corte repetido:</strong> ao longo do ano, reduzindo reservas energéticas da planta (Goodall &amp; Erasmus, 1996).</li>
+          <li><strong>Sombreamento ecológico:</strong> aumento da cobertura arbórea por regeneração ou plantação nativa limita a expansão da invasora (Chidumayo &amp; Gumbo, 2010).</li>
+        </ul>
+      </div>
+      <div class="bg-white rounded-xl p-5 shadow-sm md:col-span-2">
+        <h3 class="font-bold text-black mb-3">Incêndios</h3>
+        <ul class="list-disc pl-5 space-y-2 text-sm text-gray-700">
+          <li><strong>Aceiros:</strong> mantidos anualmente antes da época seca.</li>
+          <li><strong>Queimadas frias controladas:</strong> sob supervisão técnica, já aplicadas no Jardim Botânico com redução da biomassa combustível.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  
+  <div class="grid sm:grid-cols-2 gap-4 mt-10">
+    <a href="habitat-aberto.html" class="group relative rounded-2xl overflow-hidden h-44 sm:h-52 shadow-md border border-gray-200">
+      <img src="../../images/habitats/habitat-aberto.jpg" alt="" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-500">
+      <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+      <div class="absolute bottom-0 left-0 p-5 text-white">
+        <p class="text-xs font-semibold tracking-wide uppercase text-jb-yellow mb-1">Explorar</p>
+        <h3 class="text-xl font-bold">Habitat Aberto</h3>
+        <p class="text-sm text-white/80 mt-1 line-clamp-2">Pradarias e savanas abertas dominadas por gramíneas, com elevada luminosidade e dinâmica sazonal.</p>
+      </div>
+    </a>
+    <a href="habitat-aquatico.html" class="group relative rounded-2xl overflow-hidden h-44 sm:h-52 shadow-md border border-gray-200">
+      <img src="../../images/habitats/habitat-aquatico.jpg" alt="" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-500">
+      <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+      <div class="absolute bottom-0 left-0 p-5 text-white">
+        <p class="text-xs font-semibold tracking-wide uppercase text-jb-yellow mb-1">Explorar</p>
+        <h3 class="text-xl font-bold">Habitat Aquático</h3>
+        <p class="text-sm text-white/80 mt-1 line-clamp-2">Lagoas e zonas húmidas: reprodução de anfíbios, refúgio na seca e elevada produtividade.</p>
+      </div>
+    </a>
+  </div>
+</div>
+
+    </div>
+  </main>
+
+  <footer class="bg-jb-green-dark text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+      <div class="flex flex-col sm:flex-row justify-between gap-6 items-start">
+        <div class="flex items-center gap-2">
+          <img src="../../images/logo-main.png" alt="" class="h-10">
+          <span class="font-bold">Jardim Botânico EGFB</span>
+        </div>
+        <div class="flex flex-wrap gap-4 text-sm">
+          <a href="habitat-aberto.html" class="text-white/80 hover:text-white">Habitat Aberto</a>
+          <a href="habitat-fechado.html" class="text-white/80 hover:text-white">Habitat Fechado</a>
+          <a href="habitat-aquatico.html" class="text-white/80 hover:text-white">Habitat Aquático</a>
+          <a href="../jardim-botanico.html" class="text-jb-yellow hover:underline">← Jardim Botânico</a>
+        </div>
+      </div>
+      <div class="border-t border-white/10 mt-8 pt-4 text-center text-xs text-white/50">© 2026 Jardim Botânico EGFB · ISPM</div>
+    </div>
+  </footer>
+  <script>
+    document.getElementById('menu-btn')?.addEventListener('click', () => {
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+    });
+  </script>
+</body>
+</html>

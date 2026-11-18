@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Base de dados espacial do Jardim Botânico · Repositório</title>
+  <link rel="icon" href="../../images/favicon.ico">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+</head>
+<body class="bg-gray-50 antialiased">
+  <header class="sticky top-0 z-50 bg-white border-b">
+    <div class="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
+      <a href="projetos.html" class="text-sm font-bold text-[#0b3d44]">← Catálogo</a>
+      <a href="../repositorio.html" class="text-xs text-gray-500">Repositório</a>
+    </div>
+  </header>
+  <main class="max-w-5xl mx-auto px-4 py-10">
+    <div class="grid md:grid-cols-[200px_1fr] gap-8 items-start">
+      <div class="w-40 h-56 mx-auto md:mx-0 rounded-xl overflow-hidden shadow-xl bg-[#0b3d44] flex items-center justify-center"><canvas id="cover" class="max-w-full max-h-full"></canvas></div>
+      <div>
+        <div class="text-xs font-bold uppercase text-emerald-700">GIS e geoprocessamento</div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 mt-1">Base de dados espacial do Jardim Botânico</h1>
+        <p class="text-gray-600 mt-2">Equipa GIS · 2025 · 15 páginas</p>
+        <p class="mt-4 text-sm text-gray-700 leading-relaxed"><strong>Resumo.</strong> Shapefiles de lagoas, limites e habitats para ensino e investigação.</p>
+        <div class="mt-6"><a href="ler-p3.html" class="h-11 px-5 rounded-full bg-[#0b3d44] text-white text-sm font-bold inline-flex items-center">Ler online</a></div>
+        <div class="mt-8 p-4 rounded-xl bg-white border">
+          <div class="text-xs font-bold text-gray-500 uppercase mb-2">Citar este trabalho</div>
+          <div class="space-y-2 text-xs text-gray-700">
+            <p><span class="font-bold text-[#0b3d44]">APA:</span> Equipa GIS (2025). <em>Base de dados espacial do Jardim Botânico</em>. Repositório EGFB, ISPM.</p>
+            <p><span class="font-bold text-[#0b3d44]">ABNT:</span> EQUIPA GIS. <strong>Base de dados espacial do Jardim Botânico</strong>. 2025. Repositório EGFB, ISPM.</p>
+            <p><span class="font-bold text-[#0b3d44]">Harvard:</span> Equipa GIS (2025) <em>Base de dados espacial do Jardim Botânico</em>, Repositório EGFB, ISPM.</p>
+            <button type="button" id="ris" class="mt-2 h-9 px-3 rounded-lg border text-xs font-semibold hover:bg-gray-50">Descarregar citação (RIS / Mendeley)</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <section class="bg-white border-t py-14">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <h2 class="text-2xl font-bold text-[#0b3d44] mb-8">Nossos Parceiros</h2>
+      <div class="flex flex-wrap items-center justify-center gap-10">
+        <img src="../../images/logo-ispm.jpg" alt="ISPM" class="h-14 object-contain">
+        <img src="../../images/logo-casa-msika.png" alt="Casa Msika" class="h-12 object-contain">
+        <img src="../../images/logo-magodo.jpg" alt="Magodo" class="h-14 object-contain">
+        <img src="../../images/logo-main.png" alt="EGFB" class="h-12 object-contain">
+      </div>
+    </div>
+  </section>
+  <footer class="bg-[#061e22] text-white">
+    <div class="max-w-6xl mx-auto px-4 py-10 grid sm:grid-cols-3 gap-8 text-sm">
+      <div>
+        <div class="font-bold text-lg">EGFB · ISPM</div>
+        <p class="text-white/50 text-xs mt-2">Ecoturismo e Gestão de Fauna Bravia — ISPM.</p>
+      </div>
+      <div>
+        <div class="font-semibold text-teal-200 mb-2">Navegação</div>
+        <ul class="space-y-1 text-white/70">
+          <li><a class="hover:text-white" href="../../index.html">Curso</a></li>
+          <li><a class="hover:text-white" href="../repositorio.html">Monografias</a></li>
+          <li><a class="hover:text-white" href="../biblioteca.html">Biblioteca</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="font-semibold text-teal-200 mb-2">Parceiros</div>
+        <p class="text-white/60 text-xs">ISPM · Casa Msika · Magodo · EGFB</p>
+      </div>
+    </div>
+    <div class="border-t border-white/10 text-center text-xs text-white/40 py-4">© 2026 EGFB – ISPM</div>
+  </footer>
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+(async()=>{try{const pdf=await pdfjsLib.getDocument('../gis/livros/arcgis-online-intro.pdf').promise;const page=await pdf.getPage(1);const c=document.getElementById('cover');if(!c)return;const base=page.getViewport({scale:1});const scale=Math.min(160/base.width,226/base.height)*2;const vp=page.getViewport({scale});c.width=vp.width;c.height=vp.height;await page.render({canvasContext:c.getContext('2d'),viewport:vp}).promise;}catch(e){}})();
+document.getElementById('ris')?.addEventListener('click',()=>{
+  const ris=`TY  - THES\nTI  - Base de dados espacial do Jardim Botânico\nAU  - Equipa GIS\nPY  - 2025\nPB  - EGFB / ISPM\nER  -\n`;
+  const blob=new Blob([ris],{type:'application/x-research-info-systems'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='p3.ris'; a.click();
+});
+</script>
+</body>
+</html>
